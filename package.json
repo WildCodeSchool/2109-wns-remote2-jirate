@@ -3,22 +3,30 @@
   "version": "1.0.0",
   "main": "server.ts",
   "scripts": {
-    "start": "ts-node-dev --respawn server.ts"
+    "nodemon": "dist/server.js",
+    "build": "tsc",
+    "start:watch": "npm run build && (tsc -w & nodemon dist/server.js)"
   },
   "license": "MIT",
   "dependencies": {
+    "apollo-server-express": "^3.4.0",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
     "graphql": "^15.7.1",
-    "mysql2": "^2.3.2"
+    "mysql2": "^2.3.2",
+    "subscriptions-transport-ws": "^0.9.19",
+    "type-graphql": "^1.1.1",
+    "typeorm": "^0.2.38"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.13",
     "@types/node": "^16.11.6",
+    "nodemon": "^2.0.14",
     "typescript": "^4.4.4"
   }
 }
