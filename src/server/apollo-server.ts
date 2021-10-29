@@ -2,6 +2,7 @@ import { ApolloServer } from 'apollo-server';
 import dotenv from 'dotenv';
 import { buildSchema } from 'type-graphql';
 import UserResolver from '../resolvers/UserResolver';
+import etablishConnection from '../config/dbConnection';
 
 dotenv.config();
 
@@ -26,8 +27,8 @@ class App {
     console.log(`App listening on the port ${port} at url ${url}/graphql`);
   }
 
-  private connectToTheDatabase(): void {
-    console.log('connected');
+  private connectToTheDatabase() {
+    etablishConnection();
   }
 }
 
