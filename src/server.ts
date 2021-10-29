@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { createConnection, getConnectionOptions } from 'typeorm';
-import { createServer } from 'http';
-import { execute, subscribe } from 'graphql';
+import { buildSchema } from 'type-graphql';
 
-import { getExpressServer } from './express-server';
-import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { ApolloServer } from 'apollo-server';
+
+import User from './resolvers/UserResolver';
 
 const app = async () => {
   const connectionOptions = await getConnectionOptions();
@@ -14,14 +14,16 @@ const app = async () => {
     entities: ['dist/models/*.js']
   });
 
-  const { expressServer, apolloServer, graphQLSchema } = await getExpressServer();
+  const schema = await buildSchema({
+    resolvers: [User] // add resolvers in array
+  });
 
-  const server = createServer(expressServer);
+  const resolvers = {};
+
+  const server = new ApolloServer({ schema, resolvers });
 
   server.listen(8000, () => {
-    console.log(`🚀 Server ready at http://localhost:8000${apolloServer.graphqlPath}`);
-    // Set up the WebSocket for handling GraphQL subscriptions
-    new SubscriptionServer({ execute, subscribe, schema: graphQLSchema }, { server, path: apolloServer.graphqlPath });
+    console.log(`🚀 Server ready at http://localhost:8000/graphql`);
   });
 };
 

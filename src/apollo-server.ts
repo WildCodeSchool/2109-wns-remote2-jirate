@@ -1,9 +1,8 @@
-import { ApolloServer } from 'apollo-server-express';
-import { Request, Response } from 'express';
+import { ApolloServer } from 'apollo-server';
 import { GraphQLSchema } from 'graphql';
 import { buildSchema } from 'type-graphql';
 
-import User from './models/User';
+import User from './resolvers/UserResolver';
 
 export const getApolloServer = async (): Promise<{
   apolloServer: ApolloServer;

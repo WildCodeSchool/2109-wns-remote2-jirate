@@ -1,11 +1,9 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, BeforeInsert, CreateDateColumn, MoreThanOrEqual } from 'typeorm';
-import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
-
-export const getDisplayName = (firstName: string, lastName: string): string => `${firstName} ${lastName}`;
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { ObjectType, Field, ID } from 'type-graphql';
 
 @Entity()
 @ObjectType()
-export default class User extends BaseEntity {
+export default class User {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
   id!: string;
