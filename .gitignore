@@ -4,4 +4,4 @@
 node_modules
 .env
 dist
-ormconfig.lock.json
+ormconfig.json
