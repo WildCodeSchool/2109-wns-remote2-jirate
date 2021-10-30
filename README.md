@@ -1,1 +1,3 @@
-for run migration using command: npx typeorm migration:run
+chmod +x start.dev.sh
+
+add ormconfig.json

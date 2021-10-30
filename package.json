@@ -3,20 +3,22 @@
   "version": "1.0.0",
   "main": "server.ts",
   "scripts": {
-    "nodemon": "dist/server.js",
+    "nodemon": "nodemon dist/server.js",
     "build": "tsc",
-    "start:watch": "npm run build && (tsc -w & nodemon dist/server.js)"
+    "lint": "eslint src/**/* client --fix",
+    "dev:watch": "(tsc -w & nodemon dist/server.js)",
+    "migration:generate": "yarn build && yarn typeorm migration:generate -- -n",
+    "migration:create": "yarn build && yarn typeorm migration:create -- -n",
+    "migration:run": "yarn typeorm migration:run"
   },
   "license": "MIT",
   "dependencies": {
     "apollo-server": "^3.4.0",
-    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "graphql": "^15.7.1",
     "mysql2": "^2.3.2",
     "reflect-metadata": "^0.1.13",
-    "subscriptions-transport-ws": "^0.9.19",
     "type-graphql": "^1.1.1",
     "typeorm": "^0.2.38"
   },
@@ -32,8 +34,12 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "nodemon": "^2.0.14",
+    "prettier": "^2.4.1",
     "typescript": "^4.4.4"
   }
 }

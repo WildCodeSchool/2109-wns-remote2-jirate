@@ -9,8 +9,12 @@ const etablishConnection = async () => {
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     cli: {
-      migrationsDir: 'src/migrations'
-    }
+      migrationsDir: 'src/migrations',
+    },
+    migrations: ['dist/migrations/*.js'],
+    entities: ['dist/models/*.js'],
+    synchronize: true,
+    logging: true,
   };
 
   if (process.env.NODE_ENV === 'test') {
@@ -22,8 +26,12 @@ const etablishConnection = async () => {
       password: process.env.DB_PASS_TEST,
       database: process.env.DB_NAME_TEST,
       cli: {
-        migrationsDir: 'src/migrations'
-      }
+        migrationsDir: 'src/migrations',
+      },
+      migrations: ['dist/migrations/*.js'],
+      entities: ['dist/models/*.js'],
+      synchronize: true,
+      logging: true,
     };
   }
 

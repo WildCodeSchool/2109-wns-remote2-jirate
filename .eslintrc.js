@@ -2,33 +2,32 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true,
+    node: true
   },
   extends: [
+    'prettier',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'airbnb',
-    'plugin:prettier/recommended',
-    'prettier/react',
-    'plugin:jest/recommended',
+    'plugin:prettier/recommended'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
     ecmaVersion: 12,
-    sourceType: 'module',
+    sourceType: 'module'
   },
-  plugins: ['react', '@typescript-eslint', 'prettier', 'jest'],
+  plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
     'prettier/prettier': ['error'],
     'react/react-in-jsx-scope': 0,
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.ts'] }],
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.ts'] }]
   },
   settings: {
     react: {
-      version: 'latest',
-    },
-  },
+      version: 'latest'
+    }
+  }
 };

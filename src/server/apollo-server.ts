@@ -9,20 +9,16 @@ dotenv.config();
 class App {
   constructor() {
     this.start();
-    this.connectToTheDatabase();
   }
 
   public async start() {
+    const connection = await etablishConnection();
     const schema = await buildSchema({
       resolvers: [UserResolver],
-      emitSchemaFile: true
+      emitSchemaFile: true,
     });
     const server = new ApolloServer({ schema });
     this.listen(server);
-  }
-
-  private connectToTheDatabase() {
-    etablishConnection();
   }
 
   private async listen(server: ApolloServer) {
