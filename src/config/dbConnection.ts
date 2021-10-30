@@ -39,7 +39,7 @@ const etablishConnection = async () => {
   if (connection) {
     console.log('DB connected');
   } else {
-    console.log('error for connect to DB');
+    console.error('error for connect to DB');
   }
 };
 

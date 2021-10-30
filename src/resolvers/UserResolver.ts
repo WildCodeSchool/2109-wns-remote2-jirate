@@ -1,20 +1,19 @@
 import { Resolver, Query, Mutation, Arg } from 'type-graphql';
-
 import { User } from '../models/User';
+import UserInput from '../inputs/UserInput';
 
 @Resolver()
 export default class UserResolver {
   @Query(() => [User])
   users() {
-    // :User[]
     const result = User.find();
-    console.log(result);
-    return User.find();
+    return result;
   }
 
-  // @Mutation(() => User)
-  // async addWilder(@Arg('userInput') userInput: UserInput) {
-  //   const repository = connection.getRepository(User);
-  //   return await User.create(wilderInput);
-  // }
+  @Mutation(() => User)
+  async createUser(@Arg('userInput') userInput: UserInput) {
+    const user = User.create(userInput);
+    await user.save();
+    return user;
+  }
 }

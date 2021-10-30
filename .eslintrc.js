@@ -26,6 +26,11 @@ module.exports = {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.ts'] }]
   },
   settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
+      }
+    },
     react: {
       version: 'latest'
     }

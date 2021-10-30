@@ -7,5 +7,5 @@ export default class UserInput implements Partial<User> {
   firstname!: string;
 
   @Field()
-  lastName!: string;
+  lastname!: string;
 }

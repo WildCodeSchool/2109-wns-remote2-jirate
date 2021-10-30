@@ -3,12 +3,21 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Mutation {
+  createUser(userInput: UserInput!): User!
+}
+
 type Query {
   users: [User!]!
 }
 
 type User {
-  firstName: String!
+  firstname: String!
   id: ID!
-  lastName: String!
+  lastname: String!
+}
+
+input UserInput {
+  firstname: String!
+  lastname: String!
 }
