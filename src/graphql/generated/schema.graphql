@@ -1,0 +1,39 @@
+type Query {
+  """Get all users query"""
+  users: [User]
+}
+
+"""A user"""
+type User {
+  """firstname of user"""
+  firstname: String
+
+  """lastname of user"""
+  lastname: String
+
+  """email of user"""
+  email: String
+
+  """password of user"""
+  password: String
+}
+
+type Mutation {
+  """Create user"""
+  createUser(input: CreateUserInput): User
+}
+
+"""Create user input"""
+input CreateUserInput {
+  """The users firstname"""
+  firstname: String!
+
+  """The users lastname"""
+  lastname: String!
+
+  """The users email"""
+  email: String!
+
+  """The users password"""
+  password: String!
+}
