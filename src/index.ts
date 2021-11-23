@@ -23,7 +23,7 @@ const startServer = () => {
   const server = new ApolloServer(apolloServerConfig);
 
   server
-    .listen()
+    .listen({ port: 8000 })
     .then(({ url }) => {
       // eslint-disable-next-line no-console
       console.log(`🚀  Server ready at ${url}graphql`);
