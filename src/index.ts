@@ -25,8 +25,10 @@ const startServer = () => {
   server
     .listen()
     .then(({ url }) => {
+      // eslint-disable-next-line no-console
       console.log(`🚀  Server ready at ${url}graphql`);
     })
+    // eslint-disable-next-line no-console
     .catch(err => console.log('Error launching server', err));
 };
 

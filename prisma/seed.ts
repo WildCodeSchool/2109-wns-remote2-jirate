@@ -74,6 +74,7 @@ const main = async () => {
 
 main()
   .catch(e => {
+    /* eslint no-console: ["error", { allow: ["error"] }] */
     console.error(e);
     process.exit(1);
   })

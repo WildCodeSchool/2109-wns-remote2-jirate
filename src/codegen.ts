@@ -10,6 +10,7 @@ import prismaContext from '@src/lib/prisma/prismaContext';
 async function performCodegen(options: Types.GenerateOptions): Promise<void> {
   const output = await codegen(options);
   fs.writeFile(path.join(__dirname, '/graphql/generated/', options.filename), output, () => {
+    // eslint-disable-next-line no-console
     console.log('Outputs generated!');
   });
 }

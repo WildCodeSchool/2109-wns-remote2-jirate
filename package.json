@@ -33,6 +33,7 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "graphql": "^15.7.1",
+    "jest-mock-extended": "^2.0.4",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
@@ -55,7 +56,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "jest-mock-extended": "^2.0.4",
     "nodemon": "^2.0.14",
     "prettier": "^2.4.1",
     "prisma": "^3.5.0",
