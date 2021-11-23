@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 dotenv.config();
 
 const main = async () => {
-  const maxime = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: 'maxime@jiraté.io' },
     update: {},
     create: {
@@ -19,7 +19,7 @@ const main = async () => {
     },
   });
 
-  const alexandre = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: 'alexandre@jiraté.io' },
     update: {},
     create: {
@@ -32,7 +32,7 @@ const main = async () => {
     },
   });
 
-  const caroline = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: 'caroline@jiraté.io' },
     update: {},
     create: {
@@ -45,7 +45,7 @@ const main = async () => {
     },
   });
 
-  const selma = await prisma.user.upsert({
+  prisma.user.upsert({
     where: { email: 'selma@jiraté.io' },
     update: {},
     create: {
@@ -58,7 +58,7 @@ const main = async () => {
     },
   });
 
-  const didor = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: 'didor@jiraté.io' },
     update: {},
     create: {

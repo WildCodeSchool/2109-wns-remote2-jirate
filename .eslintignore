@@ -4,3 +4,4 @@ coverage
 src/graphql/generated
 .env.development
 .env.test
+.env
