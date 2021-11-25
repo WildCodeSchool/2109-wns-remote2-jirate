@@ -2,7 +2,8 @@ import React from 'react'
 import { Switch, Route, withRouter } from 'react-router-dom';
 
 // Import components
-import Sidebar from '../../components/shared/Sidebar/Sidebar';
+// import Sidebar from '../../components/shared/Sidebar/Sidebar';
+import Project from '../../components/pages/Project/Project'
 
 // Import pages
 
@@ -22,7 +23,8 @@ interface PathnameType {
 const renderRouter = (location: any) => {
   return (
     <div>
-      {location === "/sign-up" ? null : <Sidebar />}
+      {/* {location === "/sign-up" ? null : <Sidebar />} */}
+      <Project />
       <Switch>
         <Route exact path="/" />
         <Route path="/sign-up" />
