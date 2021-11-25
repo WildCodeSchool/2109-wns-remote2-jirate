@@ -2,8 +2,8 @@ import { GraphQLFieldConfig, GraphQLFieldResolver } from 'graphql';
 import { Project } from '@prisma/client';
 import { IApolloServerContext } from '@src/lib/interfaces/IApolloServerContext';
 import { createProject } from '@src/service/projectService';
-import UserType from '@src/graphql/schema/typedefs/User/UserType';
-import CreateUserInput from '@src/graphql/schema/inputs/CreateUserInput';
+import ProjectType from '@src/graphql/schema/typedefs/Project/ProjectType';
+import CreateProjectInput from '@src/graphql/schema/inputs/CreateProjectInput';
 
 export const createUserMutationResolver: GraphQLFieldResolver<unknown, IApolloServerContext> = async (
   _source,
@@ -14,15 +14,15 @@ export const createUserMutationResolver: GraphQLFieldResolver<unknown, IApolloSe
   return createProject(name, token, userId);
 };
 
-const createUserMutation: GraphQLFieldConfig<unknown, IApolloServerContext> = {
+const createProjectMutation: GraphQLFieldConfig<unknown, IApolloServerContext> = {
   description: 'Create user',
-  type: UserType,
+  type: ProjectType,
   args: {
     input: {
-      type: CreateUserInput,
+      type: CreateProjectInput,
     },
   },
-  resolve: createUserMutationResolver,
+  resolve: createProjectMutationResolver,
 };
 
-export default createUserMutation;
+export default createProjectMutation;
