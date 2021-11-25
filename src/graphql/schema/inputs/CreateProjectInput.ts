@@ -1,4 +1,4 @@
-import { GraphQLInputObjectType, GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
 
 const CreateProjectInput: GraphQLInputObjectType = new GraphQLInputObjectType({
   name: 'CreateProjectInput',
