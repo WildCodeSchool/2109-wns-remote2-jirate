@@ -1,6 +1,9 @@
 type Query {
   """Get all users query"""
   users: [User]
+
+  """Get all users query"""
+  projects: [User]
 }
 
 """A user"""
@@ -21,6 +24,9 @@ type User {
 type Mutation {
   """Create user"""
   createUser(input: CreateUserInput): User
+
+  """Create project"""
+  createProject(input: CreateProjectInput): Project
 }
 
 """Create user input"""
@@ -36,4 +42,28 @@ input CreateUserInput {
 
   """The users password"""
   password: String!
+}
+
+"""A project"""
+type Project {
+  """name of project"""
+  name: String
+
+  """token of invite user"""
+  token: String
+
+  """userId of project"""
+  userId: String
+}
+
+"""Create user input"""
+input CreateProjectInput {
+  """The project name"""
+  name: String!
+
+  """The project token"""
+  token: String!
+
+  """The project userId"""
+  userId: String!
 }

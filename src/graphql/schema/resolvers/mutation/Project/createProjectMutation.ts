@@ -5,7 +5,7 @@ import { createProject } from '@src/service/projectService';
 import ProjectType from '@src/graphql/schema/typedefs/Project/ProjectType';
 import CreateProjectInput from '@src/graphql/schema/inputs/CreateProjectInput';
 
-export const createUserMutationResolver: GraphQLFieldResolver<unknown, IApolloServerContext> = async (
+export const createProjectMutationResolver: GraphQLFieldResolver<unknown, IApolloServerContext> = async (
   _source,
   { input: { name, token, userId } },
   _context,
@@ -15,7 +15,7 @@ export const createUserMutationResolver: GraphQLFieldResolver<unknown, IApolloSe
 };
 
 const createProjectMutation: GraphQLFieldConfig<unknown, IApolloServerContext> = {
-  description: 'Create user',
+  description: 'Create project',
   type: ProjectType,
   args: {
     input: {
