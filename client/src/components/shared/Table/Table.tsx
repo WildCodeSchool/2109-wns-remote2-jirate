@@ -28,7 +28,7 @@ interface Data {
   created: number;
   numberbCollaborators: number;
   creator: string;
-  editMode: React.ReactElement<any>;
+  editMode: any // Need to add types
 }
 
 function createData(
@@ -36,7 +36,7 @@ function createData(
   created: number,
   numberbCollaborators: number,
   creator: string,
-  editMode: string
+  editMode: TableMoreMenu
 ): Data {
   return {
     name,
@@ -345,6 +345,7 @@ const EnhancedTable = () => {
                           <TableCell align="right">{row.created}</TableCell>
                           <TableCell align="right">{row.numberbCollaborators}</TableCell>
                           <TableCell align="right">{row.creator}</TableCell>
+                          <TableCell align="right">{row.editMode}</TableCell>
                         </TableRow>
                       );
                     })}
