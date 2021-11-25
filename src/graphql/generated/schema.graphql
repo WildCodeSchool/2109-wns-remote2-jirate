@@ -29,6 +29,9 @@ type Project {
   """token of invite user"""
   token: String
 
+  """user of project"""
+  user: User
+
   """userId of project"""
   userId: String
 }
@@ -58,6 +61,9 @@ input CreateUserInput {
 
 """Create user input"""
 input CreateProjectInput {
+  """The project id"""
+  id: String!
+
   """The project name"""
   name: String!
 
