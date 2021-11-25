@@ -18,6 +18,8 @@ export type Scalars = {
 
 /** Create user input */
 export type CreateProjectInput = {
+  /** The project id */
+  id: Scalars['String'];
   /** The project name */
   name: Scalars['String'];
   /** The project token */
@@ -63,14 +65,16 @@ export type Project = {
   name?: Maybe<Scalars['String']>;
   /** token of invite user */
   token?: Maybe<Scalars['String']>;
+  /** user of project */
+  user?: Maybe<User>;
   /** userId of project */
   userId?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  /** Get all users query */
-  projects?: Maybe<Array<Maybe<User>>>;
+  /** Get all projects query */
+  projects?: Maybe<Array<Maybe<Project>>>;
   /** Get all users query */
   users?: Maybe<Array<Maybe<User>>>;
 };
@@ -188,12 +192,13 @@ export type MutationResolvers<ContextType = IPrismaContext, ParentType extends R
 export type ProjectResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = ResolversObject<{
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type QueryResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['Project']>>>, ParentType, ContextType>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 }>;
 
