@@ -17,16 +17,6 @@ export type Scalars = {
 };
 
 /** Create user input */
-export type CreateProjectInput = {
-  /** The project name */
-  name: Scalars['String'];
-  /** The project token */
-  token: Scalars['String'];
-  /** The project userId */
-  userId: Scalars['String'];
-};
-
-/** Create user input */
 export type CreateUserInput = {
   /** The users email */
   email: Scalars['String'];
@@ -40,15 +30,8 @@ export type CreateUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  /** Create project */
-  createProject?: Maybe<Project>;
   /** Create user */
   createUser?: Maybe<User>;
-};
-
-
-export type MutationCreateProjectArgs = {
-  input?: InputMaybe<CreateProjectInput>;
 };
 
 
@@ -56,21 +39,8 @@ export type MutationCreateUserArgs = {
   input?: InputMaybe<CreateUserInput>;
 };
 
-/** A project */
-export type Project = {
-  __typename?: 'Project';
-  /** name of project */
-  name?: Maybe<Scalars['String']>;
-  /** token of invite user */
-  token?: Maybe<Scalars['String']>;
-  /** userId of project */
-  userId?: Maybe<Scalars['String']>;
-};
-
 export type Query = {
   __typename?: 'Query';
-  /** Get all users query */
-  projects?: Maybe<Array<Maybe<User>>>;
   /** Get all users query */
   users?: Maybe<Array<Maybe<User>>>;
 };
@@ -158,11 +128,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  CreateProjectInput: CreateProjectInput;
-  String: ResolverTypeWrapper<Scalars['String']>;
   CreateUserInput: CreateUserInput;
+  String: ResolverTypeWrapper<Scalars['String']>;
   Mutation: ResolverTypeWrapper<{}>;
-  Project: ResolverTypeWrapper<Project>;
   Query: ResolverTypeWrapper<{}>;
   User: ResolverTypeWrapper<User>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -170,30 +138,19 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  CreateProjectInput: CreateProjectInput;
-  String: Scalars['String'];
   CreateUserInput: CreateUserInput;
+  String: Scalars['String'];
   Mutation: {};
-  Project: Project;
   Query: {};
   User: User;
   Boolean: Scalars['Boolean'];
 }>;
 
 export type MutationResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  createProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationCreateProjectArgs, never>>;
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, never>>;
 }>;
 
-export type ProjectResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = ResolversObject<{
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
 export type QueryResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 }>;
 
@@ -207,7 +164,6 @@ export type UserResolvers<ContextType = IPrismaContext, ParentType extends Resol
 
 export type Resolvers<ContextType = IPrismaContext> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>;
-  Project?: ProjectResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;
