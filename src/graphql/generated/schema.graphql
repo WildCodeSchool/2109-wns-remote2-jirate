@@ -2,8 +2,8 @@ type Query {
   """Get all users query"""
   users: [User]
 
-  """Get all users query"""
-  projects: [User]
+  """Get all projects query"""
+  projects: [Project]
 }
 
 """A user"""
@@ -19,6 +19,18 @@ type User {
 
   """password of user"""
   password: String
+}
+
+"""A project"""
+type Project {
+  """name of project"""
+  name: String
+
+  """token of invite user"""
+  token: String
+
+  """userId of project"""
+  userId: String
 }
 
 type Mutation {
@@ -42,18 +54,6 @@ input CreateUserInput {
 
   """The users password"""
   password: String!
-}
-
-"""A project"""
-type Project {
-  """name of project"""
-  name: String
-
-  """token of invite user"""
-  token: String
-
-  """userId of project"""
-  userId: String
 }
 
 """Create user input"""

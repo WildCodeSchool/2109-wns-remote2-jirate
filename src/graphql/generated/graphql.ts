@@ -40,7 +40,7 @@ export type CreateUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  /** Create user */
+  /** Create project */
   createProject?: Maybe<Project>;
   /** Create user */
   createUser?: Maybe<User>;
@@ -56,7 +56,7 @@ export type MutationCreateUserArgs = {
   input?: InputMaybe<CreateUserInput>;
 };
 
-/** A user */
+/** A project */
 export type Project = {
   __typename?: 'Project';
   /** name of project */
