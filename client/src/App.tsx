@@ -1,11 +1,10 @@
 import React from 'react';
 
+// Import Router
+import Routes from './navigation/routes/Routes';
+
 const App = () => {
-  return (
-    <div className="App">
-      <h1>Welcome to Jiraté TS</h1>
-    </div>
-  );
+  return <Routes />;
 }
 
 export default App;
