@@ -67,6 +67,7 @@ const WARNING = {
   dark: '#B78103',
   darker: '#7A4F01',
   contrastText: GREY[800],
+  backgroundOpacity: 'rgba(237, 100, 0, 0.42)',
 };
 const ERROR = {
   lighter: '#FFE7D9',
@@ -75,7 +76,7 @@ const ERROR = {
   dark: '#B72136',
   darker: '#7A0C2E',
   contrastText: '#fff',
-  backgroundOpacity: '#9F0303',
+  backgroundOpacity: 'rgba(159, 3, 3, 0.35)',
 };
 
 const GRADIENTS = {

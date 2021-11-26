@@ -15,9 +15,11 @@ import Button from '@mui/material/Button';
 import { visuallyHidden } from '@mui/utils';
 import TableListHead from './TableListHead';
 import TableToolBar from './TableToolBar';
+import { styled } from '@mui/material/styles';
 
 // Import icons
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -45,12 +47,33 @@ function stableSort(array, comparator) {
   return stabilizedThis.map(el => el[0]);
 }
 
+const BtnDelete = styled(Button)(({ theme }) => ({
+  marginRight: 10,
+  backgroundColor: theme.palette.error.backgroundOpacity,
+  borderRadius: 15,
+  maxWidth: '45px',
+  maxHeight: '45px',
+  minWidth: '45px',
+  minHeight: '45px',
+  color: '#9F0303',
+}));
+
+const BtnEdit = styled(Button)(({ theme }) => ({
+  marginRight: 10,
+  backgroundColor: theme.palette.warning.backgroundOpacity,
+  borderRadius: 15,
+  maxWidth: '45px',
+  maxHeight: '45px',
+  minWidth: '45px',
+  minHeight: '45px',
+  color: '#9F0303',
+}));
+
 const headCells = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'created', label: 'Created', alignRight: false },
   { id: 'nbCollaborator', label: 'Nb Collaborators', alignRight: false },
   { id: 'creator', label: 'Creator' },
-  { id: '', alignRight: false },
   { id: '', alignRight: false },
 ];
 
@@ -213,12 +236,12 @@ const TableComponent = ({ projects }) => {
                       <TableCell align="left">1</TableCell>
                       <TableCell align="left">{user.firstname}</TableCell>
                       <TableCell align="right">
-                        <Button sx={{ width: '20px !important', height: '30px', marginRight: 4 }} variant="contained" color="warning">
+                        <BtnEdit>
+                          <EditIcon />
+                        </BtnEdit>
+                        <BtnDelete>
                           <DeleteIcon />
-                        </Button>
-                        <Button sx={{ width: '30px', height: '30px' }} variant="contained" color="error">
-                          <DeleteIcon />
-                        </Button>
+                        </BtnDelete>
                         {/* <TableMoreMenu projectId={id} /> */}
                       </TableCell>
                     </TableRow>
