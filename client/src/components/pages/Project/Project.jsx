@@ -7,6 +7,7 @@ import TableComponent from '../../shared/Table/Table';
 const GET_PROJECTS = gql`
   query GetProjects {
     projects {
+      id
       name
       createdAt
       user {

@@ -1,6 +1,5 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,43 +9,15 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import Button from '@mui/material/Button';
 import { visuallyHidden } from '@mui/utils';
-import TableMoreMenu from './TableMoreMenu';
-import SearchIcon from '@mui/icons-material/Search';
-import InputAdornment from '@mui/material/InputAdornment';
-import { styled } from '@mui/material/styles';
-import { OutlinedInput } from '@mui/material';
+import TableListHead from './TableListHead';
+import TableToolBar from './TableToolBar';
 
-const createData = (name, created, nbCollaborator, creator, editMode) => {
-  return { name, created, nbCollaborator, creator, editMode };
-};
-
-const rows = [
-  createData('Cupcake', 305, 3, 'Test', <TableMoreMenu />),
-  createData('Donut', 452, 25, 'John', <TableMoreMenu />),
-  createData('Eclair', 262, 16, 'Marc', <TableMoreMenu />),
-];
-
-const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
-  width: 240,
-  transition: theme.transitions.create(['box-shadow', 'width'], {
-    easing: theme.transitions.easing.easeInOut,
-    duration: theme.transitions.duration.shorter,
-  }),
-  '&.Mui-focused': { width: 320, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px;' },
-  '& fieldset': {
-    borderWidth: `1px !important`,
-    borderColor: `${alpha('#919EAB', 0.32)} !important`,
-  },
-}));
+// Import icons
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -75,36 +46,12 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: true,
-    label: 'Name',
-  },
-  {
-    id: 'created',
-    numeric: false,
-    disablePadding: false,
-    label: 'Created',
-  },
-  {
-    id: 'nbCollaborator',
-    numeric: false,
-    disablePadding: false,
-    label: 'Nb Collaborators',
-  },
-  {
-    id: 'creator',
-    numeric: false,
-    disablePadding: false,
-    label: 'Creator',
-  },
-  {
-    id: 'editMode',
-    numeric: true,
-    disablePadding: false,
-    label: ' ',
-  },
+  { id: 'name', label: 'Name', alignRight: false },
+  { id: 'created', label: 'Created', alignRight: false },
+  { id: 'nbCollaborator', label: 'Nb Collaborators', alignRight: false },
+  { id: 'creator', label: 'Creator' },
+  { id: '', alignRight: false },
+  { id: '', alignRight: false },
 ];
 
 function EnhancedTableHead(props) {
@@ -159,63 +106,14 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-const EnhancedTableToolbar = props => {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar
-      sx={{
-        pt: { xs: 2 },
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: theme => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography sx={{ flex: '1 1 100%' }} color="inherit" variant="subtitle1" component="div">
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <SearchStyle
-          placeholder="Search user..."
-          startAdornment={
-            <InputAdornment position="start">
-              <SearchIcon sx={{ color: 'text.disabled' }} />
-            </InputAdornment>
-          }
-        />
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
-
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
-
 const TableComponent = ({ projects }) => {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('date');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('date');
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [filterName, setFilterName] = useState('');
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -225,11 +123,15 @@ const TableComponent = ({ projects }) => {
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = rows.map(n => n.name);
+      const newSelecteds = projects.map(n => n.name);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
+  };
+
+  const handleFilterByName = event => {
+    setFilterName(event.target.value);
   };
 
   const handleClick = (event, name) => {
@@ -260,41 +162,43 @@ const TableComponent = ({ projects }) => {
 
   const isSelected = name => selected.indexOf(name) !== -1;
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - projects.length) : 0;
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
-            <EnhancedTableHead
-              numSelected={selected.length}
+    <Box sx={{ width: '100%', borderRadius: '16px' }}>
+      <Paper
+        sx={{
+          width: '100%',
+          mb: 2,
+          boxShadow: 'rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 16px 32px -4px',
+        }}
+      >
+        <TableToolBar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+        <TableContainer sx={{ minWidth: 800 }}>
+          <Table>
+            <TableListHead
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
+              headLabel={headCells}
+              rowCount={projects.length}
+              numSelected={selected.length}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              onSelectAllClick={handleSelectAllClick}
             />
+
             <TableBody>
               {stableSort(projects, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
+                  const { name, createdAt, user, id } = row;
                   const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
-                    <TableRow
-                      hover
-                      onClick={event => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={isItemSelected}
-                    >
+                    <TableRow hover role="checkbox" aria-checked={isItemSelected} tabIndex={-1} key={row.name} selected={isItemSelected}>
                       <TableCell padding="checkbox">
                         <Checkbox
+                          onClick={event => handleClick(event, name)}
                           color="primary"
                           checked={isItemSelected}
                           inputProps={{
@@ -303,21 +207,25 @@ const TableComponent = ({ projects }) => {
                         />
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.name}
+                        {name}
                       </TableCell>
-                      <TableCell align="left">{row.createdAt}</TableCell>
+                      <TableCell align="left">{createdAt}</TableCell>
                       <TableCell align="left">1</TableCell>
-                      <TableCell align="left">{row.user.firstname}</TableCell>
-                      <TableCell align="right">{row.editMode}</TableCell>
+                      <TableCell align="left">{user.firstname}</TableCell>
+                      <TableCell align="right">
+                        <Button sx={{ width: '20px !important', height: '30px', marginRight: 4 }} variant="contained" color="warning">
+                          <DeleteIcon />
+                        </Button>
+                        <Button sx={{ width: '30px', height: '30px' }} variant="contained" color="error">
+                          <DeleteIcon />
+                        </Button>
+                        {/* <TableMoreMenu projectId={id} /> */}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
               {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
+                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
@@ -327,7 +235,7 @@ const TableComponent = ({ projects }) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={projects.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -337,5 +245,7 @@ const TableComponent = ({ projects }) => {
     </Box>
   );
 };
+
+// styles
 
 export default TableComponent;

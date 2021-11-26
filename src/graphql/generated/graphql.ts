@@ -40,12 +40,20 @@ export type CreateUserInput = {
   password: Scalars['String'];
 };
 
+/** Delete user input */
+export type DeleteProjectInput = {
+  /** The project id */
+  id: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   /** Create project */
   createProject?: Maybe<Project>;
   /** Create user */
   createUser?: Maybe<User>;
+  /** Delete project */
+  deleteProject?: Maybe<Project>;
 };
 
 
@@ -58,11 +66,18 @@ export type MutationCreateUserArgs = {
   input?: InputMaybe<CreateUserInput>;
 };
 
+
+export type MutationDeleteProjectArgs = {
+  input?: InputMaybe<DeleteProjectInput>;
+};
+
 /** A project */
 export type Project = {
   __typename?: 'Project';
   /** created date of project */
   createdAt?: Maybe<Scalars['String']>;
+  /** name of project */
+  id?: Maybe<Scalars['String']>;
   /** name of project */
   name?: Maybe<Scalars['String']>;
   /** token of invite user */
@@ -90,6 +105,8 @@ export type User = {
   email?: Maybe<Scalars['String']>;
   /** firstname of user */
   firstname?: Maybe<Scalars['String']>;
+  /** id of user */
+  id?: Maybe<Scalars['String']>;
   /** lastname of user */
   lastname?: Maybe<Scalars['String']>;
   /** password of user */
@@ -171,6 +188,7 @@ export type ResolversTypes = ResolversObject<{
   CreateProjectInput: CreateProjectInput;
   String: ResolverTypeWrapper<Scalars['String']>;
   CreateUserInput: CreateUserInput;
+  DeleteProjectInput: DeleteProjectInput;
   Mutation: ResolverTypeWrapper<{}>;
   Project: ResolverTypeWrapper<Project>;
   Query: ResolverTypeWrapper<{}>;
@@ -183,6 +201,7 @@ export type ResolversParentTypes = ResolversObject<{
   CreateProjectInput: CreateProjectInput;
   String: Scalars['String'];
   CreateUserInput: CreateUserInput;
+  DeleteProjectInput: DeleteProjectInput;
   Mutation: {};
   Project: Project;
   Query: {};
@@ -193,10 +212,12 @@ export type ResolversParentTypes = ResolversObject<{
 export type MutationResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationCreateProjectArgs, never>>;
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, never>>;
+  deleteProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationDeleteProjectArgs, never>>;
 }>;
 
 export type ProjectResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = ResolversObject<{
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -213,6 +234,7 @@ export type QueryResolvers<ContextType = IPrismaContext, ParentType extends Reso
 export type UserResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   firstname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['Project']>>>, ParentType, ContextType>;
