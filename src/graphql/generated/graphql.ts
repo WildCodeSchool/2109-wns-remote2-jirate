@@ -18,6 +18,8 @@ export type Scalars = {
 
 /** Create user input */
 export type CreateProjectInput = {
+  /** The project id */
+  id: Scalars['String'];
   /** The project name */
   name: Scalars['String'];
   /** The project token */
@@ -63,6 +65,8 @@ export type Project = {
   name?: Maybe<Scalars['String']>;
   /** token of invite user */
   token?: Maybe<Scalars['String']>;
+  /** user of project */
+  user?: Maybe<User>;
   /** userId of project */
   userId?: Maybe<Scalars['String']>;
 };
@@ -86,6 +90,8 @@ export type User = {
   lastname?: Maybe<Scalars['String']>;
   /** password of user */
   password?: Maybe<Scalars['String']>;
+  /** list of authors books */
+  projects?: Maybe<Array<Maybe<Project>>>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -188,6 +194,7 @@ export type MutationResolvers<ContextType = IPrismaContext, ParentType extends R
 export type ProjectResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = ResolversObject<{
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -202,6 +209,7 @@ export type UserResolvers<ContextType = IPrismaContext, ParentType extends Resol
   firstname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['Project']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

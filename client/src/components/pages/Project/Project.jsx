@@ -8,6 +8,10 @@ const GET_PROJECTS = gql`
   query GetProjects {
     projects {
       name
+      createdAt
+      user {
+        firstname
+      }
     }
   }
 `;
@@ -22,7 +26,7 @@ const Project = () => {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="center" mt={5}>
-        <TableComponent projects={data.projects}/>
+        <TableComponent projects={data.projects} />
       </Stack>
     </Container>
   );

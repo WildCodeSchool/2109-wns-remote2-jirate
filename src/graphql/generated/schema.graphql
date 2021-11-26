@@ -19,6 +19,9 @@ type User {
 
   """password of user"""
   password: String
+
+  """list of authors books"""
+  projects: [Project]
 }
 
 """A project"""
@@ -29,8 +32,17 @@ type Project {
   """token of invite user"""
   token: String
 
+  """user of project"""
+  user: User
+
   """userId of project"""
   userId: String
+
+  """created date of project"""
+  createdAt: String
+
+  """created date of project"""
+  updatedAt: String
 }
 
 type Mutation {
@@ -58,6 +70,9 @@ input CreateUserInput {
 
 """Create user input"""
 input CreateProjectInput {
+  """The project id"""
+  id: String!
+
   """The project name"""
   name: String!
 

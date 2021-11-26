@@ -209,7 +209,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-const TableComponent = () => {
+const TableComponent = ({ projects }) => {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('date');
   const [selected, setSelected] = React.useState([]);
@@ -277,7 +277,7 @@ const TableComponent = () => {
               rowCount={rows.length}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(projects, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
@@ -305,9 +305,9 @@ const TableComponent = () => {
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.name}
                       </TableCell>
-                      <TableCell align="left">{row.created}</TableCell>
-                      <TableCell align="left">{row.nbCollaborator}</TableCell>
-                      <TableCell align="left">{row.creator}</TableCell>
+                      <TableCell align="left">{row.createdAt}</TableCell>
+                      <TableCell align="left">1</TableCell>
+                      <TableCell align="left">{row.user.firstname}</TableCell>
                       <TableCell align="right">{row.editMode}</TableCell>
                     </TableRow>
                   );
