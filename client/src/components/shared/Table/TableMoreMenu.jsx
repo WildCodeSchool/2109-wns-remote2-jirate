@@ -1,12 +1,10 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-// material
+// materials
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
-
 
 const TableMoreMenu = () => {
   const ref = useRef(null);
@@ -22,28 +20,26 @@ const TableMoreMenu = () => {
         open={isOpen}
         anchorEl={ref.current}
         onClose={() => setIsOpen(false)}
-        PaperProps={{
-          sx: { width: 200, maxWidth: '100%' }
-        }}
+        PaperProps={{ sx: { width: 200, maxWidth: '100%' } }}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <MenuItem sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
-            <EditIcon width={24} height={24} />
+            <DeleteIcon width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
         <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
-            <DeleteIcon width={24} height={24} />
+            <EditIcon width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </>
   );
-}
+};
 
 export default TableMoreMenu;

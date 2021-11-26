@@ -69,8 +69,8 @@ export type Project = {
 
 export type Query = {
   __typename?: 'Query';
-  /** Get all users query */
-  projects?: Maybe<Array<Maybe<User>>>;
+  /** Get all projects query */
+  projects?: Maybe<Array<Maybe<Project>>>;
   /** Get all users query */
   users?: Maybe<Array<Maybe<User>>>;
 };
@@ -193,7 +193,7 @@ export type ProjectResolvers<ContextType = IPrismaContext, ParentType extends Re
 }>;
 
 export type QueryResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['Project']>>>, ParentType, ContextType>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 }>;
 
