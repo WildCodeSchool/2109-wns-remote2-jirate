@@ -14,3 +14,7 @@ export const createProject = async (name: string, token: string, userId: string)
   const project = await prismaContext.prisma.project.create({ data: { name, token, userId } });
   return project;
 };
+
+export const getProjectsByUser = async (userId: string): Promise<Project[]> => {
+  return prismaContext.prisma.project.findMany({ where: { userId } });
+};

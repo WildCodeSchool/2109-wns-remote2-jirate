@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { Project,User } from '@prisma/client';
 import prismaContext from '@src/lib/prisma/prismaContext';
 
 export const getAllUsers = async (): Promise<User[]> => {

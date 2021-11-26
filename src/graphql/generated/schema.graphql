@@ -19,6 +19,9 @@ type User {
 
   """password of user"""
   password: String
+
+  """list of authors books"""
+  projects: [Project]
 }
 
 """A project"""

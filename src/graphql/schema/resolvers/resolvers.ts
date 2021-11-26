@@ -4,6 +4,7 @@ import { Project, User } from '@prisma/client';
 import mutation from '@src/graphql/schema/resolvers/mutation/mutation';
 import query from '@src/graphql/schema/resolvers/query/query';
 import { getUserById } from '@src/service/userService';
+import { getProjectsByUser } from '@src/service/projectService';
 
 const resolvers: GraphQLResolverMap<IApolloServerContext> = {
   Query: query,
@@ -11,6 +12,11 @@ const resolvers: GraphQLResolverMap<IApolloServerContext> = {
   Project: {
     user(project: Project): Promise<User | null> {
       return getUserById(project.userId);
+    },
+  },
+  User: {
+    projects(user: User): Promise<Project[]> {
+      return getProjectsByUser(user.id);
     },
   },
 };
