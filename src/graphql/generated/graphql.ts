@@ -61,10 +61,14 @@ export type MutationCreateUserArgs = {
 /** A project */
 export type Project = {
   __typename?: 'Project';
+  /** created date of project */
+  createdAt?: Maybe<Scalars['String']>;
   /** name of project */
   name?: Maybe<Scalars['String']>;
   /** token of invite user */
   token?: Maybe<Scalars['String']>;
+  /** created date of project */
+  updatedAt?: Maybe<Scalars['String']>;
   /** user of project */
   user?: Maybe<User>;
   /** userId of project */
@@ -192,8 +196,10 @@ export type MutationResolvers<ContextType = IPrismaContext, ParentType extends R
 }>;
 
 export type ProjectResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = ResolversObject<{
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

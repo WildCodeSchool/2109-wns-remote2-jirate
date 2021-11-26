@@ -5,6 +5,10 @@ const ProjectType: GraphQLObjectType = new GraphQLObjectType({
   name: 'Project',
   description: 'A project',
   fields: () => ({
+    id: {
+      type: GraphQLString,
+      description: 'name of project',
+    },
     name: {
       type: GraphQLString,
       description: 'name of project',
