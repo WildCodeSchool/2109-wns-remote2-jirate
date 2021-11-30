@@ -8,6 +8,9 @@ type Query {
 
 """A user"""
 type User {
+  """id of user"""
+  id: String
+
   """firstname of user"""
   firstname: String
 
@@ -27,6 +30,9 @@ type User {
 """A project"""
 type Project {
   """name of project"""
+  id: String
+
+  """name of project"""
   name: String
 
   """token of invite user"""
@@ -37,6 +43,12 @@ type Project {
 
   """userId of project"""
   userId: String
+
+  """created date of project"""
+  createdAt: String
+
+  """created date of project"""
+  updatedAt: String
 }
 
 type Mutation {
@@ -45,6 +57,9 @@ type Mutation {
 
   """Create project"""
   createProject(input: CreateProjectInput): Project
+
+  """Delete project"""
+  deleteProject(input: DeleteProjectInput): Project
 }
 
 """Create user input"""
@@ -75,4 +90,10 @@ input CreateProjectInput {
 
   """The project userId"""
   userId: String!
+}
+
+"""Delete user input"""
+input DeleteProjectInput {
+  """The project id"""
+  id: String!
 }

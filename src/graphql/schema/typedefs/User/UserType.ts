@@ -5,6 +5,10 @@ const UserType: GraphQLObjectType = new GraphQLObjectType({
   name: 'User',
   description: 'A user',
   fields: () => ({
+    id: {
+      type: GraphQLString,
+      description: 'id of user',
+    },
     firstname: {
       type: GraphQLString,
       description: 'firstname of user',

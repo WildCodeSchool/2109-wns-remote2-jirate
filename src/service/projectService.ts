@@ -18,3 +18,7 @@ export const createProject = async (name: string, token: string, userId: string)
 export const getProjectsByUser = async (userId: string): Promise<Project[]> => {
   return prismaContext.prisma.project.findMany({ where: { userId } });
 };
+
+export const deleteProjectById = async (id: string): Promise<Project> => {
+  return prismaContext.prisma.project.delete({ where: { id } });
+};
