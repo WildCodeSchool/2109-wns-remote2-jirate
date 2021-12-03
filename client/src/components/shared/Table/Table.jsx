@@ -66,7 +66,7 @@ const BtnEdit = styled(Button)(({ theme }) => ({
   maxHeight: '45px',
   minWidth: '45px',
   minHeight: '45px',
-  color: '#9F0303',
+  color: '#ED6400',
 }));
 
 const headCells = [
