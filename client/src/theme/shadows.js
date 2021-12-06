@@ -8,6 +8,7 @@ const createCustomShadow = color => {
 
   return {
     z8: `0 8px 16px 0 ${transparent}`,
+    z16: `0 0 2px 0 ${transparent}, 0 16px 32px -4px ${transparent}`,
     primary: `0 8px 16px 0 ${alpha(palette.primary.main, 0.24)}`,
     secondary: `0 8px 16px 0 ${alpha(palette.secondary.main, 0.24)}`,
     info: `0 8px 16px 0 ${alpha(palette.info.main, 0.24)}`,
