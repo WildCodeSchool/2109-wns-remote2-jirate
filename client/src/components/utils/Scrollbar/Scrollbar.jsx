@@ -51,9 +51,9 @@ const Scrollbar = ({ children, sx, ...other }) => {
   );
 };
 
-Scrollbar.propTypes = {
-  children: PropTypes.node.isRequired,
-  sx: PropTypes.object,
-};
+// Scrollbar.propTypes = {
+//   children: PropTypes.node.isRequired,
+//   sx: PropTypes.object,
+// };
 
 export default Scrollbar;
