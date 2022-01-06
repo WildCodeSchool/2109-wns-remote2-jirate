@@ -21,8 +21,8 @@ const style = {
 };
 
 const DELETE_PROJECT_BY_ID = gql`
-  mutation DeleteProject($input: String) {
-    deleteProject(input: $input) {
+  mutation DeleteProject($id: String) {
+    deleteProject(input: id) {
       id
     }
   }
@@ -38,13 +38,13 @@ const ModalError = ({ isOpen, handleClose, projectName, id }) => {
 
   const handleValidateDelete = e => {
     e.preventDefault();
-    if (inputValue === projectName) {
-      deleteProjectById({ variables: { input: {id: id} } });
+    if (inputValue === projectName && inputValue !== "") {
+      deleteProjectById({ variables: { input: { id } } });
     }
   };
 
   useEffect(() => {
-    if (inputValue !== projectName) {
+    if (inputValue !== projectName && inputValue !== "") {
       setInputError(true);
     } else {
       setInputError(false);
@@ -59,7 +59,7 @@ const ModalError = ({ isOpen, handleClose, projectName, id }) => {
             Project: {projectName}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Are you sure you want to delete the project "{projectName}" ? Confirm by entering the name below.
+            Are you sure you want to delete the project <b>"{projectName}"</b> ? Confirm by entering the name below.
           </Typography>
           <TextField
             onChange={e => setInputValue(e.target.value)}
@@ -72,6 +72,7 @@ const ModalError = ({ isOpen, handleClose, projectName, id }) => {
             variant="standard"
           />
         </Box>
+        {inputError ? <Typography color="error">Invalid name</Typography> : null}
         <Box sx={{ display: 'flex', width: '100%', justifyContent: 'flex-end' }}>
           <Button onClick={handleClose} color="error" variant="text">
             Cancel
