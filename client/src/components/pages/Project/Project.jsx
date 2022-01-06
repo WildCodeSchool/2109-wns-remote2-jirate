@@ -1,8 +1,11 @@
+import React, { useState } from 'react';
+
 import { useQuery, gql } from '@apollo/client';
-import { Container, Stack } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 
 // Import components
 import TableComponent from '../../shared/Table/Table';
+import ModalError from '../../shared/ModalError/ModalError';
 
 const GET_PROJECTS = gql`
   query GetProjects {
@@ -17,18 +20,36 @@ const GET_PROJECTS = gql`
   }
 `;
 
+const headCells = [
+  { id: 'name', label: 'Name', alignRight: false },
+  { id: 'created', label: 'Created', alignRight: false },
+  { id: 'nbCollaborator', label: 'Nb Collaborators', alignRight: false },
+  { id: 'creator', label: 'Creator' },
+  { id: '', alignRight: false },
+];
+
 const Project = () => {
   const { loading, error, data } = useQuery(GET_PROJECTS);
+  const [open, setOpen] = useState(false);
+  const [nameProject, setNameProject] = useState('');
+  const [projectId, setProjectId] = useState('');
+
+  const handleProject = (name, id) => {
+    setNameProject(name);
+    setProjectId(id);
+    setOpen(true);
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
-  if (data.projects) console.log(data);
 
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="center" mt={5}>
-        <TableComponent projects={data.projects} />
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Typography gutterBottom>Projects</Typography>
       </Stack>
+      <TableComponent handleDelete={(name, id) => handleProject(name, id)} projects={data.projects} headCells={headCells} />
+      <ModalError id={projectId} projectName={nameProject} isOpen={open} handleClose={() => setOpen(false)} />
     </Container>
   );
 };

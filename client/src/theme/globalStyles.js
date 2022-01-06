@@ -67,6 +67,9 @@ const GlobalStyles = () => {
           WebkitFilter: 'blur(0)',
           filter: 'blur(0)',
         },
+        '.simplebar-placeholder': {
+          display: 'none',
+        },
       }}
     />
   );

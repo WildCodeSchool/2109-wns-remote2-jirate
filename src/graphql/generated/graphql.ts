@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { IPrismaContext } from 'src/lib/interfaces/IPrismaContext';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -14,6 +14,8 @@ export type Scalars = {
   Int: number;
   Float: number;
   _FieldSet: any;
+  /** Date custom scalar type */
+  Date: any;
 };
 
 /** Create user input */
@@ -75,7 +77,7 @@ export type MutationDeleteProjectArgs = {
 export type Project = {
   __typename?: 'Project';
   /** created date of project */
-  createdAt?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Date']>;
   /** name of project */
   id?: Maybe<Scalars['String']>;
   /** name of project */
@@ -83,7 +85,7 @@ export type Project = {
   /** token of invite user */
   token?: Maybe<Scalars['String']>;
   /** created date of project */
-  updatedAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['Date']>;
   /** user of project */
   user?: Maybe<User>;
   /** userId of project */
@@ -188,6 +190,7 @@ export type ResolversTypes = ResolversObject<{
   CreateProjectInput: CreateProjectInput;
   String: ResolverTypeWrapper<Scalars['String']>;
   CreateUserInput: CreateUserInput;
+  Date: ResolverTypeWrapper<Scalars['Date']>;
   DeleteProjectInput: DeleteProjectInput;
   Mutation: ResolverTypeWrapper<{}>;
   Project: ResolverTypeWrapper<Project>;
@@ -201,6 +204,7 @@ export type ResolversParentTypes = ResolversObject<{
   CreateProjectInput: CreateProjectInput;
   String: Scalars['String'];
   CreateUserInput: CreateUserInput;
+  Date: Scalars['Date'];
   DeleteProjectInput: DeleteProjectInput;
   Mutation: {};
   Project: Project;
@@ -209,6 +213,10 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean'];
 }>;
 
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
+
 export type MutationResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationCreateProjectArgs, never>>;
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, never>>;
@@ -216,11 +224,11 @@ export type MutationResolvers<ContextType = IPrismaContext, ParentType extends R
 }>;
 
 export type ProjectResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = ResolversObject<{
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -242,6 +250,7 @@ export type UserResolvers<ContextType = IPrismaContext, ParentType extends Resol
 }>;
 
 export type Resolvers<ContextType = IPrismaContext> = ResolversObject<{
+  Date?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Project?: ProjectResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

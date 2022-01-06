@@ -10,11 +10,7 @@ import customShadows from './shadows';
 
 import componentsOverride from './overrides/index';
 
-ThemeConfig.propTypes = {
-  children: PropTypes.node,
-};
-
-export default function ThemeConfig({ children }) {
+const ThemeConfig = ({ children }) => {
   const themeOptions = useMemo(
     () => ({
       palette,
@@ -35,4 +31,11 @@ export default function ThemeConfig({ children }) {
       </ThemeProvider>
     </StyledEngineProvider>
   );
-}
+};
+
+// Typescript
+ThemeConfig.propTypes = {
+  children: PropTypes.node,
+};
+
+export default ThemeConfig;
