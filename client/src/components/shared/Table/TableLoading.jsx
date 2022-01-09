@@ -16,9 +16,10 @@ const TableComponentLoading = () => {
         <TableContainer sx={{ minWidth: 800 }}>
           <Table>
             <TableBody>
-              {[0, 1, 2, 3, 4].map(() => {
+              {[0, 1, 2, 3, 4].map(index => {
                 return (
                   <Box
+                    key={index}
                     sx={{
                       height: '77px',
                       width: '100%',

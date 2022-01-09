@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
 import { useQuery, gql } from '@apollo/client';
-import { Container, Stack, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Container, Stack, Typography, Button } from '@mui/material';
 
 // Import components
 import TableComponent from '../../shared/Table/Table';
@@ -20,6 +21,18 @@ const GET_PROJECTS = gql`
     }
   }
 `;
+
+const ButtonCreate = styled(Button)(() => ({
+  backgroundColor: '#000000',
+  color: '#ffffff',
+  width: '180px',
+  height: '52px',
+  borderRadius: '5px',
+  '&:hover': {
+    backgroundColor: '#000000',
+    color: '#fffffff',
+  },
+}));
 
 const headCells = [
   { id: 'name', label: 'Name', alignRight: false },
@@ -46,7 +59,10 @@ const Project = () => {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography gutterBottom>Projects</Typography>
+        <Typography variant="h3" component="h3" gutterBottom>
+          Projects
+        </Typography>
+        <ButtonCreate>Create Project</ButtonCreate>
       </Stack>
       {loading ? (
         <TableComponentLoading headCells={headCells} />
