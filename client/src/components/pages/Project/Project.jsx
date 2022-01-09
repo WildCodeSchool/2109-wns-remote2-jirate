@@ -5,6 +5,7 @@ import { Container, Stack, Typography } from '@mui/material';
 
 // Import components
 import TableComponent from '../../shared/Table/Table';
+import TableComponentLoading from '../../shared/Table/TableLoading';
 import ModalError from '../../shared/ModalError/ModalError';
 
 const GET_PROJECTS = gql`
@@ -40,7 +41,6 @@ const Project = () => {
     setOpen(true);
   };
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
   return (
@@ -48,7 +48,11 @@ const Project = () => {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography gutterBottom>Projects</Typography>
       </Stack>
-      <TableComponent handleDelete={(name, id) => handleProject(name, id)} projects={data.projects} headCells={headCells} />
+      {loading ? (
+        <TableComponentLoading headCells={headCells} />
+      ) : (
+        <TableComponent handleDelete={(name, id) => handleProject(name, id)} projects={data.projects} headCells={headCells} />
+      )}
       <ModalError id={projectId} projectName={nameProject} isOpen={open} handleClose={() => setOpen(false)} />
     </Container>
   );
