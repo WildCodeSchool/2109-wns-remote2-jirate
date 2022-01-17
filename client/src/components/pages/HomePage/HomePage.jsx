@@ -43,14 +43,17 @@ const HomePage = () => {
   const getItemStyle = (isDragging, draggableStyle) => ({
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
-    padding: 8 * 2,
-    margin: `0 0 8px 0`,
-
     // change background colour if dragging
-    background: isDragging ? 'lightgreen' : 'grey',
+    background: isDragging ? 'lightgreen' : '#ffffff',
+    padding: 5,
 
     // styles we need to apply on draggables
     ...draggableStyle,
+  });
+
+  const getListStyle = isDraggingOver => ({
+    background: isDraggingOver ? 'lightblue' : 'lightgrey',
+    width: 250,
   });
 
   return (
@@ -62,7 +65,7 @@ const HomePage = () => {
           </Typography>
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId="ContainerTasks">
-              {provided => (
+              {(provided, snapshot) => (
                 <div className="ContainerTasks" {...provided.droppableProps} ref={provided.innerRef}>
                   {tasks.map(({ id, title }, index) => {
                     return (
