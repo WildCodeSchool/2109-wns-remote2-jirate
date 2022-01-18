@@ -1,5 +1,5 @@
 import { GraphQLObjectType, GraphQLString, GraphQLList } from 'graphql';
-import ProjectType from "../Project/ProjectType";
+import ProjectType from '../Project/ProjectType';
 
 const UserType: GraphQLObjectType = new GraphQLObjectType({
   name: 'User',

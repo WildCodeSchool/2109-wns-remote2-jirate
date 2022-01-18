@@ -2,6 +2,8 @@ echo 'remove folder dist -------------------------'
 rm -rf dist
 echo 'run yarn install ---------------------------'
 yarn install
+echo 'run docker compose -------------------------'
+yarn docker:up
 echo 'run migrations -----------------------------'
 npx prisma migrate dev
 echo 'run db:seed --------------------------------'
