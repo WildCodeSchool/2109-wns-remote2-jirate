@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
 import { useQuery, gql } from '@apollo/client';
-import { Container, Stack, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Container, Stack, Typography, Button } from '@mui/material';
 
 // Import components
 import TableComponent from '../../shared/Table/Table';
+import TableComponentLoading from '../../shared/Table/TableLoading';
 import ModalError from '../../shared/ModalError/ModalError';
 
 const GET_PROJECTS = gql`
@@ -19,6 +21,18 @@ const GET_PROJECTS = gql`
     }
   }
 `;
+
+const ButtonCreate = styled(Button)(() => ({
+  backgroundColor: '#000000',
+  color: '#ffffff',
+  width: '180px',
+  height: '52px',
+  borderRadius: '5px',
+  '&:hover': {
+    backgroundColor: '#000000',
+    color: '#fffffff',
+  },
+}));
 
 const headCells = [
   { id: 'name', label: 'Name', alignRight: false },
@@ -40,15 +54,21 @@ const Project = () => {
     setOpen(true);
   };
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography gutterBottom>Projects</Typography>
+        <Typography variant="h3" component="h3" gutterBottom>
+          Projects
+        </Typography>
+        <ButtonCreate>Create Project</ButtonCreate>
       </Stack>
-      <TableComponent handleDelete={(name, id) => handleProject(name, id)} projects={data.projects} headCells={headCells} />
+      {loading ? (
+        <TableComponentLoading headCells={headCells} />
+      ) : (
+        <TableComponent handleDelete={(name, id) => handleProject(name, id)} projects={data.projects} headCells={headCells} />
+      )}
       <ModalError id={projectId} projectName={nameProject} isOpen={open} handleClose={() => setOpen(false)} />
     </Container>
   );

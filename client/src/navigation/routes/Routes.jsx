@@ -1,26 +1,32 @@
-import { Switch, Route, withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Navigate, useRoutes } from 'react-router-dom';
 
-// Import Pages
+// layouts
+import DashboardLayout from '../../layouts/dashboard';
+
+// pages
 import Project from '../../components/pages/Project/Project';
+import Error404 from '../../components/pages/Error404/Error404';
 
-const renderComponent = location => {
-  return (
-    <div>
-      <Switch>
-        <Route exact path="/" component={Project} />
-      </Switch>
-    </div>
-  );
+const Router = () => {
+  return useRoutes([
+    {
+      path: '/dashboard',
+      element: <DashboardLayout />,
+      children: [{ element: <Navigate to="/dashboard/app" replace /> }, { path: 'app', element: <Project /> }],
+    },
+    {
+      path: '/',
+      element: null,
+      children: [
+        //     { path: 'login', element: <Login /> },
+        //     { path: 'register', element: <Register /> },
+        { path: '404', element: <Error404 /> },
+        { path: '/', element: <Navigate to="/dashboard" /> },
+        { path: '*', element: <Navigate to="/404" /> },
+      ],
+    },
+    { path: '*', element: <Navigate to="/404" replace /> },
+  ]);
 };
 
-const Routes = ({ location }) => {
-  return <div>{renderComponent(location.pathname)}</div>;
-};
-
-export default withRouter(Routes);
-
-// Add typescript
-renderComponent.propTypes = {
-  location: PropTypes.object,
-};
+export default Router;
