@@ -1,33 +1,32 @@
-FROM node:14.17.6-alpine3.14 AS base
+FROM node:lts-alpine
 
 WORKDIR /app
 
 RUN apk update && apk add bash
 
-COPY package*.json yarn.lock /app/
+COPY package*.json ./
+COPY yarn.lock  ./
 
-COPY .env.sample /app/.env.sample
-COPY .env.test /app/.env.test
+COPY .env ./.env
+COPY .env.sample ./.env.sample
+COPY .env.test ./.env.test
 
 # copy source files
-COPY src /app/src
+COPY src ./src
+COPY tsconfig.json ./tsconfig.json
+COPY tsconfig.prod.json ./tsconfig.prod.json
+COPY jest.config.js ./jest.config.js
+COPY bin ./bin
 
-COPY tsconfig.json /app/tsconfig.json
-
-COPY tsconfig.prod.json /app/tsconfig.prod.json
-
-COPY jest.config.js /app/jest.config.js
-
-COPY bin /app/bin
-
-COPY prisma /app/prisma
-
-COPY codegen.yml /app/codegen.yml
-
+COPY prisma ./prisma
+COPY codegen.yml ./codegen.yml
 RUN yarn install --frozen-lockfile
+
 
 RUN yarn generate
 RUN yarn prisma generate
 
 RUN yarn build
+COPY dist ./
+
 CMD [ "yarn", "start" ]
