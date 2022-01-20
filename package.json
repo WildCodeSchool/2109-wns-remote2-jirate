@@ -20,7 +20,11 @@
     "db:reset": "npx prisma migrate reset --force",
     "db:seed": "npx prisma db seed",
     "prisma:studio": "npx prisma studio",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "test:environment:docker": "yarn docker:up && yarn docker:test:run & yarn docker:down",
+    "docker:up": "docker-compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:test:run": "docker exec server ./bin/wait-for-it.sh db:5432 -- yarn test"
   },
   "license": "MIT",
   "dependencies": {
