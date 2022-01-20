@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
+import { filter } from 'lodash';
 import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
+import Card from '@mui/material/Card';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
-import { visuallyHidden } from '@mui/utils';
 import TableListHead from './TableListHead';
 import TableToolBar from './TableToolBar';
+import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
+import Scrollbar from '../../utils/Scrollbar/Scrollbar';
 
 // Import icons
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -31,110 +30,28 @@ function descendingComparator(a, b, orderBy) {
   return 0;
 }
 
-function getComparator(order, orderBy) {
+const getComparator = (order, orderBy) => {
   return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
-}
+};
 
-function stableSort(array, comparator) {
+const applySortFilter = (array, comparator, query) => {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
+    if (order !== 0) return order;
     return a[1] - b[1];
   });
+  if (query) {
+    return filter(array, _user => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+  }
   return stabilizedThis.map(el => el[0]);
-}
-
-const BtnDelete = styled(Button)(({ theme }) => ({
-  marginRight: 10,
-  backgroundColor: theme.palette.error.backgroundOpacity,
-  borderRadius: 15,
-  maxWidth: '45px',
-  maxHeight: '45px',
-  minWidth: '45px',
-  minHeight: '45px',
-  color: '#9F0303',
-}));
-
-const BtnEdit = styled(Button)(({ theme }) => ({
-  marginRight: 10,
-  backgroundColor: theme.palette.warning.backgroundOpacity,
-  borderRadius: 15,
-  maxWidth: '45px',
-  maxHeight: '45px',
-  minWidth: '45px',
-  minHeight: '45px',
-  color: '#9F0303',
-}));
-
-const headCells = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'created', label: 'Created', alignRight: false },
-  { id: 'nbCollaborator', label: 'Nb Collaborators', alignRight: false },
-  { id: 'creator', label: 'Creator' },
-  { id: '', alignRight: false },
-];
-
-function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-  const createSortHandler = property => event => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all projects',
-            }}
-          />
-        </TableCell>
-        {headCells.map(headCell => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              hideSortIcon
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? <Box sx={{ ...visuallyHidden }}>{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</Box> : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
 };
 
-const TableComponent = ({ projects }) => {
+const TableComponent = ({ projects, headCells, handleDelete }) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('date');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
-  const [dense, setDense] = useState(false);
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -144,8 +61,8 @@ const TableComponent = ({ projects }) => {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = event => {
-    if (event.target.checked) {
+  const handleSelectAllClick = e => {
+    if (e.target.checked) {
       const newSelecteds = projects.map(n => n.name);
       setSelected(newSelecteds);
       return;
@@ -178,6 +95,8 @@ const TableComponent = ({ projects }) => {
     setPage(newPage);
   };
 
+  const filteredUsers = applySortFilter(projects, getComparator(order, orderBy), filterName);
+
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -188,15 +107,9 @@ const TableComponent = ({ projects }) => {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - projects.length) : 0;
 
   return (
-    <Box sx={{ width: '100%', borderRadius: '16px' }}>
-      <Paper
-        sx={{
-          width: '100%',
-          mb: 2,
-          boxShadow: 'rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 16px 32px -4px',
-        }}
-      >
-        <TableToolBar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+    <Card>
+      <TableToolBar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+      <Scrollbar>
         <TableContainer sx={{ minWidth: 800 }}>
           <Table>
             <TableListHead
@@ -210,65 +123,98 @@ const TableComponent = ({ projects }) => {
             />
 
             <TableBody>
-              {stableSort(projects, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const { name, createdAt, user, id } = row;
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+              {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                const { name, createdAt, user, id } = row;
+                const isItemSelected = isSelected(row.name);
+                const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow hover role="checkbox" aria-checked={isItemSelected} tabIndex={-1} key={row.name} selected={isItemSelected}>
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          onClick={event => handleClick(event, name)}
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
+                return (
+                  <TableRow hover role="checkbox" aria-checked={isItemSelected} tabIndex={-1} key={row.name} selected={isItemSelected}>
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        id="checkbox-selected-item-project"
+                        onClick={event => handleClick(event, name)}
+                        color="primary"
+                        checked={isItemSelected}
+                        inputProps={{
+                          'aria-labelledby': labelId,
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell component="th" id={labelId} scope="row" padding="none">
+                      <Typography variant="subtitle2" noWrap>
                         {name}
-                      </TableCell>
-                      <TableCell align="left">{createdAt}</TableCell>
-                      <TableCell align="left">1</TableCell>
-                      <TableCell align="left">{user.firstname}</TableCell>
-                      <TableCell align="right">
-                        <BtnEdit>
-                          <EditIcon />
-                        </BtnEdit>
-                        <BtnDelete>
-                          <DeleteIcon />
-                        </BtnDelete>
-                        {/* <TableMoreMenu projectId={id} /> */}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="left">{new Date(createdAt).toDateString()}</TableCell>
+                    <TableCell align="left">1</TableCell>
+                    <TableCell align="left">{user.firstname}</TableCell>
+                    <TableCell align="right">
+                      <BtnEdit>
+                        <EditIcon />
+                      </BtnEdit>
+                      <BtnDelete onClick={() => handleDelete(name, id)}>
+                        <DeleteIcon />
+                      </BtnDelete>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
               {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={projects.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-    </Box>
+      </Scrollbar>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={projects.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Card>
   );
 };
 
 // styles
+
+const BtnDelete = styled(Button)(({ theme }) => ({
+  marginRight: 10,
+  backgroundColor: theme.palette.error.backgroundOpacity,
+  borderRadius: 15,
+  maxWidth: '45px',
+  maxHeight: '45px',
+  minWidth: '45px',
+  minHeight: '45px',
+  color: '#9F0303',
+}));
+
+const BtnEdit = styled(Button)(({ theme }) => ({
+  marginRight: 10,
+  backgroundColor: theme.palette.warning.backgroundOpacity,
+  borderRadius: 15,
+  maxWidth: '45px',
+  maxHeight: '45px',
+  minWidth: '45px',
+  minHeight: '45px',
+  color: '#ED6400',
+}));
+
+// TypeScript Section
+
+TableListHead.propTypes = {
+  numSelected: PropTypes.number.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
+};
 
 export default TableComponent;

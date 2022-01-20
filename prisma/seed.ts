@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import * as faker from 'faker';
 
 const prisma = new PrismaClient();
 
@@ -70,6 +71,18 @@ const main = async () => {
       emailConfirmed: true,
     },
   });
+
+  const users = await prisma.user.findMany();
+
+  for (let i = 0; i < 5; i++) {
+    await prisma.project.createMany({
+      data: {
+        name: faker.company.companyName(),
+        token: faker.random.word(),
+        userId: users[i].id,
+      },
+    });
+  }
 };
 
 main()
