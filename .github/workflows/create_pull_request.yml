@@ -12,11 +12,11 @@ jobs:
     - name: pull-request
       uses: repo-sync/pull-request@v2
       with:
-        source_branch: ""                                 
+        source_branch: ""
         destination_branch: "dev"
         pr_title: "Pulling ${{ github.ref }} into dev"
         pr_body: ":crown: *An automated PR* (please update this description before merging)"
-        pr_label: "auto-pr"         
-        pr_draft: true                              
+        pr_label: "auto-pr"
+        pr_draft: true
         pr_allow_empty: true
         github_token: ${{ secrets.GITHUB_TOKEN }}

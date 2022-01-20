@@ -22,6 +22,7 @@ COPY prisma ./prisma
 COPY codegen.yml ./codegen.yml
 RUN yarn install --frozen-lockfile
 
+ENV DATABASE_URL="postgresql://user:password@db:5432/jirate_database_development"
 
 RUN yarn generate
 RUN yarn prisma generate
