@@ -3,14 +3,18 @@ version: '3.9'
 
 # The containers that compose the project
 services:
+  client:
+    build: ./client
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client/src:/app/src/
   server:
     environment:
       DATABASE_URL: postgresql://usertest:userpass@postgres:5432/jirate_database_development
     build: .
     ports:
       - 8000:8000
-    links:
-      - postgres
     depends_on:
       postgres:
         condition: service_healthy
@@ -26,5 +30,3 @@ services:
       POSTGRES_DB: jirate_database_development
     ports:
       - 5432:5432
-volumes:
-  - postgres:/var/lib/postgresql/data
