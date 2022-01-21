@@ -11,21 +11,21 @@ services:
       - ./client/src:/app/src/
   server:
     environment:
-      DATABASE_URL: postgresql://usertest:userpass@postgres:5432/jirate_database_development
+      DATABASE_URL: postgresql://usertests:userpass@db:5432/jirate_database_development
     build: .
     ports:
       - 8000:8000
+    links:
+      - db
     depends_on:
-      postgres:
-        condition: service_healthy
-  postgres:
-    image: postgres:13
-    healthcheck:
-      test: "exit 0"
-    container_name: postgres
+      db:
+        condition: service_started
+  db:
+    image: postgres
+    container_name: db
     restart: always
     environment:
-      POSTGRES_USER: usertest
+      POSTGRES_USER: usertests
       POSTGRES_PASSWORD: userpass
       POSTGRES_DB: jirate_database_development
     ports:

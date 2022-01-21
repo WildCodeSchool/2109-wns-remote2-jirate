@@ -1,0 +1,11 @@
+services:
+  db:
+    container_name: pg_container
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: usertests
+      POSTGRES_PASSWORD: userpass
+      POSTGRES_DB: jirate_database_development
+    ports:
+      - "5432:5432"
