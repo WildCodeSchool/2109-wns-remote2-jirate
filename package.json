@@ -1,13 +1,13 @@
 {
   "name": "jirate",
   "version": "1.0.0",
-  "main": "server.ts",
+  "main": "index.js",
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
     "dev": "nodemon",
-    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/src/index.js",
+    "start": "yarn prisma generate && npx prisma migrate dev && node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/src/index.js",
     "build": "tsc -p tsconfig.prod.json",
     "test": "yarn test:unit && yarn test:integration",
     "test:unit": "jest unit",
@@ -20,7 +20,11 @@
     "db:reset": "npx prisma migrate reset --force",
     "db:seed": "npx prisma db seed",
     "prisma:studio": "npx prisma studio",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "test:environment:docker": "yarn docker:up && yarn docker:test:run & yarn docker:down",
+    "docker:up": "docker-compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:test:run": "docker exec server ./bin/wait-for-it.sh db:5432 -- yarn test"
   },
   "license": "MIT",
   "dependencies": {
