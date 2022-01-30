@@ -12,6 +12,6 @@ jobs:
       - name: Install modules
         run: yarn
       - name: Cypress run
-        uses: cypress-io/github-actions@v2
+        uses: cypress-io/github-action@v2
         with:
           browser: firefox
