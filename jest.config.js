@@ -16,5 +16,5 @@ module.exports = {
     '@src/(.*)': '<rootDir>/src/$1',
   },
   moduleDirectories: ['src', 'node_modules'],
-  testPathIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/node_modules/', '<rootDir>/src/spec/mocks/'],
+  testPathIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/node_modules/', '<rootDir>/src/spec/mocks/', '<rootDir>/client/', '<rootDir>/cypress/'],
 };

@@ -2,7 +2,7 @@
 
 describe('test Project', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/');
+    cy.visit('http://localhost:3000/dashboard/app');
   });
 
   it('should click on a checkbox of an element', () => {
