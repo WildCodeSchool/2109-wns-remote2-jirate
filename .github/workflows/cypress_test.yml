@@ -1,11 +1,8 @@
 name: Cypress Tests using Cypress Docker Image
-
 on: [ push ]
-
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    container: cypress/browsers:node-chrome87-ff82
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -14,4 +11,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          browser: firefox
+          start: docker:up
+          wait-on: "http://localhost:3000"
+          browser: chrome
+          headless: true
