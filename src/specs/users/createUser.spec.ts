@@ -1,36 +1,54 @@
-import createUser from '../../service/userService';
-import {PrismaClient} from '@prisma/client';
+import { ApolloServer, gql } from 'apollo-server';
+import apolloServerConfig from '@src/lib/config/apolloServerConfig';
+import { CreateUserInput } from '@src/graphql/generated/graphql';
+import prismaContext from '@src/lib/prisma/prismaContext';
 
-interface UserType {
-    firstname: string
-    lastname: string
-    email: string
-    password: string
-}
+const CREATE_USER_MUTATION = gql`
+  mutation Mutation($input: CreateUserInput) {
+    createUser(input: $input) {
+      __typename
+      firstname
+      password
+    }
+  }
+`;
 
-const prisma = new PrismaClient();
+describe('tests', () => {
+  let server: ApolloServer;
+  const typename = 'User';
 
-afterAll(async (done) => {
-    await prisma.$disconnect();
-    done();
-})
+  beforeAll(() => {
+    server = new ApolloServer(apolloServerConfig);
+  });
 
-describe("Users actions", () => {
-    it('create new user', async () => {
-        const user: UserType = {
-            firstname: "testingUser",
-            lastname: "test",
-            email: "testuser@testing.com",
-            password: "testingpassword"
-        }
+  afterAll(async () => {
+    prismaContext.prisma.user.deleteMany();
+    await prismaContext.prisma.$disconnect();
+  });
 
-        await createUser({user})
+  it('should create a new User', async () => {
+    const mockUser: CreateUserInput = {
+      firstname: 'John',
+      lastname: 'doe',
+      email: 'johndoe@testing.io',
+      password: 'jiratéTesting',
+    };
 
-        const [savedUser] = await prisma.user.findMany({
-            where: { user.email },
-            take: 1
-        })
+    const result = await server.executeOperation({
+      query: CREATE_USER_MUTATION,
+      variables: { input: mockUser },
+    });
 
-        expect(savedUser.email).toBe(user.email);
-    })
-})
+    console.log(result);
+
+    expect(result.data).toBeDefined();
+    expect(result?.data?.createUser).toBeDefined();
+    const createdUser = result?.data?.createUser;
+
+    console.log(result?.data);
+
+    expect(createdUser.__typename).toBe(typename);
+    expect(createdUser.firstname).toBe(mockUser.firstname);
+    expect(createdUser.lastname).toBe(mockUser.lastname);
+  });
+});
