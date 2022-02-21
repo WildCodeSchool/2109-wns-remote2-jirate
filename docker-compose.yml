@@ -1,0 +1,34 @@
+# Set the version of docker compose to use
+version: '3.9'
+
+# The containers that compose the project
+services:
+  client:
+    build: ./client
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client/src:/app/src/
+  server:
+    environment:
+      DATABASE_URL: postgresql://jirateuser:jiratepassword@db:5432/jirate_database_development
+    build: .
+    ports:
+      - 8000:8000
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+    environment:
+      POSTGRES_USER: jirateuser
+      POSTGRES_PASSWORD: jiratepassword
+      POSTGRES_DB: jirate_database_development
+    ports:
+      - 5432:5432
