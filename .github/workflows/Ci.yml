@@ -30,7 +30,7 @@ jobs:
       run: yarn install --frozen-lockfile
     - name: Integration testing
       run: |
-        yarn prisma db push
+        yarn prisma migrate dev
         yarn test
       env:
         DATABASE_URL: postgresql://ciUser:ciPassword@localhost:5432/test
