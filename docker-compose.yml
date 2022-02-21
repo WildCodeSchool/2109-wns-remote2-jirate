@@ -11,7 +11,7 @@ services:
       - ./client/src:/app/src/
   server:
     environment:
-      DATABASE_URL: postgresql://usertests:userpass@db:5432/jirate_database_development
+      DATABASE_URL: postgresql://jirateuser:jiratepassword@db:5432/jirate_database_development
       NODE_ENV: development
     build: .
     ports:
@@ -28,8 +28,8 @@ services:
       retries: 5
     restart: always
     environment:
-      POSTGRES_USER: usertests
-      POSTGRES_PASSWORD: userpass
+      POSTGRES_USER: jirateuser
+      POSTGRES_PASSWORD: jiratepassword
       POSTGRES_DB: jirate_database_development
     ports:
       - 5432:5432

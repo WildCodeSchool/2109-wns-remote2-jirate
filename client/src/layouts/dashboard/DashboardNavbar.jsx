@@ -6,9 +6,6 @@ import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 // components
 import MHidden from '../../components/utils/MHidden/MHidden';
 
-// Import Icons
-import TranslateOutlinedIcon from '@mui/icons-material/TranslateOutlined';
-
 import LanguagePopover from './LanguagePopover';
 // import NotificationsPopover from './NotificationsPopover';
 
@@ -47,7 +44,6 @@ const DashboardNavbar = ({ onOpenSidebar }) => {
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
           <LanguagePopover />
           {/* <NotificationsPopover /> */}
-          <TranslateOutlinedIcon />
         </Stack>
       </ToolbarStyle>
     </RootStyle>
