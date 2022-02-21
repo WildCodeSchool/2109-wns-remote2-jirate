@@ -9,6 +9,11 @@ const sidebarConfig = [
     icon: <DashboardOutlinedIcon />
   },
   {
+    title: 'Projects',
+    path: '/dashboard/projects',
+    icon: <DashboardOutlinedIcon />
+  },
+  {
     title: 'settings',
     path: '/dashboard/settings',
     icon: <SettingsOutlinedIcon />
