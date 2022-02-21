@@ -4,7 +4,7 @@ WORKDIR /app
 
 RUN apk update && apk add bash
 
-COPY package*.json ./
+COPY package.json ./
 COPY yarn.lock  ./
 
 COPY .env ./.env
@@ -21,7 +21,7 @@ COPY jest.config.js ./jest.config.js
 
 COPY prisma ./prisma
 COPY codegen.yml ./codegen.yml
-RUN yarn install
+RUN yarn  --pure-lockfile
 
 RUN yarn generate
 
