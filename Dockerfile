@@ -1,8 +1,11 @@
-FROM node:lts-alpine
+#FROM node:lts-alpine
+FROM node:16-slim
 
 WORKDIR /app
 
-RUN apk update && apk add bash
+#RUN apk update && apk add bash
+RUN apt-get update
+RUN apt-get install -y openssl
 
 COPY package*.json ./
 COPY yarn.lock  ./
