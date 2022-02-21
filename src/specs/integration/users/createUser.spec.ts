@@ -14,7 +14,7 @@ const CREATE_USER_MUTATION = gql`
   }
 `;
 
-describe('tests', () => {
+describe('Create a new user', () => {
   let server: ApolloServer;
 
   beforeAll(() => {
@@ -32,11 +32,11 @@ describe('tests', () => {
   });
 
   afterAll(async () => {
-    prismaContext.prisma.user.deleteMany();
+    await prismaContext.prisma.user.deleteMany({ where: { email: 'johndoe@gmail.com' } });
     await prismaContext.prisma.$disconnect();
   });
 
-  it('should pass', async () => {
+  it('should create new user', async () => {
     const mockUser: CreateUserInput = {
       firstname: 'John',
       lastname: 'Doe',
@@ -52,9 +52,8 @@ describe('tests', () => {
     expect(res.data).toBeDefined();
     expect(res?.data?.createUser).toBeDefined();
     const createUser = res?.data?.createUser;
-    console.log(createUser);
-    // expect(createUser.firstname).toBe(mockUser.firstname);
-    // expect(createUser.lastname).toBe(mockUser.lastname);
-    // expect(createUser.email).toBe(mockUser.email);
+    expect(createUser.firstname).toBe(mockUser.firstname);
+    expect(createUser.lastname).toBe(mockUser.lastname);
+    expect(createUser.email).toBe(mockUser.email);
   });
 });

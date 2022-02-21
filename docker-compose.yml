@@ -12,6 +12,7 @@ services:
   server:
     environment:
       DATABASE_URL: postgresql://usertests:userpass@db:5432/jirate_database_development
+      NODE_ENV: development
     build: .
     ports:
       - 8000:8000
