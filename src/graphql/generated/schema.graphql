@@ -62,7 +62,7 @@ type Mutation {
   createProject(input: CreateProjectInput): Project
 
   """Delete project"""
-  deleteProject(input: DeleteProjectInput): Project
+  deleteProject( input: DeleteProjectInput): Project
 }
 
 """Create user input"""
