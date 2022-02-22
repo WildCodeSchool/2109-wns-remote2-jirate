@@ -22,5 +22,7 @@ export const createUser = async (firstname: string, lastname: string, email: str
       password: hashedPassword,
     },
   });
-  return { token: sign({ userId: user.id }, '121FfpfGJJU8Cff4GGSfVRT45CQZ3379D3D'), user };
+
+  return user;
+  // token: sign({ userId: user.id }, '121FfpfGJJU8Cff4GGSfVRT45CQZ3379D3D'),
 };
