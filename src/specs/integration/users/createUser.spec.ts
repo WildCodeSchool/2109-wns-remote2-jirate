@@ -32,15 +32,16 @@ describe('Create a new user', () => {
   });
 
   afterAll(async () => {
-    await prismaContext.prisma.user.deleteMany({ where: { email: 'johndoe@gmail.com' } });
+    await prismaContext.prisma.user.deleteMany();
     await prismaContext.prisma.$disconnect();
   });
 
   it('should create new user', async () => {
+
     const mockUser: CreateUserInput = {
       firstname: 'John',
       lastname: 'Doe',
-      email: 'johndoe@gmail.com',
+      email: 'johndoe@example.com',
       password: 'yes56',
     };
 
@@ -48,6 +49,7 @@ describe('Create a new user', () => {
       query: CREATE_USER_MUTATION,
       variables: { input: mockUser },
     });
+
 
     expect(res.data).toBeDefined();
     expect(res?.data?.createUser).toBeDefined();

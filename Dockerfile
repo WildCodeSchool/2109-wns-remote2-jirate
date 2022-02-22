@@ -21,7 +21,7 @@ COPY jest.config.js ./jest.config.js
 
 COPY prisma ./prisma
 COPY codegen.yml ./codegen.yml
-RUN yarn  --pure-lockfile
+RUN yarn
 
 RUN yarn generate
 

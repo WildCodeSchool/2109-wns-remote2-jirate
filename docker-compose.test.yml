@@ -1,15 +1,15 @@
 version: '3'
 services:
   mock-db:
-    image: postgres:13.2
+    image: postgres:latest
     environment:
       - POSTGRES_PASSWORD=password
+    restart: always
   test-api:
     build: .
-    command: npm test
+    command: yarn test
     depends_on:
       - mock-db
     tty: true
-    environment:
-      - NODE_ENV=test
-      - DATABASE_URL=postgresql://postgres:password@mock-db:5432/jirate_database_test
+    env_file:
+      - .env.test
