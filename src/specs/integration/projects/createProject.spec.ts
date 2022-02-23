@@ -32,10 +32,10 @@ describe('Create a new project', () => {
 
   beforeEach(async () => {
     const mockUser: CreateUserInput = {
-      firstname: 'John',
-      lastname: 'Doe',
-      email: 'johndoe@example.com',
-      password: 'yes56',
+      firstname: 'Harry',
+      lastname: 'Potter',
+      email: 'harrypotter@example.com',
+      password: 'poudlard',
     };
 
     await prismaContext.prisma.user.create({
@@ -63,19 +63,14 @@ describe('Create a new project', () => {
       variables: { input: mockProject },
     });
 
-    console.log(res);
-
     expect(res.data).toBeDefined();
     expect(res?.data?.createProject).toBeDefined();
     const createProjectData = res?.data?.createProject;
-    console.log(createProjectData);
     expect(createProjectData.name).toBe(mockProject.name);
 
     const userData = await prismaContext.prisma.user.findMany({ where: { id: createProjectData.userId } });
 
-    console.log(userData);
-
-    // expect(userData.length).toBe(1);
+    expect(userData.length).toBe(1);
     expect(userData[0].firstname).toBe('Harry');
     expect(userData[0].lastname).toBe('Potter');
   });
