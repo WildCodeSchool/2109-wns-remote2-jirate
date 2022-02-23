@@ -7,7 +7,7 @@ import DashboardLayout from '../../layouts/dashboard';
 import Project from '../../components/pages/Project/Project';
 import Error404 from '../../components/pages/Error404/Error404';
 import HomePage from '../../components/pages/HomePage/HomePage';
-import Login from "../../components/pages/Login/Login"
+import Login from '../../components/pages/Login/Login';
 
 const Router = () => {
   return useRoutes([
@@ -18,13 +18,13 @@ const Router = () => {
         { element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <HomePage /> },
         { path: 'projects', element: <Project /> },
-        { path: 'login', element: <Login /> },
       ],
     },
     {
       path: '/',
-      element: null,
+      // element: null,
       children: [
+        { path: 'login', element: <Login /> },
         //     { path: 'register', element: <Register /> },
         { path: '404', element: <Error404 /> },
         { path: '/', element: <Navigate to="/dashboard" /> },
