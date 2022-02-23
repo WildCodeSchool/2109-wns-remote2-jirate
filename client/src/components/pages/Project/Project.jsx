@@ -55,7 +55,7 @@ const Project = () => {
     setOpen(true);
   };
 
-  if (error) return <BasicModal />;
+  if (error) return <p>Error :(</p>;
 
   return (
     <Container>
@@ -64,9 +64,7 @@ const Project = () => {
           Projects
         </Typography>
 
-        
         <BasicModal />
-        
       </Stack>
       {loading ? (
         <TableComponentLoading headCells={headCells} />
