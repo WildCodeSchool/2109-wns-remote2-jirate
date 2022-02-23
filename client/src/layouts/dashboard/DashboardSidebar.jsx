@@ -12,7 +12,7 @@ import Logo from '../../assets/images/Logo-jirate.png';
 
 import sidebarConfig from './SidebarConfig';
 
-const DRAWER_WIDTH = 280;
+const DRAWER_WIDTH = 250;
 
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {

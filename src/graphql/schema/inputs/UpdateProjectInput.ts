@@ -1,9 +1,13 @@
 import { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
 
-const CreateProjectInput: GraphQLInputObjectType = new GraphQLInputObjectType({
-  name: 'CreateProjectInput',
-  description: 'Create user input',
+const UpdateProjectInput: GraphQLInputObjectType = new GraphQLInputObjectType({
+  name: 'UpdateProjectInput',
+  description: 'Update user input',
   fields: {
+    id: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'The project id',
+    },
     name: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'The project name',
@@ -19,4 +23,4 @@ const CreateProjectInput: GraphQLInputObjectType = new GraphQLInputObjectType({
   },
 });
 
-export default CreateProjectInput;
+export default UpdateProjectInput;
