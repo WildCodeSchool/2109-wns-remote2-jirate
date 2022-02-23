@@ -4,10 +4,6 @@ const CreateProjectInput: GraphQLInputObjectType = new GraphQLInputObjectType({
   name: 'CreateProjectInput',
   description: 'Create user input',
   fields: {
-    id: {
-      type: new GraphQLNonNull(GraphQLString),
-      description: 'The project id',
-    },
     name: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'The project name',
