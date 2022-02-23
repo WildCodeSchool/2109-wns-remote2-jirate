@@ -15,3 +15,5 @@ const passwordFields = {
 }
 
 export const LoginSchema = object().shape({...emailFields, ...passwordFields})
+
+

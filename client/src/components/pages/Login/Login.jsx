@@ -5,7 +5,13 @@ import { styled } from '@mui/material/styles'
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import Link from "@mui/material/Link"
+import LoginForm from "./LoginForm"
 
+const content = {
+    title: 'Connexion',
+    register: 'Tu n\'as pas encore de compte ?',
+    register2: 'Inscris-toi'
+}
 
 const ContentStyle = styled('div')(({ theme }) => ({
     maxWidth: 480,
@@ -20,28 +26,19 @@ const ContentStyle = styled('div')(({ theme }) => ({
 const Login = () => {
     return (
         <>
+                {content.register} &nbsp;
+            <Link underline="none" variant="subtitle2" component={RouterLink} to="/register">
+                {content.register2}
+            </Link>
+
             <Container maxWidth="sm">
                 <ContentStyle>
-                    <Stack sx={{ mb: 5 }}>
-                        <Typography variant="h4" gutterBottom>
-                            Sign in to Minimal
+                    <Stack sx={{ mb: 3 }}>
+                        <Typography variant="h4" gutterBottom align="center" >
+                            {content.title}
                         </Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>Enter your details below.</Typography>
                     </Stack>
-
-                    <Typography
-                        variant="body2"
-                        align="center"
-                        sx={{
-                            mt: 3,
-                            display: { sm: 'none' }
-                        }}
-                    >
-                        Don’t have an account?&nbsp;
-                        <Link variant="subtitle2" component={RouterLink} to="register" underline="hover">
-                            Get started
-                        </Link>
-                    </Typography>
+                    <LoginForm />
                 </ContentStyle>
             </Container>
         </>

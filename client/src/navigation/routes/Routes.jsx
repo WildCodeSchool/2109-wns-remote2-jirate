@@ -18,13 +18,13 @@ const Router = () => {
         { element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <HomePage /> },
         { path: 'projects', element: <Project /> },
+        { path: 'login', element: <Login /> },
       ],
     },
     {
       path: '/',
       element: null,
       children: [
-          { path: 'login', element: <Login /> },
         //     { path: 'register', element: <Register /> },
         { path: '404', element: <Error404 /> },
         { path: '/', element: <Navigate to="/dashboard" /> },
