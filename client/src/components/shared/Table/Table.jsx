@@ -47,7 +47,7 @@ const applySortFilter = (array, comparator, query) => {
   return stabilizedThis.map(el => el[0]);
 };
 
-const TableComponent = ({ projects, headCells, handleDelete }) => {
+const TableComponent = ({ projects, headCells, handleDelete, handleEdit }) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('date');
   const [selected, setSelected] = useState([]);
@@ -150,7 +150,7 @@ const TableComponent = ({ projects, headCells, handleDelete }) => {
                     <TableCell align="left">1</TableCell>
                     <TableCell align="left">{user.firstname}</TableCell>
                     <TableCell align="right">
-                      <BtnEdit>
+                      <BtnEdit onClick={() => handleEdit(id, name)}>
                         <EditIcon />
                       </BtnEdit>
                       <BtnDelete onClick={() => handleDelete(name, id)}>
