@@ -11,7 +11,12 @@ services:
       - ./client/src:/app/src/
   server:
     environment:
+<<<<<<< HEAD
       DATABASE_URL: postgresql://jirateuser:jiratepassword@db:5432/jirate_database_development?connect_timeout=300
+=======
+      DATABASE_URL: postgresql://jirateuser:jiratepassword@db:5432/jirate_database_development
+      NODE_ENV: development
+>>>>>>> origin/dev
     build: .
     ports:
       - 8000:8000
@@ -32,3 +37,15 @@ services:
       POSTGRES_DB: jirate_database_development
     ports:
       - 5432:5432
+  prisma-studio:
+    image: timothyjmiller/prisma-studio:latest
+    environment:
+      POSTGRES_URL: postgresql://jirateuser:jiratepassword@db:5432/jirate_database_development
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+     - .env
+    ports:
+      - 5555:5555

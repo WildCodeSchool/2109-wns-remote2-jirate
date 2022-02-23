@@ -22,3 +22,8 @@ export const getProjectsByUser = async (userId: string): Promise<Project[]> => {
 export const deleteProjectById = async (id: string): Promise<Project> => {
   return prismaContext.prisma.project.delete({ where: { id } });
 };
+
+export const updateProjectById = async (id: string, name: string, token: string, userId: string): Promise<Project> => {
+  const project = prismaContext.prisma.project.update({ where: { id }, data: { name, token, userId } });
+  return project;
+};
