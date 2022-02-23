@@ -8,6 +8,7 @@ import { Container, Stack, Typography, Button } from '@mui/material';
 import TableComponent from '../../shared/Table/Table';
 import TableComponentLoading from '../../shared/Table/TableLoading';
 import ModalError from '../../shared/ModalError/ModalError';
+import BasicModal from '../../shared/Modal/BasicModal';
 
 const GET_PROJECTS = gql`
   query GetProjects {
@@ -22,17 +23,17 @@ const GET_PROJECTS = gql`
   }
 `;
 
-const ButtonCreate = styled(Button)(() => ({
-  backgroundColor: '#000000',
-  color: '#ffffff',
-  width: '180px',
-  height: '52px',
-  borderRadius: '5px',
-  '&:hover': {
-    backgroundColor: '#000000',
-    color: '#fffffff',
-  },
-}));
+// const ButtonCreate = styled(Button)(() => ({
+//   backgroundColor: '#000000',
+//   color: '#ffffff',
+//   width: '180px',
+//   height: '52px',
+//   borderRadius: '5px',
+//   '&:hover': {
+//     backgroundColor: '#000000',
+//     color: '#fffffff',
+//   },
+// }));
 
 const headCells = [
   { id: 'name', label: 'Name', alignRight: false },
@@ -54,7 +55,7 @@ const Project = () => {
     setOpen(true);
   };
 
-  if (error) return <p>Error :(</p>;
+  if (error) return <BasicModal />;
 
   return (
     <Container>
@@ -62,7 +63,10 @@ const Project = () => {
         <Typography variant="h3" component="h3" gutterBottom>
           Projects
         </Typography>
-        <ButtonCreate>Create Project</ButtonCreate>
+
+        
+        <BasicModal />
+        
       </Stack>
       {loading ? (
         <TableComponentLoading headCells={headCells} />
