@@ -85,12 +85,14 @@ const main = async () => {
   }
 };
 
-main()
-  .catch(e => {
-    /* eslint no-console: ["error", { allow: ["error"] }] */
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+if (process.env.NODE_ENV === 'development') {
+  main()
+    .catch(e => {
+      /* eslint no-console: ["error", { allow: ["error"] }] */
+      console.error(e);
+      process.exit(1);
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}
