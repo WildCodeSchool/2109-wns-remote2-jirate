@@ -59,7 +59,9 @@ export const createUser = async (firstname: string, lastname: string, email: str
 };
 
 export const SignIn = async (email: string, password: string): Promise<String | any> => {
-  const user: Promise<User[]> = prismaContext.prisma.user.findMany({ where: { email: email } });
+  console.log(email, password);
+
+  const user = await prismaContext.prisma.user.findUnique({ where: { email: email } });
 
   console.log(user);
   // if no user is found, throw an authentication error
@@ -68,17 +70,17 @@ export const SignIn = async (email: string, password: string): Promise<String | 
   } else {
     // if the passwords don't match, throw an authentication error
 
-    console.log(password, user[0].password);
-    const valid = await bcrypt.compare(password, user[0].password);
+    console.log(password, user.password);
+    const valid = bcrypt.compare(password, user.password);
 
     console.log(valid);
 
     if (!valid) {
       throw new ApolloError('Password does not match.', '400');
     } else {
-      // create and return the json web token
+      // create and return the json web tokenx
       return {
-        token: sign({ userId: user[0].id }, '121FfpfGJJU8Cff4GGSfVRT45CQZ3379D3D'),
+        token: sign({ userId: user.id }, '121FfpfGJJU8Cff4GGSfVRT45CQZ3379D3D'),
       };
     }
   }
