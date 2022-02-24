@@ -3,7 +3,6 @@ import LogoJirate from '../../assets/images/Logo-jirate.png'
 import PropTypes from 'prop-types';
 import Box from "@mui/material/Box";
 
-
 const Logo = ({sx}) => {
     return (
         <>
