@@ -8,13 +8,12 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { useForm } from 'react-hook-form';
-import { LoginSchema } from '../../utils/Validation/validation';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Icon from '@mui/material/Icon';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import {LoginSchema} from "../../utils/Validation/validation";
 
 const content = {
   email: 'Email',
@@ -22,10 +21,6 @@ const content = {
   login: 'Se connecter',
   forgotPassword: 'Mot de passe oublié ?',
   rememberMe: 'Se souvenir de moi',
-};
-
-const Iconify = ({ icon, sx, ...other }) => {
-  return <Box component={Icon} icon={icon} sx={{ ...sx }} {...other} />;
 };
 
 const LoginForm = () => {
@@ -74,7 +69,7 @@ const LoginForm = () => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={handleShowPassword} edge="end">
-                    <Iconify  icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -96,9 +91,5 @@ const LoginForm = () => {
   );
 };
 
-Iconify.propTypes = {
-  icon: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-  sx: PropTypes.object,
-};
 
 export default LoginForm;
