@@ -4,6 +4,7 @@ import createProjectMutation from '../resolvers/mutation/Project/createProjectMu
 import deleteProjectMutation from '../resolvers/mutation/Project/deleteProjectMutation';
 import updateProjectMutation from '../resolvers/mutation/Project/updateProjectMutation';
 import signInUserMutation from '../resolvers/mutation/User/signInUserMutation';
+import deleteProjectsMutation from '../resolvers/mutation/Project/deleteProjectsMutation';
 
 const mutationType: GraphQLObjectType = new GraphQLObjectType({
   name: 'Mutation',
@@ -12,7 +13,8 @@ const mutationType: GraphQLObjectType = new GraphQLObjectType({
     createProject: createProjectMutation,
     deleteProject: deleteProjectMutation,
     updateProject: updateProjectMutation,
-    signInUser: signInUserMutation
+    signInUser: signInUserMutation,
+    deleteProjects: deleteProjectsMutation,
   },
 });
 

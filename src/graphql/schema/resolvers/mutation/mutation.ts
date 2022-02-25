@@ -3,6 +3,7 @@ import { signInUserMutationResolver } from '@src/graphql/schema/resolvers/mutati
 import { createProjectMutationResolver } from '@src/graphql/schema/resolvers/mutation/Project/createProjectMutation';
 import { deleteProjectMutationResolver } from '@src/graphql/schema/resolvers/mutation/Project/deleteProjectMutation';
 import { updateProjectMutationResolver } from '@src/graphql/schema/resolvers/mutation/Project/updateProjectMutation';
+import { deleteProjectsMutationResolver } from '@src/graphql/schema/resolvers/mutation/Project/deleteProjectsMutation';
 
 const mutation = {
   createUser: {
@@ -19,6 +20,9 @@ const mutation = {
   },
   updateProject: {
     resolve: updateProjectMutationResolver,
+  },
+  deleteProjects: {
+    resolve: deleteProjectsMutationResolver,
   },
 };
 
