@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as dev
 # FROM node:16-slim
 
 WORKDIR /app
@@ -27,5 +27,3 @@ COPY codegen.yml ./codegen.yml
 RUN yarn
 
 RUN yarn generate
-
-CMD [ "yarn", "dev" ]

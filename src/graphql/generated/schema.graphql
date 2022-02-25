@@ -25,6 +25,9 @@ type User {
 
   """list of authors books"""
   projects: [Project]
+
+  """user token"""
+  token: String
 }
 
 """A project"""

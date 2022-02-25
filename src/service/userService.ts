@@ -15,47 +15,36 @@ export const getUserById = async (id: string): Promise<User | null> => {
 };
 
 export const createUser = async (firstname: string, lastname: string, email: string, password: string): Promise<User | any> => {
-  // const user = await prismaContext.prisma.user.findMany({ where: { email: email } });
+  const user = await prismaContext.prisma.user.findMany({ where: { email: email } });
 
-  // if (user) {
-  //   throw new ApolloError('Email is already taken', '400');
-  // } else {
-  //   const newUser = await prismaContext.prisma.user.create({
-  //     data: {
-  //       firstname,
-  //       lastname,
-  //       email,
-  //       password,
-  //     },
-  //   });
+  if (user.length !== 0) {
+    throw new ApolloError('Email is already taken', '400');
+  } else {
+    const newUser = await prismaContext.prisma.user.create({
+      data: {
+        firstname,
+        lastname,
+        email,
+        password,
+      },
+    });
 
-  //   bcrypt.genSalt(10, (err, salt) => {
-  //     bcrypt.hash(newUser.password, salt, (err, hash) => {
-  //       if (err) throw new ApolloError('Error generate hash password', '400');
-  //       const res = prismaContext.prisma.user.update({
-  //         where: {
-  //           email: newUser.email,
-  //         },
-  //         data: {
-  //           password: hash,
-  //         },
-  //       });
-  //     });
-  //   });
-  // }
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(newUser.password, salt, (err, hash) => {
+        if (err) throw new ApolloError('Error generate hash password', '400');
+        prismaContext.prisma.user.update({
+          where: {
+            email: newUser.email,
+          },
+          data: {
+            password: hash,
+          },
+        });
 
-  const hashedPassword = await hash(password, 10);
-  const user = await prismaContext.prisma.user.create({
-    data: {
-      firstname,
-      lastname,
-      email,
-      password: hashedPassword,
-    },
-  });
-
-  return user;
-  // token: sign({ userId: user.id }, '121FfpfGJJU8Cff4GGSfVRT45CQZ3379D3D'),
+        return newUser; // change return result
+      });
+    });
+  }
 };
 
 export const SignIn = async (email: string, password: string): Promise<String | any> => {
@@ -63,15 +52,16 @@ export const SignIn = async (email: string, password: string): Promise<String | 
 
   const user = await prismaContext.prisma.user.findUnique({ where: { email: email } });
 
-  console.log(user);
   // if no user is found, throw an authentication error
   if (!user) {
     throw new ApolloError('User not found', '400');
   } else {
     // if the passwords don't match, throw an authentication error
 
-    console.log(password, user.password);
+    console.log('1, 2')
+
     const valid = bcrypt.compare(password, user.password);
+
 
     console.log(valid);
 
