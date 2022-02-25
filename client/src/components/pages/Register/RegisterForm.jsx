@@ -1,37 +1,39 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import { useForm, Controller } from 'react-hook-form';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import {styledButton} from "./RegisterStyle";
+import { yupResolver } from '@hookform/resolvers/yup';
+import {registerSchema} from "../../utils/Validation/validation";
 
 const content = {
+    firstname: 'Prénom',
+    lastname: 'Nom',
     email: 'Email',
     password: 'Mot de passe',
-    login: 'Se connecter',
-    forgotPassword: 'Mot de passe oublié ?',
-    rememberMe: 'Se souvenir de moi',
+    confirmPassword: 'Vérification du mot de passe',
+    register: 'S\'inscrire',
+    regulation: 'J\'ai lu et j\'accepte la politique de confidentialité de JetBrains , ' +
+'les conditions d\'achat , le contrat de compte JetBrains et les conditions d\'utilisation.'
 };
 
 const RegisterForm = (props) => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
 
-
     const handleShowPassword = () => {
         setShowPassword(show => !show);
     };
     const onSubmitt = (data) => {
         console.log(data)
+        resolver: yupResolver(registerSchema)
         navigate('/dashboard', {replace: true});
     }
 
@@ -41,6 +43,7 @@ const RegisterForm = (props) => {
         register,
         formState: { errors },
     } = useForm({
+        resolver: yupResolver(registerSchema),
         mode: 'onBlur',
         reValidateMode: 'onBlur',
         shouldFocusError: false,
@@ -54,6 +57,48 @@ const RegisterForm = (props) => {
         <>
             <form autoComplete="off" noValidate onSubmit={handleSubmit}>
                 <Stack spacing={3}>
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <Controller
+                        name="firstname"
+                        control={control}
+                        render={({field: {onChange, onBlur, value, ref}}) => (
+                            <TextField
+                                variant="standard"
+                                autoComplete="username"
+                                {...register("firstname")}
+                                control={control}
+                                onChange={onChange}
+                                onBlur={onBlur}
+                                value={value}
+                                ref={ref}
+                                error={!!errors.firstname}
+                                fullWidth
+                                label={content.firstname}
+                                helperText={errors.firstname && errors.firstname?.message}
+                            />
+                        )}
+                    />
+                        <Controller
+                            name="lastname"
+                            control={control}
+                            render={({field: {onChange, onBlur, value, ref}}) => (
+                                <TextField
+                                    variant="standard"
+                                    autoComplete="username"
+                                    {...register("lastname")}
+                                    control={control}
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                    value={value}
+                                    ref={ref}
+                                    error={!!errors.lastname}
+                                    fullWidth
+                                    label={content.lastname}
+                                    helperText={errors.lastname && errors.lastname?.message}
+                                />
+                            )}
+                        />
+                    </Stack>
                     <Controller
                         name="email"
                         control={control}
@@ -105,12 +150,36 @@ const RegisterForm = (props) => {
                             />
                         )}
                     />
-                </Stack>
-                <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-                    <FormControlLabel control={<Checkbox />} label={content.rememberMe} />
-                    <Link component={RouterLink} variant="subtitle2" to="#" underline="hover">
-                        {content.forgotPassword}
-                    </Link>
+                    <Controller
+                        name="confirmPassword"
+                        control={control}
+                        render={({field: {onChange, onBlur, value, ref}}) => (
+                            <TextField
+                                variant="standard"
+                                error={!!errors.confirmPassword}
+                                control={control}
+                                onChange={onChange}
+                                onBlur={onBlur}
+                                value={value}
+                                ref={ref}
+                                {...register("confirmPassword")}
+                                fullWidth
+                                type={showPassword ? 'text' : 'password'}
+                                autoComplete="current-password"
+                                label={content.confirmPassword}
+                                helperText={errors.confirmPassword && errors.confirmPassword?.message}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton onClick={handleShowPassword} edge="end">
+                                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        )}
+                    />
                 </Stack>
                 <Stack spacing={3} direction="row" justifyContent="center">
                     <Button fullWidth
@@ -119,7 +188,7 @@ const RegisterForm = (props) => {
                             variant="contained"
                             sx={{...styledButton}}
                             onClick={handleSubmit(onSubmitt)}>
-                        {content.login}
+                        {content.register}
                     </Button>
                 </Stack>
             </form>
@@ -128,6 +197,11 @@ const RegisterForm = (props) => {
 };
 
 RegisterForm.propTypes = {
+    firstname: PropTypes.string,
+    lastname: PropTypes.string,
+    email: PropTypes.string,
+    password: PropTypes.string,
+    confirmPassword: PropTypes.string
 };
 
 export default RegisterForm;
