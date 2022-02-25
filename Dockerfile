@@ -27,3 +27,4 @@ COPY codegen.yml ./codegen.yml
 RUN yarn
 
 RUN yarn generate
+

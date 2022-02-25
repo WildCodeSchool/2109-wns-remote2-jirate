@@ -20,30 +20,18 @@ export const createUser = async (firstname: string, lastname: string, email: str
   if (user.length !== 0) {
     throw new ApolloError('Email is already taken', '400');
   } else {
+    const hashedPassword = await hash(password, 10);
+
     const newUser = await prismaContext.prisma.user.create({
       data: {
         firstname,
         lastname,
         email,
-        password,
+        password: hashedPassword,
       },
     });
 
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(newUser.password, salt, (err, hash) => {
-        if (err) throw new ApolloError('Error generate hash password', '400');
-        prismaContext.prisma.user.update({
-          where: {
-            email: newUser.email,
-          },
-          data: {
-            password: hash,
-          },
-        });
-
-        return newUser; // change return result
-      });
-    });
+    return newUser;
   }
 };
 
@@ -58,12 +46,7 @@ export const SignIn = async (email: string, password: string): Promise<String | 
   } else {
     // if the passwords don't match, throw an authentication error
 
-    console.log('1, 2')
-
     const valid = bcrypt.compare(password, user.password);
-
-
-    console.log(valid);
 
     if (!valid) {
       throw new ApolloError('Password does not match.', '400');

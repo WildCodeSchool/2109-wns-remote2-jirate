@@ -6,7 +6,7 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
-    "dev": "yarn prisma migrate dev && nodemon",
+    "dev": "yarn prisma generate && yarn prisma migrate dev && nodemon",
     "start": "yarn prisma migrate dev && node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/src/index.js",
     "build": "tsc -p tsconfig.prod.json",
     "test": "yarn prisma migrate deploy && jest",
