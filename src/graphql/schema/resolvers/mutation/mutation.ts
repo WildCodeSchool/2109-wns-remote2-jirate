@@ -1,6 +1,8 @@
 import { createUserMutationResolver } from '@src/graphql/schema/resolvers/mutation/User/createUserMutation';
 import { createProjectMutationResolver } from '@src/graphql/schema/resolvers/mutation/Project/createProjectMutation';
 import { deleteProjectMutationResolver } from '@src/graphql/schema/resolvers/mutation/Project/deleteProjectMutation';
+import { updateProjectMutationResolver } from '@src/graphql/schema/resolvers/mutation/Project/updateProjectMutation';
+import { deleteProjectsMutationResolver } from '@src/graphql/schema/resolvers/mutation/Project/deleteProjectsMutation';
 
 const mutation = {
   createUser: {
@@ -11,6 +13,12 @@ const mutation = {
   },
   deleteProject: {
     resolve: deleteProjectMutationResolver,
+  },
+  updateProject: {
+    resolve: updateProjectMutationResolver,
+  },
+  deleteProjects: {
+    resolve: deleteProjectsMutationResolver,
   },
 };
 
