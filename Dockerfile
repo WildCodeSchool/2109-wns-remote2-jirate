@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as dev
 # FROM node:16-slim
 
 WORKDIR /app
@@ -28,4 +28,3 @@ RUN yarn
 
 RUN yarn generate
 
-CMD [ "yarn", "dev" ]

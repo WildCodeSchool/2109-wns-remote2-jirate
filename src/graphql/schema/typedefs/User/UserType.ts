@@ -29,6 +29,10 @@ const UserType: GraphQLObjectType = new GraphQLObjectType({
       type: GraphQLList(ProjectType),
       description: 'list of authors books',
     },
+    token: {
+      type: GraphQLString,
+      description: 'user token'
+    }
   }),
 });
 

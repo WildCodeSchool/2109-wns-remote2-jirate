@@ -25,6 +25,9 @@ type User {
 
   """list of authors books"""
   projects: [Project]
+
+  """user token"""
+  token: String
 }
 
 """A project"""
@@ -63,6 +66,12 @@ type Mutation {
 
   """Delete project"""
   deleteProject(input: DeleteProjectInput): Project
+
+  """Update project"""
+  updateProject(input: UpdateProjectInput): Project
+
+  """SignIn user"""
+  signInUser(input: SignInInput): User
 }
 
 """Create user input"""
@@ -82,9 +91,6 @@ input CreateUserInput {
 
 """Create user input"""
 input CreateProjectInput {
-  """The project id"""
-  id: String!
-
   """The project name"""
   name: String!
 
@@ -99,4 +105,28 @@ input CreateProjectInput {
 input DeleteProjectInput {
   """The project id"""
   id: String!
+}
+
+"""Update user input"""
+input UpdateProjectInput {
+  """The project id"""
+  id: String!
+
+  """The project name"""
+  name: String!
+
+  """The project token"""
+  token: String!
+
+  """The project userId"""
+  userId: String!
+}
+
+"""SignIn user input"""
+input SignInInput {
+  """The user email for signIn"""
+  email: String!
+
+  """The user password for signIn"""
+  password: String!
 }
