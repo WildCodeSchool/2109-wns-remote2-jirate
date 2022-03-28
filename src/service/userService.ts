@@ -36,7 +36,6 @@ export const createUser = async (firstname: string, lastname: string, email: str
 };
 
 export const SignIn = async (email: string, password: string): Promise<String | any> => {
-  console.log(email, password);
 
   const user = await prismaContext.prisma.user.findUnique({ where: { email: email } });
 
@@ -53,7 +52,7 @@ export const SignIn = async (email: string, password: string): Promise<String | 
     } else {
       // create and return the json web tokenx
       return {
-        token: sign({ userId: user.id }, '121FfpfGJJU8Cff4GGSfVRT45CQZ3379D3D'),
+        token: `Bearer ${sign({ userId: user.id }, '121FfpfGJJU8Cff4GGSfVRT45CQZ3379D3D', { expiresIn: '30d' })}`,
       };
     }
   }
