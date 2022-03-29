@@ -72,6 +72,9 @@ type Mutation {
 
   """SignIn user"""
   signInUser(input: SignInInput): User
+
+  """Delete project"""
+  deleteProjects(input: DeleteProjectsInput): Projects
 }
 
 """Create user input"""
@@ -129,4 +132,16 @@ input SignInInput {
 
   """The user password for signIn"""
   password: String!
+}
+
+"""An array of projects ids"""
+type Projects {
+  """id of projects"""
+  ids: [String]
+}
+
+"""Delete projects input"""
+input DeleteProjectsInput {
+  """The projects id"""
+  ids: [String]
 }
