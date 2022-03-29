@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/react-hooks';
+import { gql } from 'graphql-tag';
 
 const style = {
   position: 'absolute',
@@ -39,7 +40,7 @@ const ModalError = ({ isOpen, handleClose, projectName, id }) => {
   const handleValidateDelete = e => {
     e.preventDefault();
     if (inputValue === projectName) {
-      deleteProjectById({ variables: { input: {id: id} } });
+      deleteProjectById({ variables: { input: { id: id } } });
     }
   };
 
