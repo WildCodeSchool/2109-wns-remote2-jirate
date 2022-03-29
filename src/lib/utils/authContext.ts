@@ -12,7 +12,9 @@ const getUser = async (token: string): Promise<User | null> => {
 };
 
 const authContext = async req => {
-  const token = req.headers.authorization;
+  const header = req.req.headers.authorization;
+
+  const token = header.replace('Bearer ', '');
 
   return { user: await getUser(token) };
 };

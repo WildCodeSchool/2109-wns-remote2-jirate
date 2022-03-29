@@ -14,7 +14,7 @@ const startServer = () => {
   const apolloServerConfig = {
     schema,
     playground: process.env.NODE_ENV !== 'production',
-    context: ({ req }) => {
+    context: req => {
       prismaContext;
       authContext(req);
     },
