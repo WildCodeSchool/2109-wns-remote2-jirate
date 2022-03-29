@@ -1,10 +1,13 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as dev
+# FROM node:16-slim
 
 WORKDIR /app
 
 RUN apk update && apk add bash
+# RUN apt-get update
+# RUN apt-get install -y openssl
 
-COPY package*.json ./
+COPY package.json ./
 COPY yarn.lock  ./
 
 COPY .env ./.env
@@ -21,8 +24,7 @@ COPY jest.config.js ./jest.config.js
 
 COPY prisma ./prisma
 COPY codegen.yml ./codegen.yml
-RUN yarn install
+RUN yarn
 
 RUN yarn generate
 
-CMD [ "yarn", "dev" ]
