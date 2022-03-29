@@ -41,6 +41,7 @@ const ModalError = ({ isOpen, handleClose, projectName, id }) => {
     e.preventDefault();
     if (inputValue === projectName) {
       deleteProjectById({ variables: { input: {id} } });
+      window.location.href = "/dashboard/projects"
     }
   };
 
