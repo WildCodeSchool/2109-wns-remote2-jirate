@@ -51,6 +51,7 @@ const TableComponent = ({ projects, headCells, handleDelete }) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('date');
   const [selected, setSelected] = useState([]);
+  const [selectedId, setSelectedId] = useState([]);
   const [page, setPage] = useState(0);
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -74,7 +75,7 @@ const TableComponent = ({ projects, headCells, handleDelete }) => {
     setFilterName(event.target.value);
   };
 
-  const handleClick = (event, name) => {
+  const handleClick = (_, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
@@ -108,7 +109,7 @@ const TableComponent = ({ projects, headCells, handleDelete }) => {
 
   return (
     <Card>
-      <TableToolBar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+      <TableToolBar projectIds={selected} numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
       <Scrollbar>
         <TableContainer sx={{ minWidth: 800 }}>
           <Table>

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 
 import { useQuery, gql } from '@apollo/client';
-import { styled } from '@mui/material/styles';
-import { Container, Stack, Typography, Button } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 
 // Import components
 import TableComponent from '../../shared/Table/Table';
