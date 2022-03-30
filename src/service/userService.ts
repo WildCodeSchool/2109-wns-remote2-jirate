@@ -36,8 +36,6 @@ export const createUser = async (firstname: string, lastname: string, email: str
 };
 
 export const SignIn = async (email: string, password: string): Promise<String | any> => {
-  console.log(email, password);
-
   const user = await prismaContext.prisma.user.findUnique({ where: { email: email } });
 
   // if no user is found, throw an authentication error
@@ -52,8 +50,10 @@ export const SignIn = async (email: string, password: string): Promise<String | 
       throw new ApolloError('Password does not match.', '400');
     } else {
       // create and return the json web tokenx
+      const JWT_SECRET: string = process.env.JWT_SECRET || '';
+      
       return {
-        token: sign({ userId: user.id }, '121FfpfGJJU8Cff4GGSfVRT45CQZ3379D3D'),
+        token: sign({ id: user.id }, JWT_SECRET, { expiresIn: '5d' }),
       };
     }
   }

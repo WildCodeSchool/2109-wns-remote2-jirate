@@ -28,7 +28,6 @@ export const deleteProjectById = async (id: string): Promise<Project> => {
 };
 
 export const deleteProjectsById = async (ids: Array<string>): Promise<Count> => {
-  console.log(ids);
   return prismaContext.prisma.project.deleteMany({ where: { id: { in: ids } } });
 };
 

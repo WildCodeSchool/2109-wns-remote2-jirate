@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/react-hooks';
+import { gql } from 'graphql-tag';
 
 const style = {
   position: 'absolute',

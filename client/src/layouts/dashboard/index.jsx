@@ -32,7 +32,7 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function DashboardLayout() {
+const DashboardLayout = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -44,4 +44,6 @@ export default function DashboardLayout() {
       </MainStyle>
     </RootStyle>
   );
-}
+};
+
+export default DashboardLayout;
