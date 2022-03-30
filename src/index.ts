@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server-express';
 import { performAstCodegen } from '@src/codegen';
 import schema from '@src/graphql/schema/schema';
-import corsOptions from './config/corsOptions';
 import prismaContext from '@src/lib/prisma/prismaContext';
 import getUser from '@src/lib/utils/authContext';
 
@@ -32,7 +31,7 @@ const startServer = async () => {
 
   const app: express.Application = express();
 
-  server.applyMiddleware({ app, cors: corsOptions });
+  server.applyMiddleware({ app });
   app.listen({ port: 8000 }, () => {
     console.log(`🚀 Server ready at http://localhost:${8000}${server.graphqlPath}`);
   });
