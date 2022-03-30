@@ -11,7 +11,7 @@ export const updateProjectMutationResolver: GraphQLFieldResolver<unknown, IApoll
   _context,
   _info
 ): Promise<Project> => {
-  return updateProjectById(id, name, token, userId);
+  return updateProjectById(id, name, token, userId, description, limitCollaborators);
 };
 
 const updateProjectMutation: GraphQLFieldConfig<unknown, IApolloServerContext> = {

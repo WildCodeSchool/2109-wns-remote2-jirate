@@ -7,11 +7,11 @@ import CreateProjectInput from '@src/graphql/schema/inputs/CreateProjectInput';
 
 export const createProjectMutationResolver: GraphQLFieldResolver<unknown, IApolloServerContext> = async (
   _source,
-  { input: { name, token, userId } },
+  { input: { name, token, userId, description, limitCollaborators } },
   _context,
   _info
 ): Promise<Project> => {
-  return createProject(name, token, userId);
+  return createProject(name, token, userId, description, limitCollaborators);
 };
 
 const createProjectMutation: GraphQLFieldConfig<unknown, IApolloServerContext> = {
