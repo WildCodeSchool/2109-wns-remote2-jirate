@@ -18,7 +18,7 @@ const CreateProjectInput: GraphQLInputObjectType = new GraphQLInputObjectType({
     },
     limitCollaborators: {
       type: new GraphQLNonNull(GraphQLInt),
-      description: 'The project numbers of maximum Collaborators',
+      description: 'The project numbers of max collaborators',
     },
     userId: {
       type: new GraphQLNonNull(GraphQLString),
