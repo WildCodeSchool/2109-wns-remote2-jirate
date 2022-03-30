@@ -9,6 +9,9 @@ const CREATE_USER_MUTATION = gql`
     createProject(input: $input) {
       name
       userId
+      token
+      description
+      limitCollaborators
     }
   }
 `;
