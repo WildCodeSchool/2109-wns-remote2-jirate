@@ -11,7 +11,7 @@ export const createProjectMutationResolver: GraphQLFieldResolver<unknown, IApoll
   _context,
   _info
 ): Promise<Project> => {
-  return createProject(name, token, userId, description, limitCollaborators);
+  return createProject(name, token, userId, description, limitCollaborators); // add token logic for users
 };
 
 const createProjectMutation: GraphQLFieldConfig<unknown, IApolloServerContext> = {
