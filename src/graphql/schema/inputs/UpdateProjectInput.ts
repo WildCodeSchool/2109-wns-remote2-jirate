@@ -1,4 +1,4 @@
-import { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
+import { GraphQLInputObjectType, GraphQLNonNull, GraphQLString, GraphQLInt } from 'graphql';
 
 const UpdateProjectInput: GraphQLInputObjectType = new GraphQLInputObjectType({
   name: 'UpdateProjectInput',
@@ -15,6 +15,14 @@ const UpdateProjectInput: GraphQLInputObjectType = new GraphQLInputObjectType({
     token: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'The project token',
+    },
+    description: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'The project description',
+    },
+    limitCollaborators: {
+      type: new GraphQLNonNull(GraphQLInt),
+      description: 'The project limitCollaborators',
     },
     userId: {
       type: new GraphQLNonNull(GraphQLString),
