@@ -1,5 +1,5 @@
 import { ApolloServer, gql } from 'apollo-server';
-import { CreateProjectInput, CreateUserInput } from '@src/graphql/generated/graphql';
+import { CreateUserInput } from '@src/graphql/generated/graphql';
 import prismaContext from '@src/lib/prisma/prismaContext';
 import schema from '@src/graphql/schema/schema';
 import { IApolloServerContext } from '@src/lib/interfaces/IApolloServerContext';
