@@ -56,6 +56,8 @@ describe('Create a new project', () => {
       name: 'John',
       token: 'akfjp334ddpfejggr44D3FGG5',
       userId: user[0].id,
+      description: 'test',
+      limitCollaborators: 4
     };
 
     const res = await server.executeOperation({

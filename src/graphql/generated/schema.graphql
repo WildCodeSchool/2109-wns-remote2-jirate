@@ -109,7 +109,7 @@ input CreateProjectInput {
   """The project token"""
   description: String!
 
-  """The project numbers of maximum Collaborators"""
+  """The project numbers of max collaborators"""
   limitCollaborators: Int!
 
   """The project userId"""
