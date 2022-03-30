@@ -74,7 +74,7 @@ describe('Create a new project', () => {
     expect(createProjectData.name).toBe(mockProject.name);
     expect(createProjectData.token).toBe(mockProject.token);
     expect(createProjectData.token).toBe(mockProject.token);
-    expect(createProjectData.description.length).toBeGreaterThanOrEqual(mockProject.description.length);
+    expect(createProjectData.description.length).toBeGreaterThanOrEqual(mockProject.description.length); // TODO: should verify
     expect(createProjectData.limitCollaborators).toBe(mockProject.limitCollaborators);
 
     const userData = await prismaContext.prisma.user.findMany({ where: { id: createProjectData.userId } });
