@@ -3,13 +3,12 @@ import { ApolloLink, Observable } from 'apollo-link';
 import { withClientState } from 'apollo-link-state';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
-import { onError } from 'apollo-link-error';
 import state from './state';
 
 const SERVER_URL = "http://localhost:8000/graphql"
 const cache = new InMemoryCache({});
 
-const request = async (operation) => {
+const request = async operation => {
     const token = await localStorage.getItem('x-token');
     // set the token in the request header for authorization
     operation.setContext({
@@ -41,19 +40,10 @@ export const requestLink = new ApolloLink(
 );
 
 const link = ApolloLink.from([
-    onError(({ graphQLErrors, networkError }) => {
-        if (graphQLErrors) {
-            console.log('[graphQLErrors]', graphQLErrors);
-        }
-        if (networkError) {
-            console.log('[networkError]', networkError);
-        }
-    }),
     requestLink,
     withClientState(state(cache)),
     new HttpLink({
         uri: SERVER_URL,
-        // For server with different domain use "include"
         credentials: 'same-origin',
     }),
 ]);

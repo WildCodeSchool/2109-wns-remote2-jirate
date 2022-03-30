@@ -7,7 +7,7 @@ const useAuthUser = () => {
     const history = useNavigate();
 
     const setAuthUser = (token) => {
-        localStorage.setItem("x-token".token, token);
+        localStorage.setItem("x-token", token);
         history('/dashboard/app');
     };
 

@@ -1,16 +1,19 @@
 import jwt from 'jsonwebtoken';
 import express from 'express';
-import { User } from '@prisma/client';
 
-const getUser = (req: express.Request): any => {
+
+const getUser = (req: express.Request): string | null | object => {
   const token = req.headers.authorization || '';
+  const JWT_SECRET: string = process.env.JWT_SECRET || '';
 
   if (token) {
     const tokenValue = token.replace('Bearer ', '');
-    const user = jwt.verify(tokenValue, '121FfpfGJJU8Cff4GGSfVRT45CQZ3379D3D') as User;
+    const user = jwt.verify(tokenValue, JWT_SECRET);
+
     return user;
   }
-  //return await prismaContext.prisma.user.findUnique({ where: { id: userToken.id } });
+
+  return null;
 };
 
 export default getUser;

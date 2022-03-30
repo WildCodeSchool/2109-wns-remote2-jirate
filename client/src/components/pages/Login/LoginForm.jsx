@@ -38,12 +38,17 @@ const LOGIN = gql`
 
 const LoginForm = ({ email, password }) => {
   const { setAuthUser } = useAuthUser();
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [login, { loading, error, data }] = useMutation(LOGIN);
+  const [login, { loading, error, data: loginData }] = useMutation(LOGIN);
   const handleShowPassword = () => {
     setShowPassword(show => !show);
   };
+
+  React.useEffect(() => {
+    if (loginData) {
+    }
+  }, [loginData]);
+
   const onSubmitt = async data => {
     const { email, password } = data;
     console.log(data);
@@ -53,16 +58,15 @@ const LoginForm = ({ email, password }) => {
       },
     });
 
-    if (response) {
-      const token = response && response.data && response.data.login && response.data.login.token;
+    if (response) { 
+      console.log(response);
+      const token = response && response.data && response.data.signInUser && response.data.signInUser.token;
       if (token) {
         setAuthUser(token);
       }
     }
 
-    console.log(response);
     resolver: yupResolver(LoginSchema);
-    navigate('/dashboard', { replace: true });
   };
 
   const {
