@@ -41,6 +41,12 @@ type Project {
   """token of invite user"""
   token: String
 
+  """description of project"""
+  description: String
+
+  """description of project"""
+  limitCollaborators: Int
+
   """user of project"""
   user: User
 
@@ -103,7 +109,7 @@ input CreateProjectInput {
   """The project token"""
   description: String!
 
-  """The project token"""
+  """The project numbers of maximum Collaborators"""
   limitCollaborators: Int!
 
   """The project userId"""
