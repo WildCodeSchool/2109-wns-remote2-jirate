@@ -1,19 +1,19 @@
 import { ApolloServer, gql } from 'apollo-server';
-import { CreateProjectInput, CreateUserInput } from '@src/graphql/generated/graphql';
+import { CreateUserInput } from '@src/graphql/generated/graphql';
 import prismaContext from '@src/lib/prisma/prismaContext';
 import schema from '@src/graphql/schema/schema';
 import { IApolloServerContext } from '@src/lib/interfaces/IApolloServerContext';
 
-const CREATE_USER_MUTATION = gql`
-  mutation CreateProject($input: CreateProjectInput!) {
-    createProject(input: $input) {
+const DELETE_USER_MUTATION = gql`
+  mutation DeleteProject($input: DeleteProjectInput!) {
+    deleteProject(input: $input) {
       name
       userId
     }
   }
 `;
 
-describe('Create a new project', () => {
+describe('Delete a new project', () => {
   let server: ApolloServer;
 
   beforeAll(() => {
@@ -30,7 +30,7 @@ describe('Create a new project', () => {
     server = new ApolloServer(apolloServerConfig);
   });
 
-  beforeEach(async () => {
+   beforeEach(async () => {
     const mockUser: CreateUserInput = {
       firstname: 'Harry',
       lastname: 'Potter',
@@ -49,7 +49,7 @@ describe('Create a new project', () => {
     await prismaContext.prisma.$disconnect();
   });
 
-  it('should create new project', async () => {
+  it('should delete new project', async () => {
     const user = await prismaContext.prisma.user.findMany();
 
     const mockProject = {
@@ -59,16 +59,16 @@ describe('Create a new project', () => {
     };
 
     const res = await server.executeOperation({
-      query: CREATE_USER_MUTATION,
+      query: DELETE_USER_MUTATION,
       variables: { input: mockProject },
     });
 
     expect(res.data).toBeDefined();
-    expect(res?.data?.createProject).toBeDefined();
-    const createProjectData = res?.data?.createProject;
-    expect(createProjectData.name).toBe(mockProject.name);
+    expect(res?.data?.deleteProject).toBeDefined();
+    const deleteProjectData = res?.data?.deleteProject;
+    expect(deleteProjectData.name).toBe(mockProject.name);
 
-    const userData = await prismaContext.prisma.user.findMany({ where: { id: createProjectData.userId } });
+    const userData = await prismaContext.prisma.user.findMany({ where: { id: deleteProjectData.userId } });
 
     expect(userData.length).toBe(1);
     expect(userData[0].firstname).toBe('Harry');
