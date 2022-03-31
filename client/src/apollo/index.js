@@ -9,7 +9,7 @@ const SERVER_URL = "http://localhost:8000/graphql"
 const cache = new InMemoryCache({});
 
 const request = async operation => {
-    const token = await localStorage.getItem('x-token');
+    const token = await localStorage.getItem('jwt_token');
     // set the token in the request header for authorization
     operation.setContext({
         headers: {

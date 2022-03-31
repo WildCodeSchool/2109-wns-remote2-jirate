@@ -4,8 +4,11 @@ import bcrypt from 'bcryptjs';
 import { User } from '@prisma/client';
 import prismaContext from '@src/lib/prisma/prismaContext';
 import { ApolloError } from 'apollo-server-errors';
+import isAuth from '@src/lib/utils/authContext';
+import express from 'express';
 
-export const getAllUsers = async (): Promise<User[]> => {
+export const getAllUsers = async (req: express.Request): Promise<User[]> => {
+  isAuth(req);
   const users = await prismaContext.prisma.user.findMany();
   return users;
 };
@@ -51,7 +54,7 @@ export const SignIn = async (email: string, password: string): Promise<String | 
     } else {
       // create and return the json web tokenx
       const JWT_SECRET: string = process.env.JWT_SECRET || '';
-      
+
       return {
         token: sign({ id: user.id }, JWT_SECRET, { expiresIn: '5d' }),
       };

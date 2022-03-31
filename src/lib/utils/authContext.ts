@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
 import express from 'express';
 
-
-const getUser = (req: express.Request): string | null | object => {
+const isAuth = (req: express.Request, requireAuth = true): string | null | object => {
   const token = req.headers.authorization || '';
   const JWT_SECRET: string = process.env.JWT_SECRET || '';
 
@@ -13,7 +12,9 @@ const getUser = (req: express.Request): string | null | object => {
     return user;
   }
 
+  if (requireAuth) throw new Error('Login in to access resource');
+
   return null;
 };
 
-export default getUser;
+export default isAuth;

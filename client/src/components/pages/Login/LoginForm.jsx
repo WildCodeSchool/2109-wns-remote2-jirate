@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
@@ -19,6 +19,7 @@ import { LoginSchema } from '../../utils/Validation/validation';
 import PropTypes from 'prop-types';
 import { styledButton } from './LoginStyle';
 import useAuthUser from '../../../hooks/useAuthUser';
+import CurrentUserContext from '../../../contexts/currentUser';
 
 const content = {
   email: 'Email',
@@ -38,6 +39,8 @@ const LOGIN = gql`
 
 const LoginForm = ({ email, password }) => {
   const { setAuthUser } = useAuthUser();
+  const navigate = useNavigate();
+  const { isAuthenticated } = useContext(CurrentUserContext);
   const [showPassword, setShowPassword] = useState(false);
   const [login, { loading, error, data: loginData }] = useMutation(LOGIN);
   const handleShowPassword = () => {
@@ -45,9 +48,10 @@ const LoginForm = ({ email, password }) => {
   };
 
   React.useEffect(() => {
-    if (loginData) {
+    if (isAuthenticated) {
+      navigate('/dashboard');
     }
-  }, [loginData]);
+  });
 
   const onSubmitt = async data => {
     const { email, password } = data;
@@ -58,7 +62,7 @@ const LoginForm = ({ email, password }) => {
       },
     });
 
-    if (response) { 
+    if (response) {
       console.log(response);
       const token = response && response.data && response.data.signInUser && response.data.signInUser.token;
       if (token) {

@@ -14,12 +14,8 @@ const Router = () => {
   return useRoutes([
     {
       path: '/dashboard',
-      element: PrivateRoute && <DashboardLayout />,
-      children: [
-        { element: <Navigate to="/dashboard/app" replace /> },
-        { path: 'app', element: <HomePage /> },
-        { path: 'projects', element: <Project /> },
-      ],
+      element: <DashboardLayout />,
+      children: [{ element: <PrivateRoute /> }, { path: 'app', element: <HomePage /> }, { path: 'projects', element: <Project /> }],
     },
     {
       path: '/',

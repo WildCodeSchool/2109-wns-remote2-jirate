@@ -1,13 +1,17 @@
-import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { Navigate } from 'react-router-dom';
+import CurrentUserContext from '../../contexts/currentUser';
 
-const PrivateRoute = () => {
-  const navigate = useNavigate();
+const PrivateRoute = path => {
+  const { isAuthenticated } = useContext(CurrentUserContext);
 
-  if (!localStorage.getItem('x-token'.token)) {
-    navigate('/login');
+  console.log(isAuthenticated);
+
+  if (isAuthenticated !== true) {
+    return <Navigate to="/login" />;
   }
 
-  return true;
+  return <Navigate to={`/dashboard/${path}`} replace />;
 };
 
 export default PrivateRoute;
