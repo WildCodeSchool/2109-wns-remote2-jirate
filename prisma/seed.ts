@@ -8,12 +8,12 @@ dotenv.config();
 
 const main = async () => {
   await prisma.user.upsert({
-    where: { email: 'maxime@jiraté.io' },
+    where: { email: 'maxime@jirate.io' },
     update: {},
     create: {
       firstname: 'maxime',
       lastname: 'jiraté',
-      email: 'maxime@jiraté.io',
+      email: 'maxime@jirate.io',
       password: 'jiratéb123*',
       isAdmin: true,
       emailConfirmed: true,
@@ -21,12 +21,12 @@ const main = async () => {
   });
 
   await prisma.user.upsert({
-    where: { email: 'alexandre@jiraté.io' },
+    where: { email: 'alexandre@jirate.io' },
     update: {},
     create: {
       firstname: 'alexandre',
       lastname: 'jiraté',
-      email: 'alexandre@jiraté.io',
+      email: 'alexandre@jirate.io',
       password: 'jiratéb123*',
       isAdmin: true,
       emailConfirmed: true,
@@ -34,12 +34,12 @@ const main = async () => {
   });
 
   await prisma.user.upsert({
-    where: { email: 'caroline@jiraté.io' },
+    where: { email: 'caroline@jirate.io' },
     update: {},
     create: {
       firstname: 'caroline',
       lastname: 'jiraté',
-      email: 'caroline@jiraté.io',
+      email: 'caroline@jirate.io',
       password: 'jiratéb123*',
       isAdmin: true,
       emailConfirmed: true,
@@ -47,12 +47,12 @@ const main = async () => {
   });
 
   await prisma.user.upsert({
-    where: { email: 'selma@jiraté.io' },
+    where: { email: 'selma@jirate.io' },
     update: {},
     create: {
       firstname: 'selma',
       lastname: 'jiraté',
-      email: 'selma@jiraté.io',
+      email: 'selma@jirate.io',
       password: 'jiratéb123*',
       isAdmin: true,
       emailConfirmed: true,
@@ -60,12 +60,12 @@ const main = async () => {
   });
 
   await prisma.user.upsert({
-    where: { email: 'didor@jiraté.io' },
+    where: { email: 'didor@jirate.io' },
     update: {},
     create: {
       firstname: 'didor',
       lastname: 'jiraté',
-      email: 'didor@jiraté.io',
+      email: 'didor@jirate.io',
       password: 'jiratéb123*',
       isAdmin: true,
       emailConfirmed: true,

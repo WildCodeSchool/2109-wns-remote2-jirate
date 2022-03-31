@@ -11,7 +11,7 @@ const PrivateRoute = path => {
     return <Navigate to="/login" />;
   }
 
-  return <Navigate to={`/dashboard/${path}`} replace />;
+  return <Navigate to="/dashboard" replace />;
 };
 
 export default PrivateRoute;
