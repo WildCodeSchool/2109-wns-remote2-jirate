@@ -1,18 +1,19 @@
 import { useContext } from 'react';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useApolloClient } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-import CurrentUserContext from '../contexts/currentUser';
+import { isLoggedInVar } from '../apollo/cache/cache'
 
 
 const useAuthUser = () => {
     const client = useApolloClient();
-    const { setIsAuthenticated } = useContext(CurrentUserContext);
+    // const { setIsAuthenticated } = useContext(CurrentUserContext);
     const history = useNavigate();
 
     const setAuthUser = (token) => {
         localStorage.setItem("jwt_token", token);
         if (token) {
-            setIsAuthenticated(true)
+            // setIsAuthenticated(true)
+            isLoggedInVar(true);
         }
         history('/dashboard/app');
     };
@@ -20,7 +21,7 @@ const useAuthUser = () => {
     const logout = () => {
         client.resetStore();
         localStorage.clear();
-        history('/login')
+        history('/register')
     };
 
     return { logout, setAuthUser };

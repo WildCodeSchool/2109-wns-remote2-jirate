@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-
-import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'graphql-tag';
+import { useQuery, gql } from '@apollo/client';
 import { Container, Stack, Typography } from '@mui/material';
 
 // Import components

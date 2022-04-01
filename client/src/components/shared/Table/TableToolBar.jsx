@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { Box, Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment } from '@mui/material';
-import { gql } from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, gql } from '@apollo/client';
 
 // Import Icons
 import SearchIcon from '@mui/icons-material/Search';

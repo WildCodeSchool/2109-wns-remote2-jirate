@@ -1,18 +1,21 @@
-import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-// import CurrentUserContext from '../../contexts/currentUser';
-import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'graphql-tag';
+import { useQuery, gql } from '@apollo/client';
 
-
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }
+`;
 
 const PrivateRoute = () => {
+  const { data } = useQuery(IS_LOGGED_IN);
 
-  // if (isAuthenticated !== true) {
-  //   return <Navigate to="/login" />;
-  // }
+  console.log(data);
+  if (data.isLoggedIn === false) {
+    return <Navigate to="/login" />;
+  }
 
-  return <Navigate to="/dashboard" replace />;
+  return <Navigate to="/dashboard/app" replace />;
 };
 
 export default PrivateRoute;

@@ -5,9 +5,7 @@ import ThemeConfig from './theme/index';
 import GlobalStyles from './theme/globalStyles';
 import useAuthUser from './hooks/useAuthUser';
 import jwt_decode from 'jwt-decode';
-
-/// Import context
-import { CurrentUserContextProvider } from './contexts/currentUser';
+import { isLoggedInVar } from './apollo/cache/cache';
 
 const App = () => {
   const { logout } = useAuthUser();
@@ -18,6 +16,10 @@ const App = () => {
 
     // Decode token and get user info and exp
     const decoded = jwt_decode(token);
+
+    if (decoded.id) {
+      isLoggedInVar(true);
+    }
 
     // Check for expired token
     const currentTime = Date.now() / 1000; // to get in milliseconds
@@ -30,12 +32,10 @@ const App = () => {
   }
 
   return (
-    <CurrentUserContextProvider>
-      <ThemeConfig>
-        <GlobalStyles />
-        <Routes />
-      </ThemeConfig>
-    </CurrentUserContextProvider>
+    <ThemeConfig>
+      <GlobalStyles />
+      <Routes />
+    </ThemeConfig>
   );
 };
 

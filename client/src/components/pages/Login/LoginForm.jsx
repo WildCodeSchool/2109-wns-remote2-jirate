@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useMutation } from '@apollo/react-hooks';
-import { gql } from 'graphql-tag';
+import { useMutation, gql } from '@apollo/client';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
@@ -19,7 +18,6 @@ import { LoginSchema } from '../../utils/Validation/validation';
 import PropTypes from 'prop-types';
 import { styledButton } from './LoginStyle';
 import useAuthUser from '../../../hooks/useAuthUser';
-import CurrentUserContext from '../../../contexts/currentUser';
 
 const content = {
   email: 'Email',
@@ -37,21 +35,20 @@ const LOGIN = gql`
   }
 `;
 
-const LoginForm = ({ email, password }) => {
+const LoginForm = () => {
   const { setAuthUser } = useAuthUser();
   const navigate = useNavigate();
-  const { isAuthenticated } = useContext(CurrentUserContext);
   const [showPassword, setShowPassword] = useState(false);
   const [login, { loading, error, data: loginData }] = useMutation(LOGIN);
   const handleShowPassword = () => {
     setShowPassword(show => !show);
   };
 
-  React.useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/dashboard');
-    }
-  });
+  // React.useEffect(() => {
+  //   if (isAuthenticated) {
+  //     navigate('/dashboard');
+  //   }
+  // });
 
   const onSubmitt = async data => {
     const { email, password } = data;

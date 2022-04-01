@@ -32,7 +32,6 @@ const RegisterForm = (props) => {
         setShowPassword(show => !show);
     };
     const onSubmitt = (data) => {
-        console.log(data)
         resolver: yupResolver(registerSchema)
         navigate('/dashboard', {replace: true});
     }

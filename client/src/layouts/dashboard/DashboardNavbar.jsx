@@ -8,7 +8,6 @@ import { Box, Stack, AppBar, Toolbar, IconButton, Button } from '@mui/material';
 import MHidden from '../../components/utils/MHidden/MHidden';
 
 import LanguagePopover from './LanguagePopover';
-import CurrentUserContext from '../../contexts/currentUser';
 import useAuthUser from '../../hooks/useAuthUser';
 // import NotificationsPopover from './NotificationsPopover';
 
@@ -35,7 +34,6 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
 }));
 
 const DashboardNavbar = ({ onOpenSidebar }) => {
-  const { isAuthenticated } = useContext(CurrentUserContext);
   const { logout } = useAuthUser();
   return (
     <RootStyle>
@@ -49,7 +47,7 @@ const DashboardNavbar = ({ onOpenSidebar }) => {
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
           <LanguagePopover />
           {/* <NotificationsPopover /> */}
-          {isAuthenticated && <Button onClick={() => logout()}>Log Out</Button>}
+          <Button onClick={() => logout()}>Log Out</Button>
         </Stack>
       </ToolbarStyle>
     </RootStyle>
