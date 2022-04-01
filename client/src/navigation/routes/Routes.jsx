@@ -16,18 +16,7 @@ const Router = () => {
     {
       path: '/dashboard',
       element: <DashboardLayout />,
-      children: [
-        { element: <PrivateRoute /> },
-        {
-          path: 'app',
-          element: (
-            <PrivateRoute>
-              <HomePage />
-            </PrivateRoute>
-          ),
-        },
-        { path: 'projects', element: <Project /> },
-      ],
+      children: [{ element: <PrivateRoute /> }, { path: 'app', element: <HomePage /> }, { path: 'projects', element: <Project /> }],
     },
     {
       path: '/',
