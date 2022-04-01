@@ -55,7 +55,6 @@ const LoginForm = ({ email, password }) => {
 
   const onSubmitt = async data => {
     const { email, password } = data;
-    console.log(data);
     const response = await login({
       variables: {
         input: { email, password },
@@ -63,7 +62,6 @@ const LoginForm = ({ email, password }) => {
     });
 
     if (response) {
-      console.log(response);
       const token = response && response.data && response.data.signInUser && response.data.signInUser.token;
       if (token) {
         setAuthUser(token);
