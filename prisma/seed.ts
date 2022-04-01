@@ -74,12 +74,17 @@ const main = async () => {
 
   const users = await prisma.user.findMany();
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 10; i++) {
     await prisma.project.createMany({
       data: {
         name: faker.company.companyName(),
         token: faker.random.word(),
         userId: users[i].id,
+        limitCollaborators: faker.datatype.number({
+          min: 1,
+          max: 10,
+        }),
+        description: faker.lorem.paragraph(),
       },
     });
   }

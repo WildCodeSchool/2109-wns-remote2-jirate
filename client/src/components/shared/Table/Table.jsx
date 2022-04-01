@@ -124,7 +124,7 @@ const TableComponent = ({ projects, headCells, handleDelete, handleEdit }) => {
 
             <TableBody>
               {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                const { name, createdAt, user, id } = row;
+                const { name, createdAt, user, id, limitCollaborators, description } = row;
                 const isItemSelected = isSelected(row.name);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -147,10 +147,10 @@ const TableComponent = ({ projects, headCells, handleDelete, handleEdit }) => {
                       </Typography>
                     </TableCell>
                     <TableCell align="left">{new Date(createdAt).toDateString()}</TableCell>
-                    <TableCell align="left">1</TableCell>
+                    <TableCell align="left">{limitCollaborators}</TableCell>
                     <TableCell align="left">{user.firstname}</TableCell>
                     <TableCell align="right">
-                      <BtnEdit onClick={() => handleEdit(id, name)}>
+                      <BtnEdit onClick={() => handleEdit(id, name, limitCollaborators, description)}>
                         <EditIcon />
                       </BtnEdit>
                       <BtnDelete onClick={() => handleDelete(name, id)}>
