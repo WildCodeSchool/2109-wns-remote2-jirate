@@ -5,7 +5,6 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -20,8 +19,10 @@ export type Scalars = {
 
 /** Create user input */
 export type CreateProjectInput = {
-  /** The project id */
-  id: Scalars['String'];
+  /** The project token */
+  description: Scalars['String'];
+  /** The project token */
+  limitCollaborators: Scalars['Int'];
   /** The project name */
   name: Scalars['String'];
   /** The project token */
@@ -48,6 +49,12 @@ export type DeleteProjectInput = {
   id: Scalars['String'];
 };
 
+/** Delete projects input */
+export type DeleteProjectsInput = {
+  /** The projects id */
+  ids?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   /** Create project */
@@ -56,6 +63,12 @@ export type Mutation = {
   createUser?: Maybe<User>;
   /** Delete project */
   deleteProject?: Maybe<Project>;
+  /** Delete project */
+  deleteProjects?: Maybe<Projects>;
+  /** SignIn user */
+  signInUser?: Maybe<User>;
+  /** Update project */
+  updateProject?: Maybe<Project>;
 };
 
 
@@ -71,6 +84,21 @@ export type MutationCreateUserArgs = {
 
 export type MutationDeleteProjectArgs = {
   input?: InputMaybe<DeleteProjectInput>;
+};
+
+
+export type MutationDeleteProjectsArgs = {
+  input?: InputMaybe<DeleteProjectsInput>;
+};
+
+
+export type MutationSignInUserArgs = {
+  input?: InputMaybe<SignInInput>;
+};
+
+
+export type MutationUpdateProjectArgs = {
+  input?: InputMaybe<UpdateProjectInput>;
 };
 
 /** A project */
@@ -92,12 +120,43 @@ export type Project = {
   userId?: Maybe<Scalars['String']>;
 };
 
+/** An array of projects ids */
+export type Projects = {
+  __typename?: 'Projects';
+  /** id of projects */
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 export type Query = {
   __typename?: 'Query';
   /** Get all projects query */
   projects?: Maybe<Array<Maybe<Project>>>;
   /** Get all users query */
   users?: Maybe<Array<Maybe<User>>>;
+};
+
+/** SignIn user input */
+export type SignInInput = {
+  /** The user email for signIn */
+  email: Scalars['String'];
+  /** The user password for signIn */
+  password: Scalars['String'];
+};
+
+/** Update user input */
+export type UpdateProjectInput = {
+  /** The project description */
+  description: Scalars['String'];
+  /** The project id */
+  id: Scalars['String'];
+  /** The project limitCollaborators */
+  limitCollaborators: Scalars['Int'];
+  /** The project name */
+  name: Scalars['String'];
+  /** The project token */
+  token: Scalars['String'];
+  /** The project userId */
+  userId: Scalars['String'];
 };
 
 /** A user */
@@ -115,6 +174,8 @@ export type User = {
   password?: Maybe<Scalars['String']>;
   /** list of authors books */
   projects?: Maybe<Array<Maybe<Project>>>;
+  /** user token */
+  token?: Maybe<Scalars['String']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -189,12 +250,17 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   CreateProjectInput: CreateProjectInput;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   CreateUserInput: CreateUserInput;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DeleteProjectInput: DeleteProjectInput;
+  DeleteProjectsInput: DeleteProjectsInput;
   Mutation: ResolverTypeWrapper<{}>;
   Project: ResolverTypeWrapper<Project>;
+  Projects: ResolverTypeWrapper<Projects>;
   Query: ResolverTypeWrapper<{}>;
+  SignInInput: SignInInput;
+  UpdateProjectInput: UpdateProjectInput;
   User: ResolverTypeWrapper<User>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 }>;
@@ -203,12 +269,17 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   CreateProjectInput: CreateProjectInput;
   String: Scalars['String'];
+  Int: Scalars['Int'];
   CreateUserInput: CreateUserInput;
   Date: Scalars['Date'];
   DeleteProjectInput: DeleteProjectInput;
+  DeleteProjectsInput: DeleteProjectsInput;
   Mutation: {};
   Project: Project;
+  Projects: Projects;
   Query: {};
+  SignInInput: SignInInput;
+  UpdateProjectInput: UpdateProjectInput;
   User: User;
   Boolean: Scalars['Boolean'];
 }>;
@@ -218,9 +289,12 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type MutationResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  createProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationCreateProjectArgs, never>>;
-  createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, never>>;
-  deleteProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationDeleteProjectArgs, never>>;
+  createProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, Partial<MutationCreateProjectArgs>>;
+  createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationCreateUserArgs>>;
+  deleteProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, Partial<MutationDeleteProjectArgs>>;
+  deleteProjects?: Resolver<Maybe<ResolversTypes['Projects']>, ParentType, ContextType, Partial<MutationDeleteProjectsArgs>>;
+  signInUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationSignInUserArgs>>;
+  updateProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, Partial<MutationUpdateProjectArgs>>;
 }>;
 
 export type ProjectResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = ResolversObject<{
@@ -231,6 +305,11 @@ export type ProjectResolvers<ContextType = IPrismaContext, ParentType extends Re
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ProjectsResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Projects'] = ResolversParentTypes['Projects']> = ResolversObject<{
+  ids?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -246,6 +325,7 @@ export type UserResolvers<ContextType = IPrismaContext, ParentType extends Resol
   lastname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['Project']>>>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -253,6 +333,7 @@ export type Resolvers<ContextType = IPrismaContext> = ResolversObject<{
   Date?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Project?: ProjectResolvers<ContextType>;
+  Projects?: ProjectsResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;

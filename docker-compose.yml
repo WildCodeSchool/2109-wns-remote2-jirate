@@ -13,19 +13,15 @@ services:
     environment:
       DATABASE_URL: postgresql://jirateuser:jiratepassword@db:5432/jirate_database_development
       NODE_ENV: development
+    restart: always
     build: .
     ports:
       - 8000:8000
-    depends_on:
-      db:
-        condition: service_healthy
+    command: yarn dev
+    volumes:
+      - ./:/app
   db:
     image: postgres
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     restart: always
     environment:
       POSTGRES_USER: jirateuser
@@ -38,9 +34,6 @@ services:
     environment:
       POSTGRES_URL: postgresql://jirateuser:jiratepassword@db:5432/jirate_database_development
     restart: unless-stopped
-    depends_on:
-      db:
-        condition: service_healthy
     env_file:
      - .env
     ports:
