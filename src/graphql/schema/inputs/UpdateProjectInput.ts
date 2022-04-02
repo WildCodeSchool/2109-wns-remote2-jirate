@@ -12,10 +12,6 @@ const UpdateProjectInput: GraphQLInputObjectType = new GraphQLInputObjectType({
       type: new GraphQLNonNull(GraphQLString),
       description: 'The project name',
     },
-    token: {
-      type: new GraphQLNonNull(GraphQLString),
-      description: 'The project token',
-    },
     description: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'The project description',
@@ -23,10 +19,6 @@ const UpdateProjectInput: GraphQLInputObjectType = new GraphQLInputObjectType({
     limitCollaborators: {
       type: new GraphQLNonNull(GraphQLInt),
       description: 'The project limitCollaborators',
-    },
-    userId: {
-      type: new GraphQLNonNull(GraphQLString),
-      description: 'The project userId',
     },
   },
 });

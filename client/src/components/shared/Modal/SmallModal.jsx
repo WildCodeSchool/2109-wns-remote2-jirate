@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { gql, useMutation } from '@apollo/client';
+import PropTypes from 'prop-types';
 
 // IMPORT MATERIAL UI COMPONENTS
 import Box from '@mui/material/Box';
@@ -33,14 +34,16 @@ const SmallModal = ({ isOpen, handleClose, id, name, limitCollaborators, descrip
     setDesc(description);
   }, [name, limitCollaborators, description]);
 
-  const handleUpdateProject = () => {
+  const handleUpdateProject = e => {
+    e.preventDefault();
     updateProjectById({ variables: { input: { name: inputName, limitCollaborators: limitMembers, description, id } } });
+    if (data) {
+      window.location.href = '/dashboard/projects';
+    }
   };
 
   if (loading) return 'loading...';
   if (error) return 'error :(';
-
-  console.log(data);
 
   return (
     <Modal open={isOpen} onClose={handleClose} aria-labelledby="modal-edit-project" aria-describedby="modal-edit-project">
@@ -56,7 +59,6 @@ const SmallModal = ({ isOpen, handleClose, id, name, limitCollaborators, descrip
               id="outlined-basic"
               label="Nom du projet"
               variant="outlined"
-              id="inputName"
               sx={{ width: '100%' }}
             >
               Nom du projet
@@ -71,18 +73,11 @@ const SmallModal = ({ isOpen, handleClose, id, name, limitCollaborators, descrip
               id="demo-simple-select"
               value={limitMembers}
               onChange={e => setLimitMembers(e.target.value)}
-              fullWidth
+              sx={{ width: '100%' }}
             >
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={6}>6</MenuItem>
-              <MenuItem value={7}>7</MenuItem>
-              <MenuItem value={8}>8</MenuItem>
-              <MenuItem value={9}>9</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
+              {Array.from(Array(10).keys()).map(el => (
+                <MenuItem value={el + 1}>{el + 1}</MenuItem>
+              ))}
             </Select>
           </Box>
           <Box sx={containerInput}>
@@ -94,14 +89,13 @@ const SmallModal = ({ isOpen, handleClose, id, name, limitCollaborators, descrip
               variant="outlined"
               multiline
               rows={10}
-              id="desc"
               sx={{ width: '100%' }}
             >
               Description du projet
             </TextField>
           </Box>
 
-          <Button onClick={() => handleUpdateProject()} variant="contained" sx={StyledButtonSubmit}>
+          <Button onClick={e => handleUpdateProject(e)} variant="contained" sx={StyledButtonSubmit}>
             Update Project
           </Button>
         </Box>
@@ -109,6 +103,9 @@ const SmallModal = ({ isOpen, handleClose, id, name, limitCollaborators, descrip
     </Modal>
   );
 };
+
+// ------------------------------------------------------------
+// Adding style
 
 const style = {
   position: 'absolute',
@@ -137,6 +134,16 @@ const StyledButtonSubmit = {
 
 const containerInput = {
   margin: '2rem 0 2rem 0',
+};
+
+// Add PropsType
+SmallModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  limitCollaborators: PropTypes.number.isRequired,
+  description: PropTypes.string.isRequired,
 };
 
 export default SmallModal;

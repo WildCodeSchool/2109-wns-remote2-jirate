@@ -74,7 +74,7 @@ const main = async () => {
 
   const users = await prisma.user.findMany();
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 5; i++) {
     await prisma.project.createMany({
       data: {
         name: faker.company.companyName(),
