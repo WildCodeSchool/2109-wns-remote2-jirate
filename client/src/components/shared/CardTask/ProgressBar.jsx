@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import PropTypes from 'prop-types';
 
 const ProgressBar = ({ completed }) => {
   const progressColor = () => {
@@ -45,6 +46,11 @@ const ProgressBar = ({ completed }) => {
       </Box>
     </Box>
   );
+};
+
+// Add Types
+ProgressBar.propTypes = {
+  completed: PropTypes.number.isRequired,
 };
 
 export default ProgressBar;
