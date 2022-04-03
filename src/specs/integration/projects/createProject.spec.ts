@@ -1,5 +1,5 @@
 import { ApolloServer, gql } from 'apollo-server';
-import { CreateProjectInput, CreateUserInput } from '@src/graphql/generated/graphql';
+import { CreateUserInput } from '@src/graphql/generated/graphql';
 import prismaContext from '@src/lib/prisma/prismaContext';
 import schema from '@src/graphql/schema/schema';
 import { IApolloServerContext } from '@src/lib/interfaces/IApolloServerContext';
@@ -9,6 +9,9 @@ const CREATE_USER_MUTATION = gql`
     createProject(input: $input) {
       name
       userId
+      token
+      description
+      limitCollaborators
     }
   }
 `;
@@ -56,6 +59,8 @@ describe('Create a new project', () => {
       name: 'John',
       token: 'akfjp334ddpfejggr44D3FGG5',
       userId: user[0].id,
+      description: 'test',
+      limitCollaborators: 4
     };
 
     const res = await server.executeOperation({
@@ -67,6 +72,10 @@ describe('Create a new project', () => {
     expect(res?.data?.createProject).toBeDefined();
     const createProjectData = res?.data?.createProject;
     expect(createProjectData.name).toBe(mockProject.name);
+    expect(createProjectData.token).toBe(mockProject.token);
+    expect(createProjectData.token).toBe(mockProject.token);
+    expect(createProjectData.description.length).toBeGreaterThanOrEqual(mockProject.description.length); // TODO: should verify
+    expect(createProjectData.limitCollaborators).toBe(mockProject.limitCollaborators);
 
     const userData = await prismaContext.prisma.user.findMany({ where: { id: createProjectData.userId } });
 

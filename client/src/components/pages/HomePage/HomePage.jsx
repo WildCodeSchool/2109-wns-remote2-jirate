@@ -1,61 +1,37 @@
-import React, { useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { Container, Typography, Stack, Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import React, { useState } from 'react';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { Container, Typography, Stack } from '@mui/material';
+import PropTypes from 'prop-types';
 
-// // // Import components
+// Import components
 import CardTask from '../../shared/CardTask/CardTask';
 
-import uuid from "uuid/v4";
-
+import uuid from 'uuid/v4';
 
 const cardLists = [
-    { id: uuid(), title: "Card1" },
-    { id: uuid(), title: "Card2" },
-    { id: uuid(), title: "Card3" },
-    { id: uuid(), title: "Card4" },
-  ];
+  { id: uuid(), title: 'Card1', completed: 12 },
+  { id: uuid(), title: 'Card2', completed: 89 },
+  { id: uuid(), title: 'Card3', completed: 100 },
+  { id: uuid(), title: 'Card4', completed: 50 },
+  { id: uuid(), title: 'Card5', completed: 24 },
+  { id: uuid(), title: 'Card6', completed: 1 },
+  { id: uuid(), title: 'Card7', completed: 20 },
+];
 
 const columnsTitle = {
   [uuid()]: {
-    name: "To do",
-    items: cardLists
+    name: 'To do',
+    items: cardLists,
   },
   [uuid()]: {
-    name: "In Progress",
-    items: []
+    name: 'In Progress',
+    items: [],
   },
   [uuid()]: {
-    name: "Completed",
-    items: []
-  }
+    name: 'Completed',
+    items: [],
+  },
 };
-
-const BoxContainer = styled(Container)(() => ({
-  backgroundColor: '#E3E6EB',
-  minHeight: '80vh',
-  height: '80vh',
-  overflowY: 'scroll',
-  width: '32%',
-  borderRadius: 13,
-  padding: 15,
-  // display: 'contents'
-}));
-
-
-// Styles
-// const BoxContainer = styled(Box)(() => ({
-//   backgroundColor: '#E3E6EB',
-//   minHeight: '80vh',
-//   height: '80vh',
-//   overflowY: 'scroll',
-//   width: '32%',
-//   borderRadius: 13,
-//   padding: 15,
-//   display: 'contents'
-// }));
-
-// functions HandleOnDragEnd, getListStyle, getItemStyle
 
 const HandleOnDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -67,17 +43,18 @@ const HandleOnDragEnd = (result, columns, setColumns) => {
     const sourceItems = [...sourceColumn.items];
     const destItems = [...destColumn.items];
     const [removed] = sourceItems.splice(source.index, 1);
+
     destItems.splice(destination.index, 0, removed);
     setColumns({
       ...columns,
       [source.droppableId]: {
         ...sourceColumn,
-        items: sourceItems
+        items: sourceItems,
       },
       [destination.droppableId]: {
         ...destColumn,
-        items: destItems
-      }
+        items: destItems,
+      },
     });
   } else {
     const column = columns[source.droppableId];
@@ -88,98 +65,104 @@ const HandleOnDragEnd = (result, columns, setColumns) => {
       ...columns,
       [source.droppableId]: {
         ...column,
-        items: copiedItems
-      }
+        items: copiedItems,
+      },
     });
   }
 };
 
 const getListStyle = (isDraggingOver, droppableStyle) => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  padding : 4,
-  width: 250,
-  minHeight: '80vh',
-  ...droppableStyle
+  width: '100%',
+  height: '70vh',
+  borderRadius: 13,
+  padding: 15,
+  overflowY: 'scroll',
+  ...droppableStyle,
 });
 
-
 const getItemStyle = (isDragging, draggableStyle) => ({
-// some basic styles to make the items look a bit nicer
+  // some basic styles to make the items look a bit nicer
   userSelect: 'none',
-// change background colour if dragging
-  background: isDragging ? 'lightgreen' : '#ffffff',
-  padding: 5,
+  margin: '10px 0',
+  // change background colour if dragging
+  // background: isDragging ? 'lightgreen' : '#ffffff',
 
-// styles we need to apply on draggables
+  // styles we need to apply on draggables
   ...draggableStyle,
 });
 
+const styleColumn = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'space-around',
+  width: '100%',
+  margin: '20px',
+};
 
-function HomePage() {
+const defaultDate = new Date();
+
+const HomePage = () => {
   const [columns, setColumns] = useState(columnsTitle);
   return (
-    // <Container >
-       <BoxContainer> 
-       <Stack direction="row" justifyContent="space-between" mb={5}>
-          <DragDropContext onDragEnd={result => HandleOnDragEnd(result, columns, setColumns)}>
+    <Container>
+      <Stack direction="row" justifyContent="space-between">
+        <DragDropContext onDragEnd={result => HandleOnDragEnd(result, columns, setColumns)}>
           {Object.entries(columns).map(([columnId, column], index) => {
-              return (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center"
+            return (
+              <div style={styleColumn} key={columnId}>
+                <Typography variant="h6" component="h6" gutterBottom>
+                  <h2>{column.name}</h2>
+                </Typography>
+                <Droppable droppableId={columnId} key={columnId}>
+                  {(provided, snapshot) => {
+                    return (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={getListStyle(snapshot.isDraggingOver, provided.droppableProps.style)}
+                      >
+                        {column.items.map((item, index) => {
+                          return (
+                            <Draggable key={item.id} draggableId={item.id} index={index}>
+                              {(provided, snapshot) => {
+                                return (
+                                  <div
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+                                  >
+                                    <CardTask
+                                      completed={item.completed}
+                                      isSelected={snapshot.isDragging}
+                                      title={item.title}
+                                      date={`${defaultDate.toLocaleDateString()}`}
+                                    />
+                                  </div>
+                                );
+                              }}
+                            </Draggable>
+                          );
+                        })}
+                        {provided.placeholder}
+                      </div>
+                    );
                   }}
-                  key={columnId}
-                >
-                  <Typography variant="h5" component="h5" gutterBottom>
-                      <h2>{column.name}</h2>
-                  </Typography>
-                  <div style={{ margin: 8 }}>
-                    <Droppable droppableId={columnId} key={columnId}>
-                      {(provided, snapshot) => {
-                        return (
-                          <div
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}
-                            style={getListStyle(snapshot.isDraggingOver, provided.droppableProps.style)}
-                          >
-                            {column.items.map((item, index) => {
-                              return (
-                                <Draggable
-                                  key={item.id}
-                                  draggableId={item.id}
-                                  index={index}
-                                >
-                                  {(provided, snapshot) => {
-                                    return (
-                                      <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                      style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
-                                      >
-                                        <CardTask title = {cardLists.title}/>
-                                      </div>
-                                    );
-                                  }}
-                                </Draggable>
-                              );
-                            })}
-                            {provided.placeholder}
-                          </div>
-                        );
-                      }}
-                    </Droppable>
-                  </div>
-                </div>
-              );
-            })}
-          </DragDropContext>
+                </Droppable>
+              </div>
+            );
+          })}
+        </DragDropContext>
       </Stack>
-      </BoxContainer> 
-    // </Container>
+    </Container>
   );
-}
+};
+
+// Add Types
+getItemStyle.propTypes = {
+  isDragging: PropTypes.bool.isRequired,
+};
 
 export default HomePage;

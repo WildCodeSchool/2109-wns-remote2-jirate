@@ -21,9 +21,10 @@ const style = {
 };
 
 const DELETE_PROJECT_BY_ID = gql`
-  mutation DeleteProject($input: String) {
+  mutation DeleteProject($input: DeleteProjectInput) {
     deleteProject(input: $input) {
       id
+
     }
   }
 `;
@@ -39,7 +40,8 @@ const ModalError = ({ isOpen, handleClose, projectName, id }) => {
   const handleValidateDelete = e => {
     e.preventDefault();
     if (inputValue === projectName) {
-      deleteProjectById({ variables: { input: {id: id} } });
+      deleteProjectById({ variables: { input: {id} } });
+      window.location.href = "/dashboard/projects"
     }
   };
 
@@ -92,3 +94,8 @@ ModalError.propTypes = {
   handleClose: PropTypes.func,
   projectName: PropTypes.string,
 };
+
+
+
+
+
