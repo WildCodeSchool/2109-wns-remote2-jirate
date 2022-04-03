@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography, Avatar, CardContent, Card } from '@mui/material';
+import PropTypes from 'prop-types';
 
 import ProgressBar from './ProgressBar';
 
@@ -48,6 +49,14 @@ const CardTask = ({ isSelected, title, date, completed }) => {
       </Box>
     </Card>
   );
+};
+
+// Add Types
+CardTask.propTypes = {
+  title: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  date: PropTypes.string.isRequired,
+  completed: PropTypes.number.isRequired,
 };
 
 export default CardTask;
