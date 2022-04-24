@@ -32,3 +32,5 @@ RUN yarn generate
 
 RUN yarn db:seed
 
+# see for the if and then
+
