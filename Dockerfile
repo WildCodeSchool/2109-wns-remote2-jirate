@@ -28,3 +28,7 @@ RUN yarn
 
 RUN yarn generate
 
+# seed the database
+
+RUN yarn db:seed
+
