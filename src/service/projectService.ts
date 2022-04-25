@@ -39,7 +39,8 @@ export const deleteProjectsById = async (ids: Array<string>): Promise<Count> => 
   return prismaContext.prisma.project.deleteMany({ where: { id: { in: ids } } });
 };
 
-export const updateProjectById = async (id: string, name: string, description: string, limitCollaborators: number): Promise<Project> => {
+export const updateProjectById = async (id: string, name: string, description: string, limitCollaborators: number, req: express.Request): Promise<Project> => {
+  isAuth(req);
   const project = prismaContext.prisma.project.update({ where: { id }, data: { name, description, limitCollaborators } });
   return project;
 };

@@ -36,9 +36,9 @@ const SmallModal = ({ isOpen, handleClose, id, name, limitCollaborators, descrip
 
   const handleUpdateProject = e => {
     e.preventDefault();
-    updateProjectById({ variables: { input: { name: inputName, limitCollaborators: limitMembers, description, id } } });
+    updateProjectById({ variables: { input: { name: inputName, limitCollaborators: limitMembers, description: desc, id } } });
     if (data) {
-      window.location.href = '/dashboard/projects';
+      window.location.reload();
     }
   };
 
@@ -65,7 +65,7 @@ const SmallModal = ({ isOpen, handleClose, id, name, limitCollaborators, descrip
             </TextField>
           </Box>
           <Box sx={containerInput}>
-            <InputLabel id="demo-simple-select-label" fullWidth>
+            <InputLabel id="demo-simple-select-label" sx={{ width: '100%' }}>
               Limit collaborators
             </InputLabel>
             <Select
@@ -75,8 +75,10 @@ const SmallModal = ({ isOpen, handleClose, id, name, limitCollaborators, descrip
               onChange={e => setLimitMembers(e.target.value)}
               sx={{ width: '100%' }}
             >
-              {Array.from(Array(10).keys()).map(el => (
-                <MenuItem value={el + 1}>{el + 1}</MenuItem>
+              {Array.from(Array(10).keys()).map((el, index) => (
+                <MenuItem key={index} value={el + 1}>
+                  {el + 1}
+                </MenuItem>
               ))}
             </Select>
           </Box>
