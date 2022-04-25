@@ -20,14 +20,16 @@ describe('Create a new project', () => {
   let server: ApolloServer;
 
   beforeAll(() => {
-    const apolloServerContext: IApolloServerContext = {
-      prismaContext,
-    };
-
     const apolloServerConfig = {
       schema,
       playground: process.env.NODE_ENV !== 'production',
-      context: apolloServerContext,
+      context: ({ req, res }) => {
+        prismaContext;
+        return {
+          req,
+          res,
+        };
+      },
     };
 
     server = new ApolloServer(apolloServerConfig);
@@ -60,7 +62,7 @@ describe('Create a new project', () => {
       token: 'akfjp334ddpfejggr44D3FGG5',
       userId: user[0].id,
       description: 'test',
-      limitCollaborators: 4
+      limitCollaborators: 4,
     };
 
     const res = await server.executeOperation({
