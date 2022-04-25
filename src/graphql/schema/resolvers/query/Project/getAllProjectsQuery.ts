@@ -7,10 +7,10 @@ import ProjectType from '@src/graphql/schema/typedefs/Project/ProjectType';
 export const getAllProjectsQueryResolver: GraphQLFieldResolver<unknown, IApolloServerContext> = async (
   _source,
   _args,
-  _context,
+  { req },
   _info
 ): Promise<Project[]> => {
-  const projects = await getAllProjects();
+  const projects = await getAllProjects(req);
   return projects;
 };
 

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import MenuItem from '@mui/material/MenuItem';
+import NativeSelect from '@mui/material/NativeSelect';
 
 let valeurs = Array.from(Array(15).keys());
 
@@ -48,15 +48,23 @@ const FormCreateProject = () => {
         </TextField>
       </Box>
 
-      <Box sx={{ mt: 1, mb: 1, width: '100%' }}>
-        <InputLabel id="label-number-members">Nombre de personnes maximum</InputLabel>
-        <Select id="demo-simple-select" labelId="label-number-members" fullWidth>
-          {valeurs.map(el => (
-            <MenuItem key={el} value={el}>
-              {el}
-            </MenuItem>
+      <Box sx={{ mt: 2, mb: 3, width: '100%' }}>
+        <InputLabel id="demo-simple-select-label">
+          <Typography sx={{ color: 'rgb(99, 115, 129)', fontfamily: '"Public Sans", sans-serif', mb: 2 }} variant="h5" component="h5" gutterBottom>
+            Nombre de collaborateurs
+          </Typography>
+        </InputLabel>
+        <NativeSelect
+          defaultValue={1}
+          inputProps={{
+            id: 'demo-simple-select-label-native',
+          }}
+          fullWidth
+        >
+          {valeurs.map(index => (
+            <option key={index} value={index}>{index}</option>
           ))}
-        </Select>
+        </NativeSelect>
       </Box>
 
       <Box sx={{ mt: 1, mb: 1, width: '100%' }}>
