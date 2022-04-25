@@ -8,7 +8,7 @@ import { Box, Stack, AppBar, Toolbar, IconButton, Button } from '@mui/material';
 import MHidden from '../../components/utils/MHidden/MHidden';
 
 import LanguagePopover from './LanguagePopover';
-import useAuthUser from '../../hooks/useAuthUser';
+import { AuthContext } from '../../context/AuthContext';
 // import NotificationsPopover from './NotificationsPopover';
 
 const DRAWER_WIDTH = 280;
@@ -34,7 +34,7 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
 }));
 
 const DashboardNavbar = ({ onOpenSidebar }) => {
-  const { logout } = useAuthUser();
+  const { logout } = useContext(AuthContext);
   return (
     <RootStyle>
       <ToolbarStyle>

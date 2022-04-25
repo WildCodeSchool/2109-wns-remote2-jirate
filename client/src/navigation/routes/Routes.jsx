@@ -1,5 +1,4 @@
 import { Navigate, useRoutes } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
 
 // layouts
 import DashboardLayout from '../../layouts/dashboard';
@@ -16,7 +15,24 @@ const Router = () => {
     {
       path: '/dashboard',
       element: <DashboardLayout />,
-      children: [{ element: <PrivateRoute /> }, { path: 'app', element: <HomePage /> }, { path: 'projects', element: <Project /> }],
+      children: [
+        {
+          path: 'app',
+          element: (
+            <PrivateRoute>
+              <HomePage />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: 'projects',
+          element: (
+            <PrivateRoute>
+              <Project />
+            </PrivateRoute>
+          ),
+        },
+      ],
     },
     {
       path: '/',

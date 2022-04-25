@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useMutation, gql } from '@apollo/client';
@@ -17,7 +17,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { LoginSchema } from '../../utils/Validation/validation';
 import PropTypes from 'prop-types';
 import { styledButton } from './LoginStyle';
-import useAuthUser from '../../../hooks/useAuthUser';
+import { AuthContext } from '../../../context/AuthContext';
 
 const content = {
   email: 'Email',
@@ -36,19 +36,19 @@ const LOGIN = gql`
 `;
 
 const LoginForm = () => {
-  const { setAuthUser } = useAuthUser();
-  const navigate = useNavigate();
+  const { getLoggedIn, loggedIn } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
+  const history = useNavigate();
   const [login, { loading, error, data: loginData }] = useMutation(LOGIN);
   const handleShowPassword = () => {
     setShowPassword(show => !show);
   };
 
-  // React.useEffect(() => {
-  //   if (isAuthenticated) {
-  //     navigate('/dashboard');
-  //   }
-  // });
+  useEffect(() => {
+    if (loggedIn) {
+      history('/dashboard/projects');
+    }
+  });
 
   const onSubmitt = async data => {
     const { email, password } = data;
@@ -61,7 +61,8 @@ const LoginForm = () => {
     if (response) {
       const token = response && response.data && response.data.signInUser && response.data.signInUser.token;
       if (token) {
-        setAuthUser(token);
+        localStorage.setItem('jwt_token', token);
+        getLoggedIn();
       }
     }
 

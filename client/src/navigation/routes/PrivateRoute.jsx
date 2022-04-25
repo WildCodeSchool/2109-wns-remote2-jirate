@@ -1,21 +1,16 @@
+import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useQuery, gql } from '@apollo/client';
 
-const IS_LOGGED_IN = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
-  }
-`;
+import { AuthContext } from '../../context/AuthContext';
 
-const PrivateRoute = () => {
-  const { data } = useQuery(IS_LOGGED_IN);
+const PrivateRoute = ({ children }) => {
+  const { loggedIn } = useContext(AuthContext);
 
-  console.log(data);
-  if (data.isLoggedIn === false) {
+  if (loggedIn === false) {
     return <Navigate to="/login" />;
   }
 
-  return <Navigate to="/dashboard/app" replace />;
+  return children;
 };
 
 export default PrivateRoute;

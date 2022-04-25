@@ -1,14 +1,13 @@
-import React from 'react';
-import Routes from './navigation/routes/Routes';
+import React, { useContext } from 'react';
+import jwt_decode from 'jwt-decode';
 
+import Routes from './navigation/routes/Routes';
 import ThemeConfig from './theme/index';
 import GlobalStyles from './theme/globalStyles';
-import useAuthUser from './hooks/useAuthUser';
-import jwt_decode from 'jwt-decode';
-import { isLoggedInVar } from './apollo/cache/cache';
+import { AuthContext } from './context/AuthContext';
 
 const App = () => {
-  const { logout } = useAuthUser();
+  const { logout, setCurrentUser } = useContext(AuthContext);
 
   if (localStorage.getItem('jwt_token')) {
     // Set auth token header auth
@@ -18,7 +17,7 @@ const App = () => {
     const decoded = jwt_decode(token);
 
     if (decoded.id) {
-      isLoggedInVar(true);
+      setCurrentUser(decoded.id);
     }
 
     // Check for expired token
@@ -26,8 +25,6 @@ const App = () => {
     if (decoded.exp < currentTime) {
       // Logout user
       logout();
-      // Redirect to login
-      window.location.href = '/login';
     }
   }
 
