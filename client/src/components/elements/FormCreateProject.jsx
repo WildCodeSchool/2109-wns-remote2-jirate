@@ -65,7 +65,7 @@ const FormCreateProject = () => {
           fullWidth
         >
           {valeurs.map(index => (
-            <option value={index}>{index}</option>
+            <option key={index} value={index}>{index}</option>
           ))}
         </NativeSelect>
       </Box>

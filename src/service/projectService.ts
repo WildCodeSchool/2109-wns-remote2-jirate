@@ -1,16 +1,18 @@
 import { Project } from '@prisma/client';
 import prismaContext from '@src/lib/prisma/prismaContext';
-
+import isAuth from '@src/lib/utils/authContext';
+import express from 'express';
 interface Count {
   count: number;
 }
 
-export const getAllProjects = async (): Promise<Project[]> => {
+export const getAllProjects = async (req: express.Request): Promise<Project[]> => {
+  isAuth(req);
   const projects = await prismaContext.prisma.project.findMany();
   return projects;
 };
 
-export const getProjectById = async (id: string): Promise<Project | null> => {
+export const getProjectById = async (id: string, req: express.Request): Promise<Project | null> => {
   return prismaContext.prisma.project.findFirst({ where: { id } });
 };
 
@@ -28,7 +30,6 @@ export const deleteProjectById = async (id: string): Promise<Project> => {
 };
 
 export const deleteProjectsById = async (ids: Array<string>): Promise<Count> => {
-  console.log(ids);
   return prismaContext.prisma.project.deleteMany({ where: { id: { in: ids } } });
 };
 

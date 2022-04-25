@@ -1,12 +1,14 @@
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
+import { Box, Stack, AppBar, Toolbar, IconButton, Button } from '@mui/material';
 // components
 import MHidden from '../../components/utils/MHidden/MHidden';
 
 import LanguagePopover from './LanguagePopover';
+import { AuthContext } from '../../context/AuthContext';
 // import NotificationsPopover from './NotificationsPopover';
 
 const DRAWER_WIDTH = 280;
@@ -32,6 +34,7 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
 }));
 
 const DashboardNavbar = ({ onOpenSidebar }) => {
+  const { logout } = useContext(AuthContext);
   return (
     <RootStyle>
       <ToolbarStyle>
@@ -44,6 +47,7 @@ const DashboardNavbar = ({ onOpenSidebar }) => {
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
           <LanguagePopover />
           {/* <NotificationsPopover /> */}
+          <Button onClick={() => logout()}>Log Out</Button>
         </Stack>
       </ToolbarStyle>
     </RootStyle>
