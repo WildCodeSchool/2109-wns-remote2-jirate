@@ -4,6 +4,8 @@ import jwt_decode from 'jwt-decode';
 import Routes from './navigation/routes/Routes';
 import ThemeConfig from './theme/index';
 import GlobalStyles from './theme/globalStyles';
+
+// Import context
 import { AuthContext } from './context/AuthContext';
 
 const App = () => {

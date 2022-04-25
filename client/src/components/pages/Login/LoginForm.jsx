@@ -66,7 +66,7 @@ const LoginForm = () => {
       }
     }
 
-    resolver: yupResolver(LoginSchema);
+    yupResolver(LoginSchema);
   };
 
   const {
@@ -84,6 +84,8 @@ const LoginForm = () => {
       password: '',
     },
   });
+
+  if (error) return 'error request login :(';
 
   return (
     <>

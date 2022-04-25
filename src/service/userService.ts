@@ -47,12 +47,12 @@ export const SignIn = async (email: string, password: string): Promise<String | 
   } else {
     // if the passwords don't match, throw an authentication error
 
-    const valid = bcrypt.compare(password, user.password);
+    const valid = bcrypt.compareSync(password, user.password);
 
     if (!valid) {
-      throw new ApolloError('Password does not match.', '400');
+      throw new ApolloError('Incorect identifiers', '400');
     } else {
-      // create and return the json web tokenx
+      // create and return the json web token
       const JWT_SECRET: string = process.env.JWT_SECRET || '';
 
       return {
