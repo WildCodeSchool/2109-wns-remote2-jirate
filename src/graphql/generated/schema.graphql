@@ -130,17 +130,11 @@ input UpdateProjectInput {
   """The project name"""
   name: String!
 
-  """The project token"""
-  token: String!
-
   """The project description"""
   description: String!
 
   """The project limitCollaborators"""
   limitCollaborators: Int!
-
-  """The project userId"""
-  userId: String!
 }
 
 """SignIn user input"""

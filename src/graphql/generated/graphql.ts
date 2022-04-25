@@ -21,7 +21,7 @@ export type Scalars = {
 export type CreateProjectInput = {
   /** The project token */
   description: Scalars['String'];
-  /** The project token */
+  /** The project numbers of max collaborators */
   limitCollaborators: Scalars['Int'];
   /** The project name */
   name: Scalars['String'];
@@ -106,8 +106,12 @@ export type Project = {
   __typename?: 'Project';
   /** created date of project */
   createdAt?: Maybe<Scalars['Date']>;
+  /** description of project */
+  description?: Maybe<Scalars['String']>;
   /** name of project */
   id?: Maybe<Scalars['String']>;
+  /** description of project */
+  limitCollaborators?: Maybe<Scalars['Int']>;
   /** name of project */
   name?: Maybe<Scalars['String']>;
   /** token of invite user */
@@ -299,7 +303,9 @@ export type MutationResolvers<ContextType = IPrismaContext, ParentType extends R
 
 export type ProjectResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = ResolversObject<{
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  limitCollaborators?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;

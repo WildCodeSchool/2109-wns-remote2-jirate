@@ -80,6 +80,11 @@ const main = async () => {
         name: faker.company.companyName(),
         token: faker.random.word(),
         userId: users[i].id,
+        limitCollaborators: faker.datatype.number({
+          min: 1,
+          max: 10,
+        }),
+        description: faker.lorem.paragraph(),
       },
     });
   }
