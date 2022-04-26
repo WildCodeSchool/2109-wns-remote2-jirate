@@ -9,9 +9,6 @@ RUN apk update && apk add bash
 COPY package.json ./
 COPY yarn.lock  ./
 
-COPY .env ./.env
-COPY .env.sample ./.env.sample
-
 # copy source files
 COPY src ./src
 COPY tsconfig.json ./tsconfig.json
