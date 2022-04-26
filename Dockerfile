@@ -11,7 +11,6 @@ COPY yarn.lock  ./
 
 COPY .env ./.env
 COPY .env.sample ./.env.sample
-COPY .env.test ./.env.test
 
 # copy source files
 COPY src ./src
