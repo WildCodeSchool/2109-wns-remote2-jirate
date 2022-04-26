@@ -23,7 +23,7 @@
     "docker:up": "docker-compose up --build",
     "docker:down": "docker compose down",
     "docker:test:run": "docker exec 2109-wns-remote2-jirate_server_1 ./bin/wait-for-it.sh db:5432 -- yarn test",
-    "prod": "node build/index.js"
+    "prod": "node dist/src/index.js"
   },
   "license": "MIT",
   "dependencies": {

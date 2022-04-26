@@ -13,7 +13,6 @@ services:
       NODE_ENV: production
     depends_on:
       - db
-    build: .
   client:
     # build: ./client
     image: jiratedev/jirate-client
