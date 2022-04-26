@@ -4,7 +4,7 @@ version: '3.9'
 # The containers that compose the project
 services:
   server:
-    image: jiratedev/jirate-server
+    image: jiratedev/server
     command: sh -c "npm run build && npm run prod"
     expose:
       - 5000
@@ -15,7 +15,7 @@ services:
       - db
   client:
     # build: ./client
-    image: jiratedev/jirate-client
+    image: jiratedev/client
     command: sh -c "npm run build"
     volumes:
       - web-client-build:/app/build
