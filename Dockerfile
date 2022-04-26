@@ -1,6 +1,7 @@
 FROM node:lts-alpine as dev
 # FROM node:16-slim
 
+RUN mkdir /app
 WORKDIR /app
 
 RUN apk update && apk add bash
