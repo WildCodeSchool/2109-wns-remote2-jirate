@@ -12,6 +12,7 @@ services:
       DATABASE_URL: postgresql://jirateuser:jiratepassword@db:5432/jirate_database_development
       NODE_ENV: production
       PORT: 5001
+      JWT_SECRET: 96eGOCnpsbfZUy8NDSES9MmEUnc0A6E96mltXvDdW1Gg
     depends_on:
       - db
   client:
