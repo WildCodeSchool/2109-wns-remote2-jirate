@@ -5,7 +5,7 @@ version: '3.9'
 services:
   server:
     image: jiratedev/server
-    command: sh -c "npm run build && npm run prod"
+    command: sh -c "npm run build && npm run start"
     expose:
       - 5001
     environment:
