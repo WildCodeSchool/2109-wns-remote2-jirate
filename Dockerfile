@@ -12,6 +12,7 @@ COPY yarn.lock  ./
 # copy source files
 COPY src ./src
 COPY tsconfig.json ./tsconfig.json
+COPY tsconfig.prod.json ./tsconfig.prod.json
 COPY jest.config.js ./jest.config.js
 COPY bin ./bin
 COPY nodemon.json ./nodemon.json
