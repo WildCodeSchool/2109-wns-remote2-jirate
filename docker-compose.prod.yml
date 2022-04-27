@@ -7,10 +7,11 @@ services:
     image: jiratedev/server
     command: sh -c "npm run build && npm run prod"
     expose:
-      - 5000
+      - 5001
     environment:
       DATABASE_URL: postgresql://jirateuser:jiratepassword@db:5432/jirate_database_development
       NODE_ENV: production
+      SERVER_PORT: 5001
     depends_on:
       - db
   client:

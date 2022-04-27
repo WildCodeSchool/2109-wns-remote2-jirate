@@ -13,10 +13,11 @@ services:
     environment:
       DATABASE_URL: postgresql://jirateuser:jiratepassword@db:5432/jirate_database_development
       NODE_ENV: development
+      PORT: 5001
     restart: always
     build: .
     ports:
-      - 5000:5000
+      - 5001:5001
     command: yarn dev
     volumes:
       - ./:/app
