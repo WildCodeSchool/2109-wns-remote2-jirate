@@ -7,9 +7,9 @@ const prisma = new PrismaClient();
 
 dotenv.config();
 
-const hashedPassword = await hash('password', 10);
-
 const main = async () => {
+  const hashedPassword = await hash('password', 10);
+
   await prisma.user.upsert({
     where: { email: 'maxime@jirate.io' },
     update: {},
