@@ -9,8 +9,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 
+const url = process.env.NODE_ENV === 'production' ? "/graphql" : "http://localhost:5001/graphql";
+
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: url,
 });
 
 const authLink = setContext((_, { headers }) => {

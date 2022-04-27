@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useMutation, gql } from '@apollo/client';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
@@ -25,16 +26,36 @@ const content = {
     "les conditions d'achat , le contrat de compte JetBrains et les conditions d'utilisation.",
 };
 
+const REGISTER = gql`
+  mutation Register($input: CreateUserInput) {
+    createUser(input: $input) {
+      email
+    }
+  }
+`;
+
 const RegisterForm = props => {
+  const [registerMutation, { loading, error }] = useMutation(REGISTER);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowPassword = () => {
     setShowPassword(show => !show);
   };
-  const onSubmitt = data => {
+  const onSubmitt = async data => {
+    const { firstname, lastname, email, password } = data;
+
+    const response = await registerMutation({
+      variables: {
+        input: { firstname, lastname, email, password },
+      },
+    });
+
+    if (response.data.createUser.email !== '' || response.data.createUser.email !== null) {
+      navigate('/login', { replace: true });
+    }
+
     yupResolver(registerSchema);
-    navigate('/dashboard', { replace: true });
   };
 
   const {
@@ -48,6 +69,8 @@ const RegisterForm = props => {
     reValidateMode: 'onBlur',
     shouldFocusError: false,
     defaultValues: {
+      firstname: '',
+      lastname: '',
       email: '',
       password: '',
     },
