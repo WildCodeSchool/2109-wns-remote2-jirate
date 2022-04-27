@@ -1,10 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 import * as faker from 'faker';
+import { hash } from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 dotenv.config();
+
+const hashedPassword = await hash('password', 10);
 
 const main = async () => {
   await prisma.user.upsert({
@@ -14,7 +17,7 @@ const main = async () => {
       firstname: 'maxime',
       lastname: 'jiraté',
       email: 'maxime@jirate.io',
-      password: 'jiratéb123*',
+      password: hashedPassword,
       isAdmin: true,
       emailConfirmed: true,
     },
@@ -27,7 +30,7 @@ const main = async () => {
       firstname: 'alexandre',
       lastname: 'jiraté',
       email: 'alexandre@jirate.io',
-      password: 'jiratéb123*',
+      password: hashedPassword,
       isAdmin: true,
       emailConfirmed: true,
     },
@@ -40,7 +43,7 @@ const main = async () => {
       firstname: 'caroline',
       lastname: 'jiraté',
       email: 'caroline@jirate.io',
-      password: 'jiratéb123*',
+      password: hashedPassword,
       isAdmin: true,
       emailConfirmed: true,
     },
@@ -53,7 +56,7 @@ const main = async () => {
       firstname: 'selma',
       lastname: 'jiraté',
       email: 'selma@jirate.io',
-      password: 'jiratéb123*',
+      password: hashedPassword,
       isAdmin: true,
       emailConfirmed: true,
     },
@@ -66,7 +69,7 @@ const main = async () => {
       firstname: 'didor',
       lastname: 'jiraté',
       email: 'didor@jirate.io',
-      password: 'jiratéb123*',
+      password: hashedPassword,
       isAdmin: true,
       emailConfirmed: true,
     },
