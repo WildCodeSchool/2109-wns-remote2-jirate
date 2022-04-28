@@ -11,9 +11,10 @@ services:
       - ./client/src:/app/src/
   server:
     environment:
-      DATABASE_URL: postgresql://jirateuser:jiratepassword@db:5432/jirate_database_development
+      DATABASE_URL: postgresql://jirateuser:jiratepassword@db:5432/jirate_database_development?connect_timeout=300
       NODE_ENV: development
       PORT: 5001
+      JWT_SECRET: 96eGOCnpsbfZUy8NDSES9MmEUnc0A6E96mltXvDdW1Gg
     restart: always
     build:
       context: .
