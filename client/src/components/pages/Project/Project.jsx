@@ -6,8 +6,8 @@ import { Container, Stack, Typography } from '@mui/material';
 import TableComponent from '../../shared/Table/Table';
 import TableComponentLoading from '../../shared/Table/TableLoading';
 import ModalError from '../../shared/ModalError/ModalError';
-import BasicModal from '../../shared/Modal/BasicModal';
-import SmallModal from '../../shared/Modal/SmallModal';
+import BasicModalCreateProject from '../../elements/CreateProject/CreateProject';
+import UpdateProject from '../../elements/UpdateProject/UpdateProject';
 
 const GET_PROJECTS = gql`
   query GetProjects {
@@ -64,7 +64,7 @@ const Project = () => {
           Projects
         </Typography>
 
-        <BasicModal />
+        <BasicModalCreateProject />
       </Stack>
       {loading ? (
         <TableComponentLoading headCells={headCells} />
@@ -77,7 +77,7 @@ const Project = () => {
         />
       )}
       <ModalError id={projectId} projectName={nameProject} isOpen={open} handleClose={() => setOpen(false)} />
-      <SmallModal
+      <UpdateProject
         limitCollaborators={LimitMembers}
         description={description}
         name={nameProject}
