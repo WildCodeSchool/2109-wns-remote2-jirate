@@ -147,7 +147,7 @@ const TableComponent = ({ projects, headCells, handleDelete, handleEdit }) => {
                         {name}
                       </Typography>
                     </TableCell>
-                    <TableCell align="left">{new Date(createdAt).toDateString()}</TableCell>
+                    <TableCell align="left">{new Date(createdAt).toLocaleDateString()}</TableCell>
                     <TableCell align="left">{limitCollaborators}</TableCell>
                     <TableCell align="left">{user.firstname}</TableCell>
                     <TableCell align="right">
