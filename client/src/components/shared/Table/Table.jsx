@@ -47,7 +47,7 @@ const applySortFilter = (array, comparator, query) => {
   return stabilizedThis.map(el => el[0]);
 };
 
-const TableComponent = ({ projects, headCells, handleDelete }) => {
+const TableComponent = ({ projects, headCells, handleDelete, handleEdit }) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('date');
   const [selected, setSelected] = useState([]);
@@ -63,7 +63,7 @@ const TableComponent = ({ projects, headCells, handleDelete }) => {
 
   const handleSelectAllClick = e => {
     if (e.target.checked) {
-      const newSelecteds = projects.map(n => n.name);
+      const newSelecteds = projects.map(n => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -74,12 +74,12 @@ const TableComponent = ({ projects, headCells, handleDelete }) => {
     setFilterName(event.target.value);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -102,13 +102,13 @@ const TableComponent = ({ projects, headCells, handleDelete }) => {
     setPage(0);
   };
 
-  const isSelected = name => selected.indexOf(name) !== -1;
+  const isSelected = id => selected.indexOf(id) !== -1;
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - projects.length) : 0;
 
   return (
     <Card>
-      <TableToolBar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+      <TableToolBar projectsIds={selected} numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
       <Scrollbar>
         <TableContainer sx={{ minWidth: 800 }}>
           <Table>
@@ -124,8 +124,9 @@ const TableComponent = ({ projects, headCells, handleDelete }) => {
 
             <TableBody>
               {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                const { name, createdAt, user, id } = row;
-                const isItemSelected = isSelected(row.name);
+                const { name, createdAt, user, id, limitCollaborators, description } = row;
+                const isItemSelected = isSelected(row.id);
+
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
@@ -133,7 +134,7 @@ const TableComponent = ({ projects, headCells, handleDelete }) => {
                     <TableCell padding="checkbox">
                       <Checkbox
                         id="checkbox-selected-item-project"
-                        onClick={event => handleClick(event, name)}
+                        onClick={event => handleClick(event, id)}
                         color="primary"
                         checked={isItemSelected}
                         inputProps={{
@@ -147,10 +148,10 @@ const TableComponent = ({ projects, headCells, handleDelete }) => {
                       </Typography>
                     </TableCell>
                     <TableCell align="left">{new Date(createdAt).toDateString()}</TableCell>
-                    <TableCell align="left">1</TableCell>
+                    <TableCell align="left">{limitCollaborators}</TableCell>
                     <TableCell align="left">{user.firstname}</TableCell>
                     <TableCell align="right">
-                      <BtnEdit>
+                      <BtnEdit onClick={() => handleEdit(id, name, limitCollaborators, description)}>
                         <EditIcon />
                       </BtnEdit>
                       <BtnDelete onClick={() => handleDelete(name, id)}>

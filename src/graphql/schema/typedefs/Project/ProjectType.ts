@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLString, GraphQLScalarType, Kind } from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLScalarType, Kind, GraphQLInt } from 'graphql';
 import UserType from '@src/graphql/schema/typedefs/User/UserType';
 
 const ProjectType: GraphQLObjectType = new GraphQLObjectType({
@@ -16,6 +16,14 @@ const ProjectType: GraphQLObjectType = new GraphQLObjectType({
     token: {
       type: GraphQLString,
       description: 'token of invite user',
+    },
+    description: {
+      type: GraphQLString,
+      description: 'description of project',
+    },
+    limitCollaborators: {
+      type: GraphQLInt,
+      description: 'description of project',
     },
     user: {
       type: UserType,

@@ -7,10 +7,10 @@ import UserType from '@src/graphql/schema/typedefs/User/UserType';
 export const getAllUsersQueryResolver: GraphQLFieldResolver<unknown, IApolloServerContext> = async (
   _source,
   _args,
-  _context,
+  { req },
   _info
 ): Promise<User[]> => {
-  const users = await getAllUsers();
+  const users = await getAllUsers(req);
   return users;
 };
 

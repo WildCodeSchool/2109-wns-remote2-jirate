@@ -1,5 +1,7 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as dev
+# FROM node:16-slim
 
+RUN mkdir /app
 WORKDIR /app
 
 RUN apk update && apk add bash
@@ -7,13 +9,10 @@ RUN apk update && apk add bash
 COPY package.json ./
 COPY yarn.lock  ./
 
-COPY .env ./.env
-COPY .env.sample ./.env.sample
-COPY .env.test ./.env.test
-
 # copy source files
 COPY src ./src
 COPY tsconfig.json ./tsconfig.json
+COPY tsconfig.prod.json ./tsconfig.prod.json
 COPY jest.config.js ./jest.config.js
 COPY bin ./bin
 COPY nodemon.json ./nodemon.json
@@ -25,4 +24,9 @@ RUN yarn
 
 RUN yarn generate
 
-CMD [ "yarn", "dev" ]
+# seed the database
+
+# RUN yarn db:seed
+
+# see for the if and then
+

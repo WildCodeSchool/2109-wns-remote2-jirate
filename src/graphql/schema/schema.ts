@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server';
+import { gql } from 'apollo-server-express';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { GraphQLSchema, printSchema } from 'graphql';
 import mutationType from '@src/graphql/schema/typedefs/MutationType';

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import PropTypes from 'prop-types';
-
-import { gql, useMutation } from '@apollo/client';
+import { useMutation, gql } from '@apollo/client';
 
 const style = {
   position: 'absolute',
@@ -21,7 +20,7 @@ const style = {
 };
 
 const DELETE_PROJECT_BY_ID = gql`
-  mutation DeleteProject($input: String) {
+  mutation DeleteProject($input: DeleteProjectInput) {
     deleteProject(input: $input) {
       id
     }
@@ -39,7 +38,8 @@ const ModalError = ({ isOpen, handleClose, projectName, id }) => {
   const handleValidateDelete = e => {
     e.preventDefault();
     if (inputValue === projectName) {
-      deleteProjectById({ variables: { input: {id: id} } });
+      deleteProjectById({ variables: { input: { id } } });
+      window.location.href = '/dashboard/projects';
     }
   };
 

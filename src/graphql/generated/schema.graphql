@@ -25,6 +25,9 @@ type User {
 
   """list of authors books"""
   projects: [Project]
+
+  """user token"""
+  token: String
 }
 
 """A project"""
@@ -37,6 +40,12 @@ type Project {
 
   """token of invite user"""
   token: String
+
+  """description of project"""
+  description: String
+
+  """description of project"""
+  limitCollaborators: Int
 
   """user of project"""
   user: User
@@ -63,6 +72,15 @@ type Mutation {
 
   """Delete project"""
   deleteProject(input: DeleteProjectInput): Project
+
+  """Update project"""
+  updateProject(input: UpdateProjectInput): Project
+
+  """SignIn user"""
+  signInUser(input: SignInInput): User
+
+  """Delete project"""
+  deleteProjects(input: DeleteProjectsInput): Projects
 }
 
 """Create user input"""
@@ -82,14 +100,17 @@ input CreateUserInput {
 
 """Create user input"""
 input CreateProjectInput {
-  """The project id"""
-  id: String!
-
   """The project name"""
   name: String!
 
   """The project token"""
   token: String!
+
+  """The project token"""
+  description: String!
+
+  """The project numbers of max collaborators"""
+  limitCollaborators: Int!
 
   """The project userId"""
   userId: String!
@@ -99,4 +120,40 @@ input CreateProjectInput {
 input DeleteProjectInput {
   """The project id"""
   id: String!
+}
+
+"""Update user input"""
+input UpdateProjectInput {
+  """The project id"""
+  id: String!
+
+  """The project name"""
+  name: String!
+
+  """The project description"""
+  description: String!
+
+  """The project limitCollaborators"""
+  limitCollaborators: Int!
+}
+
+"""SignIn user input"""
+input SignInInput {
+  """The user email for signIn"""
+  email: String!
+
+  """The user password for signIn"""
+  password: String!
+}
+
+"""An array of projects ids"""
+type Projects {
+  """id of projects"""
+  ids: [String]
+}
+
+"""Delete projects input"""
+input DeleteProjectsInput {
+  """The projects id"""
+  ids: [String]
 }

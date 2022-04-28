@@ -18,14 +18,16 @@ describe('Create a new user', () => {
   let server: ApolloServer;
 
   beforeAll(() => {
-    const apolloServerContext: IApolloServerContext = {
-      prismaContext,
-    };
-
     const apolloServerConfig = {
       schema,
       playground: process.env.NODE_ENV !== 'production',
-      context: apolloServerContext,
+      context: ({ req, res }) => {
+        prismaContext;
+        return {
+          req,
+          res,
+        };
+      },
     };
 
     server = new ApolloServer(apolloServerConfig);
@@ -37,7 +39,6 @@ describe('Create a new user', () => {
   });
 
   it('should create new user', async () => {
-
     const mockUser: CreateUserInput = {
       firstname: 'John',
       lastname: 'Doe',
@@ -49,7 +50,6 @@ describe('Create a new user', () => {
       query: CREATE_USER_MUTATION,
       variables: { input: mockUser },
     });
-
 
     expect(res.data).toBeDefined();
     expect(res?.data?.createUser).toBeDefined();

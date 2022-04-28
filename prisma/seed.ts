@@ -1,72 +1,75 @@
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 import * as faker from 'faker';
+import { hash } from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 dotenv.config();
 
 const main = async () => {
+  const hashedPassword = await hash('password', 10);
+
   await prisma.user.upsert({
-    where: { email: 'maxime@jiraté.io' },
+    where: { email: 'maxime@jirate.io' },
     update: {},
     create: {
       firstname: 'maxime',
       lastname: 'jiraté',
-      email: 'maxime@jiraté.io',
-      password: 'jiratéb123*',
+      email: 'maxime@jirate.io',
+      password: hashedPassword,
       isAdmin: true,
       emailConfirmed: true,
     },
   });
 
   await prisma.user.upsert({
-    where: { email: 'alexandre@jiraté.io' },
+    where: { email: 'alexandre@jirate.io' },
     update: {},
     create: {
       firstname: 'alexandre',
       lastname: 'jiraté',
-      email: 'alexandre@jiraté.io',
-      password: 'jiratéb123*',
+      email: 'alexandre@jirate.io',
+      password: hashedPassword,
       isAdmin: true,
       emailConfirmed: true,
     },
   });
 
   await prisma.user.upsert({
-    where: { email: 'caroline@jiraté.io' },
+    where: { email: 'caroline@jirate.io' },
     update: {},
     create: {
       firstname: 'caroline',
       lastname: 'jiraté',
-      email: 'caroline@jiraté.io',
-      password: 'jiratéb123*',
+      email: 'caroline@jirate.io',
+      password: hashedPassword,
       isAdmin: true,
       emailConfirmed: true,
     },
   });
 
   await prisma.user.upsert({
-    where: { email: 'selma@jiraté.io' },
+    where: { email: 'selma@jirate.io' },
     update: {},
     create: {
       firstname: 'selma',
       lastname: 'jiraté',
-      email: 'selma@jiraté.io',
-      password: 'jiratéb123*',
+      email: 'selma@jirate.io',
+      password: hashedPassword,
       isAdmin: true,
       emailConfirmed: true,
     },
   });
 
   await prisma.user.upsert({
-    where: { email: 'didor@jiraté.io' },
+    where: { email: 'didor@jirate.io' },
     update: {},
     create: {
       firstname: 'didor',
       lastname: 'jiraté',
-      email: 'didor@jiraté.io',
-      password: 'jiratéb123*',
+      email: 'didor@jirate.io',
+      password: hashedPassword,
       isAdmin: true,
       emailConfirmed: true,
     },
@@ -80,6 +83,11 @@ const main = async () => {
         name: faker.company.companyName(),
         token: faker.random.word(),
         userId: users[i].id,
+        limitCollaborators: faker.datatype.number({
+          min: 1,
+          max: 10,
+        }),
+        description: faker.lorem.paragraph(),
       },
     });
   }

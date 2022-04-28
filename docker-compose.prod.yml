@@ -1,0 +1,46 @@
+# Set the version of docker compose to use
+version: '3.9'
+
+# The containers that compose the project
+services:
+  server:
+    image: jiratedev/production-server
+    command: sh -c "npm run build && npm run start"
+    expose:
+      - 5001
+    environment:
+      DATABASE_URL: postgresql://jirateuserprod:ojfihifp232Feofo321jfojefjoejof121DvgrpkqSQ@db:5432/jirate_database_production
+      NODE_ENV: production
+      PORT: 5001
+      JWT_SECRET: 96eGOCnpsbfZUy8NDSES9MmEUnc0A6E96mltXvDdW1Gg
+    depends_on:
+      - db
+  client:
+    image: jiratedev/production-client
+    command: sh -c "npm run build"
+    volumes:
+      - web-client-build:/app/build
+    environment:
+      NODE_ENV: production
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: jirateuserprod
+      POSTGRES_PASSWORD: ojfihifp232Feofo321jfojefjoejof121DvgrpkqSQ
+      POSTGRES_DB: jirate_database_production
+    ports:
+      - 5432:5432
+  nginx:
+    image: nginx:1.21.3
+    depends_on:
+      - server
+      - client
+    restart: always
+    ports:
+      - ${GATEWAY_PORT:-5001}:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - web-client-build:/web-client-build
+      - ./logs:/var/log/nginx
+volumes:
+  web-client-build:
