@@ -81,6 +81,9 @@ type Mutation {
 
   """Delete project"""
   deleteProjects(input: DeleteProjectsInput): Projects
+
+  """get all projects by user"""
+  getProjectsByUserId(input: GetProjectsByUserIdInput): [Project]
 }
 
 """Create user input"""
@@ -156,4 +159,10 @@ type Projects {
 input DeleteProjectsInput {
   """The projects id"""
   ids: [String]
+}
+
+"""Get projects by user id"""
+input GetProjectsByUserIdInput {
+  """User id"""
+  userId: String!
 }
