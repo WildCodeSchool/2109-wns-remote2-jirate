@@ -7,12 +7,32 @@ jobs:
       matrix:
         node-version: [14.x]
     services:
+      client:
+        build: ./client
+        ports:
+          - 3000:3000
+        volumes:
+          - ./client/src:/app/src/
+      server:
+        build: .
+        command: sh -c "npm run build && npm run start"
+        expose:
+          - 5001
+        environment:
+          DATABASE_URL: postgresql://ciUser:ciPassword@db:5432/jirate_database_test
+          NODE_ENV: production
+          PORT: 5001
+          JWT_SECRET: AQQDjPVlnj5Et0D3DKR4uxDUqq5WqMaofa1lHv2kDsA0
+        depends_on:
+          - db
+        volumes:
+          - ./:/app
       postgres:
         image: postgres:12-alpine
         env:
           POSTGRES_USER: ciUser
           POSTGRES_PASSWORD: ciPassword
-          POSTGRES_DB: test
+          POSTGRES_DB: jirate_database_test
         ports:
           - 5432:5432
         options: >-
@@ -23,7 +43,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies
@@ -34,3 +54,5 @@ jobs:
         yarn test
       env:
         DATABASE_URL: postgresql://ciUser:ciPassword@localhost:5432/test
+    - name: Cypress run
+      uses: cypress-io/github-action@v2
