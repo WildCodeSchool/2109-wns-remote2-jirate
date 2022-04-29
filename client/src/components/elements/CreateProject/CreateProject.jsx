@@ -18,7 +18,7 @@ const CreateProject = () => {
       <Button variant="contained" sx={{ ...StyledButton }} onClick={handleOpen}>
         Create a project
       </Button>
-      <BasicModal handleClose={handleClose} open={open}>
+      <BasicModal handleClose={handleClose} open={open} ariaLabel="create-project-label" ariaDescribedby="create-project">
         <Box sx={GlobalContainer}>
           <FormCreateProject />
 

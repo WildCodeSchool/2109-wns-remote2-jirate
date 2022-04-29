@@ -7,7 +7,8 @@ import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import NativeSelect from '@mui/material/NativeSelect';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import { AuthContext } from '../../context/AuthContext';
 
@@ -35,16 +36,13 @@ const FormCreateProject = () => {
   };
 
   const onSubmit = async () => {
-    if (typeof limitCollaborators === 'string') {
-      const numberType = parseInt(limitCollaborators);
-      const response = await createProject({
-        variables: { input: { name, description, limitCollaborators: numberType, userId: user, token: 'token' } },
-      });
+    const response = await createProject({
+      variables: { input: { name, description, limitCollaborators, userId: user, token: 'token' } },
+    });
 
-      console.log(response);
-      if (response.data && response.data.createProject.name === name) {
-        window.location.href = '/dashboard/projects';
-      }
+    console.log(response);
+    if (response.data && response.data.createProject.name === name) {
+      window.location.href = '/dashboard/projects';
     }
   };
 
@@ -62,7 +60,7 @@ const FormCreateProject = () => {
             Nombre de collaborateurs
           </Typography>
         </InputLabel>
-        <NativeSelect
+        <Select
           defaultValue={1}
           value={limitCollaborators}
           onChange={e => setLimitCollaborators(e.target.value)}
@@ -72,11 +70,11 @@ const FormCreateProject = () => {
           fullWidth
         >
           {valeurs.map(index => (
-            <option key={index} value={index}>
+            <MenuItem key={index} value={index}>
               {index}
-            </option>
+            </MenuItem>
           ))}
-        </NativeSelect>
+        </Select>
       </Box>
 
       <Box sx={{ mt: 1, mb: 1, width: '100%' }}>

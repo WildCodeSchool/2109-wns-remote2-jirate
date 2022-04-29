@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { styledButton } from './RegisterStyle';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from '../../utils/Validation/validation';
+
+import { AuthContext } from '../../../context/AuthContext';
 
 const content = {
   firstname: 'Prénom',
@@ -35,6 +37,7 @@ const REGISTER = gql`
 `;
 
 const RegisterForm = props => {
+  const { loggedIn } = useContext(AuthContext);
   const [registerMutation, { loading, error }] = useMutation(REGISTER);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -57,6 +60,12 @@ const RegisterForm = props => {
 
     yupResolver(registerSchema);
   };
+
+  useEffect(() => {
+    if (loggedIn) {
+      navigate('/dashboard/projects');
+    }
+  });
 
   const {
     control,

@@ -45,7 +45,7 @@ const UpdateProject = ({ id, name, limitCollaborators, description, isOpen, hand
   if (error) return 'error :(';
 
   return (
-    <SmallModal handleClose={handleClose} isOpen={isOpen}>
+    <SmallModal handleClose={handleClose} isOpen={isOpen} ariaLabel="modal-edit-project" ariaDescribedby="modal-edit-project">
       <Box sx={style}>
         <Typography sx={{ textAlign: 'center', textTransform: 'uppercase' }} id="modal-modal-title" variant="h6" component="h2">
           Edit Project

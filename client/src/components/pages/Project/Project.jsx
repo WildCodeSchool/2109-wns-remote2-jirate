@@ -6,7 +6,7 @@ import { Container, Stack, Typography } from '@mui/material';
 import TableComponent from '../../shared/Table/Table';
 import TableComponentLoading from '../../shared/Table/TableLoading';
 import ModalError from '../../shared/ModalError/ModalError';
-import BasicModalCreateProject from '../../elements/CreateProject/CreateProject';
+import CreateProject from '../../elements/CreateProject/CreateProject';
 import UpdateProject from '../../elements/UpdateProject/UpdateProject';
 
 const GET_PROJECTS = gql`
@@ -63,8 +63,7 @@ const Project = () => {
         <Typography variant="h3" component="h3" gutterBottom>
           Projects
         </Typography>
-
-        <BasicModalCreateProject />
+        <CreateProject />
       </Stack>
       {loading ? (
         <TableComponentLoading headCells={headCells} />
