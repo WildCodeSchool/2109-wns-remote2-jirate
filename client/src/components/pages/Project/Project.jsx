@@ -8,8 +8,8 @@ import { AuthContext } from '../../../context/AuthContext';
 import TableComponent from '../../shared/Table/Table';
 import TableComponentLoading from '../../shared/Table/TableLoading';
 import ModalError from '../../shared/ModalError/ModalError';
-import BasicModal from '../../shared/Modal/BasicModal';
-import SmallModal from '../../shared/Modal/SmallModal';
+import CreateProject from '../../elements/CreateProject/CreateProject';
+import UpdateProject from '../../elements/UpdateProject/UpdateProject';
 
 const GET_PROJECTS_BY_USER_ID = gql`
   mutation GetProjectsByUserId($input: GetProjectsByUserIdInput) {
@@ -85,12 +85,11 @@ const Project = () => {
         <Typography variant="h3" component="h3" gutterBottom>
           Projects
         </Typography>
-
-        <BasicModal />
+        <CreateProject />
       </Stack>
       {loading ? <TableComponentLoading headCells={headCells} /> : <ComponentData />}
       <ModalError id={projectId} projectName={nameProject} isOpen={open} handleClose={() => setOpen(false)} />
-      <SmallModal
+      <UpdateProject
         limitCollaborators={LimitMembers}
         description={description}
         name={nameProject}
