@@ -14,7 +14,7 @@ const SettingsNotifications = (props) => (
     <form {...props}>
         <Card>
             <CardHeader
-                subheader="Gérer les notifications"
+                subheader="Manage the notifications"
                 title="Notifications"
             />
             <Divider />
