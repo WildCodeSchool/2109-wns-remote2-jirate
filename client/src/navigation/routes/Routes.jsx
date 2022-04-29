@@ -9,6 +9,7 @@ import Error404 from '../../components/pages/Error404/Error404';
 import HomePage from '../../components/pages/HomePage/HomePage';
 import Login from '../../components/pages/Login/Login';
 import Register from '../../components/pages/Register/Register';
+import Settings from '../../components/pages/Settings/Settings';
 
 const Router = () => {
   return useRoutes([
@@ -29,6 +30,14 @@ const Router = () => {
           element: (
             <PrivateRoute>
               <Project />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: 'settings',
+          element: (
+            <PrivateRoute>
+              <Settings />
             </PrivateRoute>
           ),
         },
