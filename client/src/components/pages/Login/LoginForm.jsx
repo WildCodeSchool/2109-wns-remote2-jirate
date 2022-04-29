@@ -18,7 +18,7 @@ import { LoginSchema } from '../../utils/Validation/validation';
 import PropTypes from 'prop-types';
 import { styledButton } from './LoginStyle';
 import { AuthContext } from '../../../context/AuthContext';
-
+import AlertMessage from '../../shared/AlertMessage/AlertMessage';
 const content = {
   email: 'Email',
   password: 'Mot de passe',
@@ -40,6 +40,8 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const history = useNavigate();
   const [login, { loading, error, data: loginData }] = useMutation(LOGIN);
+  const [isError, setIsError] = useState(false);
+
   const handleShowPassword = () => {
     setShowPassword(show => !show);
   };
@@ -51,19 +53,24 @@ const LoginForm = () => {
   });
 
   const onSubmitt = async data => {
-    const { email, password } = data;
-    const response = await login({
-      variables: {
-        input: { email, password },
-      },
-    });
+    try {
+      const { email, password } = data;
 
-    if (response) {
-      const token = response && response.data && response.data.signInUser && response.data.signInUser.token;
-      if (token) {
-        localStorage.setItem('jwt_token', token);
-        getLoggedIn();
+      const response = await login({
+        variables: {
+          input: { email, password },
+        },
+      });
+
+      if (response) {
+        const token = response && response.data && response.data.signInUser && response.data.signInUser.token;
+        if (token) {
+          localStorage.setItem('jwt_token', token);
+          getLoggedIn();
+        }
       }
+    } catch (err) {
+      setIsError(true);
     }
 
     yupResolver(LoginSchema);
@@ -85,10 +92,9 @@ const LoginForm = () => {
     },
   });
 
-  if (error) return 'error request login :(';
-
   return (
     <>
+      {isError && <AlertMessage errors="Your information is invalid" />}
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <Controller
