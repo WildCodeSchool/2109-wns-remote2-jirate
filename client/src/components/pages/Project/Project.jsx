@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import React, { useState, useEffect, useContext } from 'react';
+import { useMutation, gql } from '@apollo/client';
 import { Container, Stack, Typography } from '@mui/material';
+
+import { AuthContext } from '../../../context/AuthContext';
 
 // Import components
 import TableComponent from '../../shared/Table/Table';
@@ -9,9 +11,9 @@ import ModalError from '../../shared/ModalError/ModalError';
 import CreateProject from '../../elements/CreateProject/CreateProject';
 import UpdateProject from '../../elements/UpdateProject/UpdateProject';
 
-const GET_PROJECTS = gql`
-  query GetProjects {
-    projects {
+const GET_PROJECTS_BY_USER_ID = gql`
+  mutation GetProjectsByUserId($input: GetProjectsByUserIdInput) {
+    getProjectsByUserId(input: $input) {
       id
       name
       createdAt
@@ -33,7 +35,8 @@ const headCells = [
 ];
 
 const Project = () => {
-  const { loading, error, data } = useQuery(GET_PROJECTS);
+  const { user } = useContext(AuthContext);
+  const [getProjectByUserId, { loading, error, data }] = useMutation(GET_PROJECTS_BY_USER_ID);
   const [open, setOpen] = useState(false);
   const [nameProject, setNameProject] = useState('');
   const [projectId, setProjectId] = useState('');
@@ -55,7 +58,26 @@ const Project = () => {
     setEdit(true);
   };
 
+  useEffect(() => {
+    getProjectByUserId({ variables: { input: { userId: user } } });
+  }, []);
+
   if (error) return <p>Error :(</p>;
+
+  const ComponentData = () => (
+    <>
+      {data === undefined || data.getProjectsByUserId.length === 0 ? (
+        <h2>Vous n'avez pas de projects</h2>
+      ) : (
+        <TableComponent
+          handleEdit={(id, name, limit, desc) => handleEditProject(id, name, limit, desc)}
+          handleDelete={(name, id) => handleProject(name, id)}
+          projects={data.getProjectsByUserId}
+          headCells={headCells}
+        />
+      )}
+    </>
+  );
 
   return (
     <Container>
@@ -65,16 +87,7 @@ const Project = () => {
         </Typography>
         <CreateProject />
       </Stack>
-      {loading ? (
-        <TableComponentLoading headCells={headCells} />
-      ) : (
-        <TableComponent
-          handleEdit={(id, name, limit, desc) => handleEditProject(id, name, limit, desc)}
-          handleDelete={(name, id) => handleProject(name, id)}
-          projects={data.projects}
-          headCells={headCells}
-        />
-      )}
+      {loading ? <TableComponentLoading headCells={headCells} /> : <ComponentData />}
       <ModalError id={projectId} projectName={nameProject} isOpen={open} handleClose={() => setOpen(false)} />
       <UpdateProject
         limitCollaborators={LimitMembers}
