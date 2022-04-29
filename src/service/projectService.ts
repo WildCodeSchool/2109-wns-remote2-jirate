@@ -28,7 +28,8 @@ export const createProject = async (
 };
 
 export const getProjectsByUser = async (userId: string): Promise<Project[]> => {
-  return prismaContext.prisma.project.findMany({ where: { userId } });
+  const projects = await prismaContext.prisma.project.findMany({ where: { userId: userId } });
+  return projects;
 };
 
 export const deleteProjectById = async (id: string): Promise<Project> => {
@@ -39,7 +40,13 @@ export const deleteProjectsById = async (ids: Array<string>): Promise<Count> => 
   return prismaContext.prisma.project.deleteMany({ where: { id: { in: ids } } });
 };
 
-export const updateProjectById = async (id: string, name: string, description: string, limitCollaborators: number, req: express.Request): Promise<Project> => {
+export const updateProjectById = async (
+  id: string,
+  name: string,
+  description: string,
+  limitCollaborators: number,
+  req: express.Request
+): Promise<Project> => {
   isAuth(req);
   const project = prismaContext.prisma.project.update({ where: { id }, data: { name, description, limitCollaborators } });
   return project;
